@@ -1,26 +1,36 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
-import { COLORS, FONT, SIZES } from "../../../constants";
+import { COLORS, FONT, SIZES } from '../../../constants';
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
   },
   userName: {
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
     color: COLORS.secondary,
   },
+  appName: {
+    fontFamily: FONT.regular,
+    fontSize: '70px',
+    color: COLORS.white,
+    textAlign: 'center',
+    textShadow:
+      '0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #03a9f4, 0 0 82px #03a9f4, 0 0 92px #03a9f4, 0 0 102px #03a9f4, 0 0 151px #03a9f4',
+  },
   welcomeMessage: {
     fontFamily: FONT.bold,
+    fontWeight: '900',
     fontSize: SIZES.xLarge,
-    color: COLORS.primary,
+    color: COLORS.white,
     marginTop: 2,
+    textAlign: 'center',
   },
   searchContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginTop: SIZES.large,
     height: 50,
   },
@@ -28,32 +38,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     marginRight: SIZES.small,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: SIZES.medium,
-    height: "100%",
+    height: '100%',
   },
   searchInput: {
     fontFamily: FONT.regular,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     paddingHorizontal: SIZES.medium,
   },
   searchBtn: {
     width: 50,
-    height: "100%",
+    height: '100%',
     backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   searchBtnImage: {
-    width: "50%",
-    height: "50%",
+    width: '50%',
+    height: '50%',
     tintColor: COLORS.white,
   },
   tabsContainer: {
-    width: "100%",
+    width: '100%',
     marginTop: SIZES.medium,
   },
   tab: (activeJobType, item) => ({

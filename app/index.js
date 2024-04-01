@@ -17,34 +17,34 @@ const Home = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
-          headerShadowVisible: false,
-          headerShown: false,
-          // headerLeft: () => (
-          //   <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
-          // ),
-          // headerRight: () => (
-          //   <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
-          // ),
-          headerTitle: '',
-        }}
-      />
+      <ImageBackground
+        source={welcomePageBackground}
+        resizeMode='cover'
+        style={{ height: '100%', width: '100%' }}
+      >
+        <Stack.Screen
+          options={{
+            headerStyle: { backgroundColor: COLORS.lightWhite },
+            headerShadowVisible: false,
+            headerShown: false,
+            // headerLeft: () => (
+            //   <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
+            // ),
+            // headerRight: () => (
+            //   <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
+            // ),
+            headerTitle: '',
+          }}
+        />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={welcomePageBackground}
-          resizeMode='cover'
-          style={{ height: '100vh', width: '100vw' }}
-        >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{ flex: 1, padding: SIZES.medium }}>
             <Welcome />
-            <Signin />
+            {/* <Signin /> */}
             {/* <Signup /> */}
           </View>
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     </SafeAreaView>
   );
 };

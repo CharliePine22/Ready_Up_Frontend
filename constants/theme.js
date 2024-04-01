@@ -13,8 +13,9 @@ const COLORS = {
 const FONT = {
   regular: 'GaliverSans',
   // regular: "DMRegular",
-  medium: 'DMMedium',
-  bold: 'DMBold',
+  medium: 'DMSans-Medium',
+  bold: 'DMSans-Bold',
+  videogame: 'pdark',
 };
 
 const SIZES = {

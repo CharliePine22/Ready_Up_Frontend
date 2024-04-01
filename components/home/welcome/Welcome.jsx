@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Button,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -25,6 +26,10 @@ const Welcome = () => {
         <Text style={styles.welcomeMessage}>
           Time to carry the team again soldier.
         </Text>
+      </View>
+      <View style={styles.container}>
+        <Button style={styles.welcomeBtn} title='Sign In' />
+        <Button style={styles.welcomeBtn} title='Create Account' />
       </View>
     </View>
   );

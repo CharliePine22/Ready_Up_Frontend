@@ -4,7 +4,9 @@ import { COLORS, FONT, SIZES } from '../../../constants';
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     width: '100%',
+    height: '100%',
   },
   userName: {
     fontFamily: FONT.regular,
@@ -12,8 +14,9 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
   },
   appName: {
-    fontFamily: FONT.regular,
-    fontSize: '70px',
+    fontFamily: FONT.videogame,
+    fontSize: 70,
+    marginTop: 10,
     color: COLORS.white,
     textAlign: 'center',
     textShadow:
@@ -26,6 +29,13 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     marginTop: 2,
     textAlign: 'center',
+  },
+  welcomeBtn: {
+    padding: 10,
+    width: '50%',
+    margin: '10px 0',
+    padding: '10px',
+    color: COLORS.white,
   },
   searchContainer: {
     justifyContent: 'center',

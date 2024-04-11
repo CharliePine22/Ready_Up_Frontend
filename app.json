@@ -5,7 +5,17 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/DMSans-Bold.ttf",
+            "assets/fonts/pkdark.ttf",
+            "assets/fonts/GaliverSans.ttf"
+          ]
+        }
+      ]
     ],
     "name": "ready-up",
     "slug": "ready-up"

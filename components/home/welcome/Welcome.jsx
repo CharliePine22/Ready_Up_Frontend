@@ -27,9 +27,19 @@ const Welcome = () => {
           Time to carry the team again soldier.
         </Text>
       </View>
-      <View style={styles.container}>
-        <Button style={styles.welcomeBtn} title='Sign In' />
-        <Button style={styles.welcomeBtn} title='Create Account' />
+      <View
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          marginTop: 40,
+        }}
+      >
+        <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
+          <Text style={styles.welcomeBtnText}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
+          <Text style={styles.welcomeBtnText}>Create Account</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

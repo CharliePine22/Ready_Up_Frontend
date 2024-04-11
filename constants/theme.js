@@ -2,12 +2,12 @@ const COLORS = {
   primary: '#26bcff',
   secondary: '#444262',
   tertiary: '#FF7754',
-
+  gaming: '#22518c',
   gray: '#83829A',
   gray2: '#C1C0C8',
-
   white: '#F3F4F8',
   lightWhite: '#FAFAFC',
+  transparent: '#000000',
 };
 
 const FONT = {
@@ -15,7 +15,7 @@ const FONT = {
   // regular: "DMRegular",
   medium: 'DMSans-Medium',
   bold: 'DMSans-Bold',
-  videogame: 'pdark',
+  videogame: 'Pdark',
 };
 
 const SIZES = {

@@ -1,14 +1,7 @@
 import { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Button,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import Signin from '../signin/Signin';
 
 import styles from './welcome.style';
 import { icons, SIZES } from '../../../constants';
@@ -31,15 +24,16 @@ const Welcome = () => {
         style={{
           display: 'flex',
           justifyContent: 'space-around',
-          marginTop: 40,
+          marginTop: 50,
         }}
       >
-        <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
+        <Signin />
+        {/* <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
           <Text style={styles.welcomeBtnText}>Sign In</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
           <Text style={styles.welcomeBtnText}>Create Account</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

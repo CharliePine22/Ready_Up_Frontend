@@ -40,8 +40,12 @@ const Home = () => {
       source={welcomePageBackground}
       resizeMode='cover'
       style={{ height: '100%', width: '100%' }}
+      blurRadius={2}
     >
-      <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <SafeAreaView
+        style={{ flex: 1, height: '100%' }}
+        onLayout={onLayoutRootView}
+      >
         <Stack.Screen
           options={{
             headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -53,25 +57,25 @@ const Home = () => {
             // headerRight: () => (
             //   <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
             // ),
-            headerTitle: '',
+            headerTitle: 'Ready Up',
           }}
         />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
+        >
           <View
             style={{
               flex: 1,
               height: '100%',
+              justifyContent: 'center',
+              // backgroundColor: 'blue',
               paddingVertical: SIZES.medium,
               paddingHorizontal: SIZES.small,
-              justifyContent: 'center',
-              marginTop: '38%',
-              marginBottom: 'auto',
             }}
           >
             <Welcome />
-            {/* <Signin /> */}
-            {/* <Signup /> */}
           </View>
         </ScrollView>
       </SafeAreaView>

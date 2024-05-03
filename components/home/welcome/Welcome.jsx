@@ -22,9 +22,11 @@ const Welcome = () => {
       </View>
       <View
         style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          marginTop: 50,
+          // flex: 1,
+          // justifyContent: 'space-around',
+          alignItems: 'center',
+          marginTop: 20,
+          height: 300,
         }}
       >
         <Signin />

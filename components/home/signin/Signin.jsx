@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Pressable } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import styles from './signin.style';
@@ -47,11 +47,19 @@ const Signin = () => {
           style={styles.inputIcon}
         />
       </View>
-      <Button
+      {/* <Button
         title='Login'
         onPress={() => signIn({ username, password })}
         style={styles.btn}
-      />
+      /> */}
+      <View style={styles.loginActions}>
+        <Pressable style={styles.loginBtn}>
+          <Text style={styles.loginText}>Login</Text>
+        </Pressable>
+        <View style={styles.loginAlts}>
+          <Text style={styles.loginActionsText}>Or Sign In With</Text>
+        </View>
+      </View>
     </View>
   );
 };

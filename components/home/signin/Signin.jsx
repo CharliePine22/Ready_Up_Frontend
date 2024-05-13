@@ -1,11 +1,13 @@
 import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Pressable } from 'react-native';
+import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import googleIcon from '../../../assets/icons/google.png';
+import discordIcon from '../../../assets/icons/discord.png';
 
 import styles from './signin.style';
 
-const Signin = () => {
-  const [username, setUsername] = useState('');
+const Signin = ({ signInAuthentication }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // const { signIn } = useContext(AuthContext);
@@ -15,16 +17,16 @@ const Signin = () => {
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='Email'
-          value={username}
-          onChangeText={setUsername}
+          placeholder='EMAIL'
+          value={email}
+          onChangeText={setEmail}
           style={styles.textInput}
           placeholderStyle={styles.textInput}
           placeholderTextColor='white'
         />
         <MaterialCommunityIcons
           name='email'
-          size={22}
+          size={24}
           color='white'
           style={styles.inputIcon}
         />
@@ -33,7 +35,7 @@ const Signin = () => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='Password'
+          placeholder='PASSWORD'
           value={password}
           onChangeText={setPassword}
           style={styles.textInput}
@@ -42,7 +44,7 @@ const Signin = () => {
         />
         <MaterialCommunityIcons
           name='key-variant'
-          size={22}
+          size={24}
           color='white'
           style={styles.inputIcon}
         />
@@ -53,11 +55,18 @@ const Signin = () => {
         style={styles.btn}
       /> */}
       <View style={styles.loginActions}>
-        <Pressable style={styles.loginBtn}>
-          <Text style={styles.loginText}>Login</Text>
+        <Pressable
+          onPress={() => signInAuthentication({ email, password })}
+          style={styles.loginBtn}
+        >
+          <Text style={styles.loginText}>LOGIN</Text>
         </Pressable>
-        <View style={styles.loginAlts}>
-          <Text style={styles.loginActionsText}>Or Sign In With</Text>
+        <View style={styles.loginAltsContainer}>
+          <Text style={styles.loginActionsText}>
+            <Text style={styles.loginActionsTextInner}>Or Sign In With</Text>
+          </Text>
+          <Image source={googleIcon} style={styles.loginAltIcon} />
+          <Image source={discordIcon} style={styles.loginAltIcon} />
         </View>
       </View>
     </View>

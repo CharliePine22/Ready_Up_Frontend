@@ -8,14 +8,21 @@ import {
 } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { COLORS, icons, images, SIZES } from '../constants';
-import { ScreenHeaderBtn, Signin, Signup, Welcome } from '../components';
+import {
+  Dashboard,
+  ScreenHeaderBtn,
+  Signin,
+  Signup,
+  Welcome,
+} from '../components';
 import welcomePageBackground from '../assets/images/ready-up-home-page-wallpaper.png';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
 
-const Home = () => {
+const WelcomePage = () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const router = useRouter();
 
   // Font Handling
@@ -35,7 +42,15 @@ const Home = () => {
     return null;
   }
 
-  return (
+  const signInAuthentication = (credentals) => {
+    const { email, password } = credentals;
+    console.log(email, password);
+    isSignedIn ? setIsSignedIn(false) : setIsSignedIn(true);
+  };
+
+  return isSignedIn ? (
+    <Dashboard signInAuthentication={signInAuthentication} />
+  ) : (
     <ImageBackground
       source={welcomePageBackground}
       resizeMode='cover'
@@ -75,7 +90,7 @@ const Home = () => {
               paddingHorizontal: SIZES.small,
             }}
           >
-            <Welcome />
+            <Welcome signInAuthentication={signInAuthentication} />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -83,4 +98,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default WelcomePage;

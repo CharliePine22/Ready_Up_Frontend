@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
-import Signin from '../signin/Signin';
+import { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import Signin from "../signin/Signin";
 
-import styles from './welcome.style';
-import { icons, SIZES } from '../../../constants';
+import styles from "./welcome.style";
+import { icons, SIZES } from "../../../constants";
 
 const Welcome = ({ signInAuthentication }) => {
   // Check to see if token is active from previous state
   // If signed in, display home page, otherwise display welcome page
   const [isLoading, setIsLoading] = useState(false);
+  const [creatingAccount, setCreatingAccount] = useState(false);
 
   return (
     <View style={{ marginBottom: 50 }}>
@@ -23,19 +24,13 @@ const Welcome = ({ signInAuthentication }) => {
         style={{
           // flex: 1,
           // justifyContent: 'space-around',
-          alignItems: 'center',
+          alignItems: "center",
           marginTop: 20,
-          height: 280,
+          height: 325,
           paddingHorizontal: 10,
         }}
       >
         <Signin signInAuthentication={signInAuthentication} />
-        {/* <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
-          <Text style={styles.welcomeBtnText}>Sign In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.welcomeBtn} underlayColor='#fff'>
-          <Text style={styles.welcomeBtnText}>Create Account</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   );

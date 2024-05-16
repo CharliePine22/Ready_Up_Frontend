@@ -1,14 +1,14 @@
-import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import googleIcon from '../../../assets/icons/google.png';
-import discordIcon from '../../../assets/icons/discord.png';
+import { useState, useContext } from "react";
+import { View, Text, TextInput, Button, Pressable, Image } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import googleIcon from "../../../assets/icons/google.png";
+import discordIcon from "../../../assets/icons/discord.png";
 
-import styles from './signin.style';
+import styles from "./signin.style";
 
 const Signin = ({ signInAuthentication }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // const { signIn } = useContext(AuthContext);
 
@@ -17,17 +17,17 @@ const Signin = ({ signInAuthentication }) => {
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='EMAIL'
+          placeholder="EMAIL"
           value={email}
           onChangeText={setEmail}
           style={styles.textInput}
           placeholderStyle={styles.textInput}
-          placeholderTextColor='white'
+          placeholderTextColor="white"
         />
         <MaterialCommunityIcons
-          name='email'
+          name="email"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -35,17 +35,17 @@ const Signin = ({ signInAuthentication }) => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='PASSWORD'
+          placeholder="PASSWORD"
           value={password}
           onChangeText={setPassword}
           style={styles.textInput}
-          placeholderTextColor='white'
+          placeholderTextColor="white"
           secureTextEntry
         />
         <MaterialCommunityIcons
-          name='key-variant'
+          name="key-variant"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -68,6 +68,10 @@ const Signin = ({ signInAuthentication }) => {
           <Image source={googleIcon} style={styles.loginAltIcon} />
           <Image source={discordIcon} style={styles.loginAltIcon} />
         </View>
+        <Text style={styles.createAccountText}>
+          Don't have an account?{" "}
+          <Text style={{ fontWeight: 900 }}>Sign Up.</Text>
+        </Text>
       </View>
     </View>
   );

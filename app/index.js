@@ -1,23 +1,23 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 import {
   View,
   ScrollView,
   SafeAreaView,
   Text,
   ImageBackground,
-} from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { COLORS, icons, images, SIZES } from '../constants';
+} from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { COLORS, icons, images, SIZES } from "../constants";
 import {
   Dashboard,
   ScreenHeaderBtn,
   Signin,
   Signup,
   Welcome,
-} from '../components';
-import welcomePageBackground from '../assets/images/ready-up-home-page-wallpaper.png';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
+} from "../components";
+import welcomePageBackground from "../assets/images/ready-up-home-page-wallpaper.png";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,9 +27,9 @@ const WelcomePage = () => {
 
   // Font Handling
   const [fontsLoaded, fontError] = useFonts({
-    GaliverSans: require('../assets/fonts/GaliverSans.ttf'),
-    Pdark: require('../assets/fonts/pdark.ttf'),
-    'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
+    GaliverSans: require("../assets/fonts/GaliverSans.ttf"),
+    Pdark: require("../assets/fonts/pdark.ttf"),
+    "DMSans-Bold": require("../assets/fonts/DMSans-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -53,12 +53,12 @@ const WelcomePage = () => {
   ) : (
     <ImageBackground
       source={welcomePageBackground}
-      resizeMode='cover'
-      style={{ height: '100%', width: '100%' }}
+      resizeMode="cover"
+      style={{ height: "100%", width: "100%" }}
       blurRadius={2}
     >
       <SafeAreaView
-        style={{ flex: 1, height: '100%' }}
+        style={{ flex: 1, height: "100%" }}
         onLayout={onLayoutRootView}
       >
         <Stack.Screen
@@ -72,22 +72,28 @@ const WelcomePage = () => {
             // headerRight: () => (
             //   <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
             // ),
-            headerTitle: 'Ready Up',
+            headerTitle: "Ready Up",
           }}
         />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <View
             style={{
               flex: 1,
-              height: '100%',
-              justifyContent: 'center',
+              height: "100%",
+              justifyContent: "center",
               // backgroundColor: 'blue',
               paddingVertical: SIZES.medium,
               paddingHorizontal: SIZES.small,
+              width: "100%",
+              maxWidth: 480,
             }}
           >
             <Welcome signInAuthentication={signInAuthentication} />

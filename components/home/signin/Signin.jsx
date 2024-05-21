@@ -1,33 +1,65 @@
-import { useState, useContext } from "react";
-import { View, Text, TextInput, Button, Pressable, Image } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import googleIcon from "../../../assets/icons/google.png";
-import discordIcon from "../../../assets/icons/discord.png";
+import { useState, useContext } from 'react';
+import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import googleIcon from '../../../assets/icons/google.png';
+import discordIcon from '../../../assets/icons/discord.png';
 
-import styles from "./signin.style";
+import styles from './signin.style';
 
-const Signin = ({ signInAuthentication }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Signin = ({ signInAuthentication, createNewAccount }) => {
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
 
   // const { signIn } = useContext(AuthContext);
+
+  const signInHandler = (email, password) => {
+    let emailErrorFlag = false;
+    let passwordErrorFlag = false;
+
+    // Email Error Flag
+    if (!email || !email.includes('@') || email.split().length == 0) {
+      emailErrorFlag = true;
+      setEmailError(true);
+    }
+
+    // Password Error Flag
+    if (!password || password.split().length == 0) {
+      passwordErrorFlag = true;
+      setPasswordError(true);
+    }
+
+    if (passwordErrorFlag || emailErrorFlag) {
+      if (!emailErrorFlag) {
+        setEmailError(false);
+      }
+      if (!passwordErrorFlag) {
+        setPasswordError(false);
+      }
+    } else signInAuthentication(email, password);
+  };
 
   return (
     <View style={styles.container}>
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="EMAIL"
+          placeholder='EMAIL'
           value={email}
           onChangeText={setEmail}
-          style={styles.textInput}
+          style={
+            !emailError
+              ? { ...styles.textInput }
+              : { ...styles.textInput, ...styles.errorInput }
+          }
           placeholderStyle={styles.textInput}
-          placeholderTextColor="white"
+          placeholderTextColor='white'
         />
         <MaterialCommunityIcons
-          name="email"
+          name='email'
           size={24}
-          color="white"
+          color='white'
           style={styles.inputIcon}
         />
       </View>
@@ -35,28 +67,28 @@ const Signin = ({ signInAuthentication }) => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="PASSWORD"
+          placeholder='PASSWORD'
           value={password}
           onChangeText={setPassword}
-          style={styles.textInput}
-          placeholderTextColor="white"
+          style={
+            !passwordError
+              ? { ...styles.textInput }
+              : { ...styles.textInput, ...styles.errorInput }
+          }
+          placeholderTextColor='white'
           secureTextEntry
         />
         <MaterialCommunityIcons
-          name="key-variant"
+          name='key-variant'
           size={24}
-          color="white"
+          color='white'
           style={styles.inputIcon}
         />
       </View>
-      {/* <Button
-        title='Login'
-        onPress={() => signIn({ username, password })}
-        style={styles.btn}
-      /> */}
+
       <View style={styles.loginActions}>
         <Pressable
-          onPress={() => signInAuthentication({ email, password })}
+          onPress={() => signInHandler(email, password)}
           style={styles.loginBtn}
         >
           <Text style={styles.loginText}>LOGIN</Text>
@@ -65,12 +97,20 @@ const Signin = ({ signInAuthentication }) => {
           <Text style={styles.loginActionsText}>
             <Text style={styles.loginActionsTextInner}>Or Sign In With</Text>
           </Text>
-          <Image source={googleIcon} style={styles.loginAltIcon} />
-          <Image source={discordIcon} style={styles.loginAltIcon} />
+          <Pressable>
+            <Image source={googleIcon} style={styles.loginAltIcon} />
+          </Pressable>
+
+          <Pressable>
+            <Image source={discordIcon} style={styles.loginAltIcon} />
+          </Pressable>
         </View>
         <Text style={styles.createAccountText}>
-          Don't have an account?{" "}
-          <Text style={{ fontWeight: 900 }}>Sign Up.</Text>
+          Don't have an account?{' '}
+          <Pressable onPress={createNewAccount}>
+            <Text style={{ fontWeight: 900, color: 'white' }}>Sign Up</Text>
+          </Pressable>
+          .
         </Text>
       </View>
     </View>

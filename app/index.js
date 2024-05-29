@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(true);
   const router = useRouter();
 
   // Font Handling
@@ -53,16 +53,7 @@ const WelcomePage = () => {
       >
         <Stack.Screen
           options={{
-            headerStyle: { backgroundColor: COLORS.lightWhite },
-            headerShadowVisible: false,
             headerShown: false,
-            // headerLeft: () => (
-            //   <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
-            // ),
-            // headerRight: () => (
-            //   <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
-            // ),
-            headerTitle: 'Ready Up',
           }}
         />
 
@@ -70,16 +61,15 @@ const WelcomePage = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flex: 1,
+
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
           <View
             style={{
-              flex: 1,
-              height: '100%',
+              height: 'auto',
               justifyContent: 'center',
-              // backgroundColor: 'blue',
               paddingVertical: SIZES.medium,
               paddingHorizontal: SIZES.small,
               width: '100%',

@@ -14,7 +14,9 @@ const Welcome = ({ signInAuthentication }) => {
   const [creatingAccount, setCreatingAccount] = useState(false);
 
   return (
-    <View style={{ marginBottom: 10 }}>
+    <View
+      style={{ marginBottom: 10, height: '100%', justifyContent: 'center' }}
+    >
       <View style={styles.container}>
         <Text style={styles.appName}>Ready Up</Text>
         <Text style={styles.welcomeMessage}>
@@ -25,8 +27,11 @@ const Welcome = ({ signInAuthentication }) => {
         style={{
           alignItems: 'center',
           marginTop: 20,
-          height: 380,
+          // height: '100%',
+          height: 'auto',
+          // height: 385,
           paddingHorizontal: 10,
+          justifyContent: 'center',
         }}
       >
         {!creatingAccount ? (

@@ -42,9 +42,15 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
 
   return (
     <View style={styles.container}>
+      {emailError || passwordError ? (
+        // <View style={styles.errorContainer}>
+        <Text style={styles.errorMessage}>Incorrect username or password.</Text>
+      ) : null}
+
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
+          id='email'
           placeholder='EMAIL'
           value={email}
           onChangeText={setEmail}
@@ -67,6 +73,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
+          id='password'
           placeholder='PASSWORD'
           value={password}
           onChangeText={setPassword}
@@ -107,8 +114,17 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
         </View>
         <Text style={styles.createAccountText}>
           Don't have an account?{' '}
-          <Pressable onPress={createNewAccount}>
-            <Text style={{ fontWeight: 900, color: 'white' }}>Sign Up</Text>
+          <Pressable style={{ padding: 0 }} onPress={createNewAccount}>
+            <Text
+              style={{
+                fontWeight: 900,
+                color: 'white',
+                includeFontPadding: false,
+                verticalAlign: 'middle',
+              }}
+            >
+              Sign Up
+            </Text>
           </Pressable>
           .
         </Text>

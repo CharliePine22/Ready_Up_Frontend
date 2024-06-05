@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   loginBtn: {
     padding: 12,
     marginTop: 0,
-    marginBottom: 14,
+    marginBottom: 30,
     marginHorizontal: 'auto',
     textAlign: 'center',
     color: COLORS.white,

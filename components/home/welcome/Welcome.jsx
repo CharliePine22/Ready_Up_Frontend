@@ -29,7 +29,7 @@ const Welcome = ({ signInAuthentication }) => {
           marginTop: 20,
           // height: '100%',
           height: 'auto',
-          // height: 385,
+          height: 380,
           paddingHorizontal: 10,
           justifyContent: 'center',
         }}

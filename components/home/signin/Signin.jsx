@@ -114,13 +114,17 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
         </View>
         <Text style={styles.createAccountText}>
           Don't have an account?{' '}
-          <Pressable style={{ padding: 0 }} onPress={createNewAccount}>
+          <Pressable
+            style={{ padding: 0, alignItems: 'center' }}
+            onPress={createNewAccount}
+          >
             <Text
               style={{
                 fontWeight: 900,
                 color: 'white',
                 includeFontPadding: false,
                 verticalAlign: 'middle',
+                alignItems: 'center',
               }}
             >
               Sign Up

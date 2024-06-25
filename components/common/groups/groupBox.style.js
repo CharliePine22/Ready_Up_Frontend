@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   groupName: {
-    fontSize: SIZES.large,
+    fontSize: SIZES.xLarge,
     fontFamily: FONT.regular,
   },
   innerGroupBox: {

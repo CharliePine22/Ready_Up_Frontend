@@ -41,7 +41,13 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={
+        !emailError || !passwordError
+          ? { ...styles.container }
+          : { ...styles.container, ...styles.containerError }
+      }
+    >
       {emailError || passwordError ? (
         // <View style={styles.errorContainer}>
         <Text style={styles.errorMessage}>Incorrect username or password.</Text>
@@ -130,7 +136,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
               Sign Up
             </Text>
           </Pressable>
-          .
+          `` .
         </Text>
       </View>
     </View>

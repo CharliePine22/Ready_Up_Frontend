@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  containerError: {
+    height: '110%',
+    marginTop: 45,
+  },
   createAccountText: {
     color: COLORS.white,
     marginTop: 25,
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
   },
   inputIcon: {
     position: 'absolute',
-    right: 40,
+    right: 35,
     top: 17,
   },
   textInput: {
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowRadius: 4,
     shadowOpacity: 0.7,
-    width: '95%',
+    width: '100%',
   },
   loginText: {
     color: COLORS.white,

@@ -4,6 +4,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import styles from './groupBox.style';
 
 const GroupBox = ({ group }) => {
+  console.log(group.chooseRandomGame());
   return (
     <View style={styles.groupBoxWrapper}>
       <View style={styles.groupAvatarBox}></View>
@@ -17,7 +18,12 @@ const GroupBox = ({ group }) => {
       <View style={styles.lowerSection}>
         <View>
           <Text style={{ textAlign: 'right' }}>
-            Last Played: {group.lastPlayed}
+            <Text style={{ fontWeight: 700 }}>Recently Played:</Text>{' '}
+            {group.recentlyPlayed}
+          </Text>
+          <Text style={{ textAlign: 'right' }}>
+            <Text style={{ fontWeight: 700 }}>Last Played:</Text>{' '}
+            {group.lastPlayed}
           </Text>
         </View>
       </View>

@@ -1,15 +1,15 @@
-import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import googleIcon from '../../../assets/icons/google.png';
-import discordIcon from '../../../assets/icons/discord.png';
+import { useState, useContext } from "react";
+import { View, Text, TextInput, Button, Pressable, Image } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import googleIcon from "../../../assets/icons/google.png";
+import discordIcon from "../../../assets/icons/discord.png";
 
-import styles from './signin.style';
+import styles from "./signin.style";
 
 const Signin = ({ signInAuthentication, createNewAccount }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
 
   // const { signIn } = useContext(AuthContext);
@@ -19,7 +19,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
     let passwordErrorFlag = false;
 
     // Email Error Flag
-    if (!email || !email.includes('@') || email.split().length == 0) {
+    if (!email || !email.includes("@") || email.split().length == 0) {
       emailErrorFlag = true;
       setEmailError(true);
     }
@@ -56,8 +56,8 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          id='email'
-          placeholder='EMAIL'
+          id="email"
+          placeholder="EMAIL"
           value={email}
           onChangeText={setEmail}
           style={
@@ -66,12 +66,12 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
               : { ...styles.textInput, ...styles.errorInput }
           }
           placeholderStyle={styles.textInput}
-          placeholderTextColor='white'
+          placeholderTextColor="white"
         />
         <MaterialCommunityIcons
-          name='email'
+          name="email"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -79,8 +79,8 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          id='password'
-          placeholder='PASSWORD'
+          id="password"
+          placeholder="PASSWORD"
           value={password}
           onChangeText={setPassword}
           style={
@@ -88,13 +88,13 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
               ? { ...styles.textInput }
               : { ...styles.textInput, ...styles.errorInput }
           }
-          placeholderTextColor='white'
+          placeholderTextColor="white"
           secureTextEntry
         />
         <MaterialCommunityIcons
-          name='key-variant'
+          name="key-variant"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -119,24 +119,24 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
           </Pressable>
         </View>
         <Text style={styles.createAccountText}>
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Pressable
-            style={{ padding: 0, alignItems: 'center' }}
+            style={{ padding: 0, alignItems: "center" }}
             onPress={createNewAccount}
           >
             <Text
               style={{
                 fontWeight: 900,
-                color: 'white',
+                color: "white",
                 includeFontPadding: false,
-                verticalAlign: 'middle',
-                alignItems: 'center',
+                verticalAlign: "middle",
+                alignItems: "center",
               }}
             >
               Sign Up
             </Text>
           </Pressable>
-          `` .
+          .
         </Text>
       </View>
     </View>

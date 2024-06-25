@@ -1,11 +1,11 @@
-import { useState, useCallback } from 'react';
-import { View, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { COLORS, SIZES } from '../constants';
-import { Dashboard, Welcome } from '../components';
-import welcomePageBackground from '../assets/images/ready-up-home-page-wallpaper.png';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
+import { useState, useCallback } from "react";
+import { View, ScrollView, SafeAreaView, ImageBackground } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { COLORS, SIZES } from "../constants";
+import { Dashboard, Welcome } from "../components";
+import welcomePageBackground from "../assets/images/ready-up-home-page-wallpaper.png";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -15,9 +15,9 @@ const WelcomePage = () => {
 
   // Font Handling
   const [fontsLoaded, fontError] = useFonts({
-    GaliverSans: require('../assets/fonts/GaliverSans.ttf'),
-    Pdark: require('../assets/fonts/pdark.ttf'),
-    'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
+    GaliverSans: require("../assets/fonts/GaliverSans.ttf"),
+    Pdark: require("../assets/fonts/pdark.ttf"),
+    "DMSans-Bold": require("../assets/fonts/DMSans-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -43,12 +43,12 @@ const WelcomePage = () => {
   ) : (
     <ImageBackground
       source={welcomePageBackground}
-      resizeMode='cover'
-      style={{ height: '100%', width: '100%' }}
+      resizeMode="cover"
+      style={{ height: "100%", width: "100%" }}
       blurRadius={2}
     >
       <SafeAreaView
-        style={{ flex: 1, height: '100%' }}
+        style={{ flex: 1, height: "100%" }}
         onLayout={onLayoutRootView}
       >
         <Stack.Screen
@@ -62,17 +62,17 @@ const WelcomePage = () => {
           contentContainerStyle={{
             flex: 1,
 
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <View
             style={{
-              height: 'auto',
-              justifyContent: 'center',
+              height: "auto",
+              justifyContent: "center",
               paddingVertical: SIZES.medium,
               paddingHorizontal: SIZES.small,
-              width: '100%',
+              width: "100%",
               maxWidth: 480,
             }}
           >

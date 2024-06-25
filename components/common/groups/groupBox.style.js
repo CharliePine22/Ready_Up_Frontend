@@ -1,29 +1,30 @@
-import { StyleSheet } from 'react-native';
-import { FONT, SIZES, COLORS } from '../../../constants';
+import { StyleSheet } from "react-native";
+import { FONT, SIZES, COLORS } from "../../../constants";
 
 const styles = StyleSheet.create({
   groupBoxWrapper: {
-    display: 'flex',
-    width: '100%',
+    display: "flex",
+    width: "100%",
     backgroundColor: COLORS.white,
     paddingHorizontal: 5,
     paddingVertical: 10,
-    borderBottomColor: 'black',
-    borderTopColor: 'black',
-    borderStyle: 'solid',
+    borderBottomColor: "black",
+    borderTopColor: "black",
+    borderStyle: "solid",
     borderWidth: 1,
+    marginBottom: 10,
   },
   groupName: {
     fontSize: SIZES.xLarge,
     fontFamily: FONT.regular,
   },
   innerGroupBox: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   memberCountContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 10,
   },
   memberCount: {

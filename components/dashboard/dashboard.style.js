@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#36454F',
   },
+  mainContainer: {
+    marginHorizontal: 6,
+  },
 });
 
 export default styles;

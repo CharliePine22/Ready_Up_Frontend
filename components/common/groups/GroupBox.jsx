@@ -20,7 +20,7 @@ const GroupBox = ({ group, openGroup }) => {
             size={22}
             style={{ marginTop: 2 }}
           />
-          <Text style={styles.readyCount}>{group.groupCount()}</Text>
+          <Text style={styles.readyCount}>{group.readyCount}</Text>
         </View>
       </View>
       <View style={styles.lowerSection}>

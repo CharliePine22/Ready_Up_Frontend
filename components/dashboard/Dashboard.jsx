@@ -1,6 +1,6 @@
 import { View, Text, Pressable, FlatList, DatePickerIOS } from 'react-native';
 import styles from './dashboard.style';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Stack } from 'expo-router';
 import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
 import GroupBox from '../common/groups/GroupBox';
@@ -9,6 +9,16 @@ import GroupDetails from '../common/groups/GroupDetails';
 
 const Dashboard = ({ signInAuthentication }) => {
   const [currentGroup, setCurrentGroup] = useState(undefined);
+
+  const getTopGamesBanner = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      return json.movies;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const DUMMYDATA = [
     // Group 1

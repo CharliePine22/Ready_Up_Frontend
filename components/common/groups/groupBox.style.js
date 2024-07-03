@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 2,
     marginBottom: 10,
-    boxShadow: '0px 2px 2px black',
+    boxShadow: '0px 3px 3px rgba(0,0,0,.6)',
   },
   groupName: {
     fontSize: 26,

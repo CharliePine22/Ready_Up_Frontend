@@ -24,11 +24,11 @@ const GroupBox = ({ group, openGroup }) => {
         </View>
       </View>
       <View style={styles.lowerSection}>
-        <Text style={{ textAlign: 'right', fontSize: 15 }}>
+        <Text style={{ textAlign: 'right', fontSize: 15, marginBottom: 5 }}>
           <Text style={{ fontWeight: 700 }}>Recently Played:</Text>{' '}
           {group.recentlyPlayed}
         </Text>
-        <Text style={{ textAlign: 'right', fontSize: 15 }}>
+        <Text style={{ textAlign: 'right', fontSize: 15, marginBottom: 5 }}>
           <Text style={{ fontWeight: 700 }}>Last Played:</Text>{' '}
           {group.lastPlayed}
         </Text>

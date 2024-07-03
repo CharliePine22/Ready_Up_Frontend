@@ -9,16 +9,7 @@ import GroupDetails from '../common/groups/GroupDetails';
 
 const Dashboard = ({ signInAuthentication }) => {
   const [currentGroup, setCurrentGroup] = useState(undefined);
-
-  const getTopGamesBanner = async () => {
-    try {
-      const response = await fetch('https://reactnative.dev/movies.json');
-      const json = await response.json();
-      return json.movies;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  let groupTopGames = [];
 
   const DUMMYDATA = [
     // Group 1
@@ -125,6 +116,23 @@ const Dashboard = ({ signInAuthentication }) => {
       lastPlayed: 'May 31st, 2024',
     },
   ];
+
+  useEffect(() => {
+    for (const group of DUMMYDATA) {
+      groupTopGames.push(group.mostPlayedGame());
+    }
+    console.log(groupTopGames);
+  }, []);
+
+  const getTopGamesBanner = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      return json.movies;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View

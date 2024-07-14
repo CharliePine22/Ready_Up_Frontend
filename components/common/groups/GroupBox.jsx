@@ -10,7 +10,6 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import styles from "./groupBox.style";
 
 const GroupBox = ({ group, openGroup }) => {
-  // console.log(group.mostPlayedGame());
   return (
     <TouchableOpacity style={{ marginBottom: 25 }} onPress={openGroup}>
       <ImageBackground
@@ -19,14 +18,13 @@ const GroupBox = ({ group, openGroup }) => {
         style={styles.groupBannerImage}
       >
         <View style={styles.groupBoxWrapper} onClick={openGroup}>
-          <View style={styles.groupAvatarBox}></View>
           <View style={styles.innerGroupBox}>
             <Text style={styles.groupName}>{group.groupName}</Text>
             {/* How Many users in the group there are */}
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons
                 name="account-group"
-                size={24}
+                size={20}
                 color={"white"}
               />
               <Text style={styles.memberCount}>{group.groupCount()}</Text>
@@ -35,7 +33,7 @@ const GroupBox = ({ group, openGroup }) => {
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons
                 name="account-multiple-check"
-                size={26}
+                size={23}
                 style={{ marginTop: 2 }}
                 color={"white"}
               />
@@ -51,7 +49,7 @@ const GroupBox = ({ group, openGroup }) => {
                 color: "white",
               }}
             >
-              <Text style={{ fontWeight: 700 }}>Recently Played:</Text>{" "}
+              <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
               {group.recentlyPlayed}
             </Text>
             <Text
@@ -62,11 +60,11 @@ const GroupBox = ({ group, openGroup }) => {
                 color: "white",
               }}
             >
-              <Text style={{ fontWeight: 700 }}>Last Played:</Text>{" "}
+              <Text style={{ fontWeight: 700 }}>Last Played: </Text>
               {group.lastPlayed}
             </Text>
             <Text style={{ textAlign: "right", fontSize: 15, color: "white" }}>
-              <Text style={{ fontWeight: 700 }}>Most Played:</Text>{" "}
+              <Text style={{ fontWeight: 700 }}>Most Played: </Text>
               {group.mostPlayedGame()}
             </Text>
           </View>

@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native";
-import { COLORS, FONT } from "../../../constants";
+import { StyleSheet } from 'react-native';
+import { COLORS, FONT } from '../../../constants';
 
 const styles = StyleSheet.create({
   groupDetailsWrapper: {
-    backgroundColor: "#36454F",
-    position: "absolute",
-    height: "100%",
-    width: "100%",
+    backgroundColor: '#36454F',
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
     zIndex: 1,
   },
   gamesListGameName: {
@@ -15,16 +15,19 @@ const styles = StyleSheet.create({
     height: 20,
   },
   gamesPlayedListWrapper: {
-    width: "100%",
-    backgroundColor: "black",
-    alignItems: "center",
+    width: 'auto',
+    maxHeight: 320,
+    backgroundColor: 'black',
+    alignItems: 'center',
     margin: 10,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
   },
   groupHeader: {
     flex: 1,
-    alignItems: "center",
-    width: "100%",
+    alignItems: 'center',
+    width: '100%',
     marginTop: 15,
   },
   groupName: {
@@ -33,15 +36,15 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   memberListContainer: {
-    width: "100%",
-    flexDirection: "row",
+    width: '100%',
+    flexDirection: 'row',
   },
   memberList: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

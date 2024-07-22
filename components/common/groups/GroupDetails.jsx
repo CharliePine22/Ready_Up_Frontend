@@ -1,9 +1,9 @@
-import { View, Text, Pressable, FlatList, ScrollView } from "react-native";
-import React from "react";
-import styles from "./groupDetails.style.js";
+import { View, Text, Pressable, FlatList, ScrollView } from 'react-native';
+import React from 'react';
+import styles from './groupDetails.style.js';
 
 const GroupDetails = ({ group, closeGroup }) => {
-  console.log(group);
+  console.log(group, 'THIS?');
   return (
     <View style={styles.groupDetailsWrapper}>
       <View style={styles.groupHeader}>
@@ -20,7 +20,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   marginHorizontal: 20,
                   marginVertical: 10,
                   fontWeight: 900,
-                  color: "white",
+                  color: 'white',
                   fontSize: 18,
                 }}
               >
@@ -33,11 +33,28 @@ const GroupDetails = ({ group, closeGroup }) => {
           <ScrollView>
             {Object.entries(group.gamesPlayed)
               .sort(([, a], [, b]) => b - a)
-              .map(([gameName, hoursPlayed]) => {
+              .map(([gameName, hoursPlayed], idx) => {
                 return (
                   <View key={gameName}>
-                    <Text style={styles.gamesListGameName}>
-                      {gameName}: {hoursPlayed + " hours played"}
+                    <Text
+                      style={[
+                        styles.gamesListGameName,
+                        {
+                          color:
+                            idx == 0
+                              ? 'gold'
+                              : idx === 1
+                              ? 'silver'
+                              : idx === 2
+                              ? '#905923'
+                              : 'white',
+                          fontWeight: idx <= 2 && 900,
+                        },
+                      ]}
+                    >
+                      <>
+                        {gameName}: {hoursPlayed + ' hours'}
+                      </>
                     </Text>
                   </View>
                 );

@@ -10,8 +10,12 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     marginHorizontal: 6,
-    // flex: 1,
-    marginTop: 25,
+    // height: '100%',
+    flex: 1,
+  },
+  groupListContainer: {
+    marginTop: 20,
+    height: '100%',
   },
 });
 

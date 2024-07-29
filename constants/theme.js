@@ -16,6 +16,8 @@ const FONT = {
   medium: 'DMSans-Medium',
   bold: 'DMSans-Bold',
   videogame: 'Pdark',
+  header: 'SixCaps',
+  base: 'Inter',
 };
 
 const SIZES = {

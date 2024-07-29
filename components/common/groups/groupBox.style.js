@@ -7,8 +7,9 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 8,
     paddingVertical: 10,
-    borderBottomColor: 'black',
-    borderTopColor: 'black',
+    // borderBottomColor: 'black',
+    // borderTopColor: 'black',
+    borderColor: 'white',
     borderStyle: 'solid',
     borderWidth: 2,
     boxShadow: '0px 3px 3px rgba(0,0,0,.6)',
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   lowerSection: {
-    marginTop: 30,
+    marginTop: 40,
   },
   memberCountContainer: {
     display: 'flex',

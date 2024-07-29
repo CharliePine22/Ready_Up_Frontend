@@ -23,7 +23,21 @@ const GroupBox = ({ group, openGroup }) => {
         resizeMode='cover'
         style={styles.groupBannerImage}
       >
-        <View style={styles.groupBoxWrapper} onClick={openGroup}>
+        <View
+          style={[
+            styles.groupBoxWrapper,
+            {
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.9,
+              shadowRadius: 3,
+              shadowColor: 'black',
+            },
+          ]}
+          onClick={openGroup}
+        >
           <View style={styles.innerGroupBox}>
             <Text style={styles.groupName}>{group.groupName}</Text>
             {/* How Many users in the group there are */}

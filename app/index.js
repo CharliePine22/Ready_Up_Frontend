@@ -18,6 +18,8 @@ const WelcomePage = () => {
     GaliverSans: require('../assets/fonts/GaliverSans.ttf'),
     Pdark: require('../assets/fonts/pdark.ttf'),
     'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
+    SixCaps: require('../assets/fonts/SixCaps-Regular.ttf'),
+    Inter: require('../assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {

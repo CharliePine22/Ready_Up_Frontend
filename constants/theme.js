@@ -18,6 +18,7 @@ const FONT = {
   videogame: 'Pdark',
   header: 'SixCaps',
   base: 'Inter',
+  btnFont: 'PlayerStart',
 };
 
 const SIZES = {

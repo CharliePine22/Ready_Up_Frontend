@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#36454F',
   },
   mainContainer: {
-    marginHorizontal: 6,
+    marginHorizontal: 10,
     // height: '100%',
     flex: 1,
   },

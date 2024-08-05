@@ -1,12 +1,31 @@
-import { View, Text, Pressable, FlatList, ScrollView } from "react-native";
-import React from "react";
-import styles from "./groupDetails.style.js";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { View, Text, Pressable, FlatList, ScrollView } from 'react-native';
+import { useState } from 'react';
+import styles from './groupDetails.style.js';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import CustomModal from '../modal/CustomModal.jsx';
 
 const GroupDetails = ({ group, closeGroup }) => {
+  const [chosenGame, setChosenGame] = useState(null);
+  const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
+  const voteForCurrentGameSelection = () => {};
+  console.log(chosenGame);
   return (
     <View style={styles.groupDetailsWrapper}>
-      <ScrollView>
+      <CustomModal
+        modalStatus={openGameSelectionScreen}
+        closeModal={() => {
+          setOpenGameSelectionScreen(false);
+        }}
+        cancelChoice={() => {
+          setOpenGameSelectionScreen(false);
+          setChosenGame(null);
+        }}
+        previouslyPlayedGames={group.gamesPlayed}
+        selectGame={(game) => setChosenGame(game)}
+        currentlySelectedGame={chosenGame}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.groupHeader}>
           <Text style={styles.groupName}>{group.groupName}</Text>
           {/* Members List Wrapper */}
@@ -15,7 +34,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               style={[
                 styles.headerFont,
                 {
-                  color: "white",
+                  color: 'white',
                   paddingHorizontal: 10,
                   lineHeight: 53,
                 },
@@ -36,7 +55,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                     {
                       // marginHorizontal: 20,
                       marginVertical: 0,
-                      color: "white",
+                      color: 'white',
                     },
                   ]}
                 >
@@ -49,13 +68,13 @@ const GroupDetails = ({ group, closeGroup }) => {
 
         <View style={styles.groupBodyWrapper}>
           {/* GROUP GAME SELECTION */}
-          <View style={styles.gameSelectionWrapper}>
+          <View style={styles.gameSelectionHeader}>
             <View style={styles.headerFontContainer}>
               <Text
                 style={[
                   styles.headerFont,
                   {
-                    color: "white",
+                    color: 'white',
                     paddingHorizontal: 10,
                     lineHeight: 53,
                   },
@@ -64,10 +83,40 @@ const GroupDetails = ({ group, closeGroup }) => {
                 Game Selection
               </Text>
             </View>
-            <View style={styles.gameCaseContainer}>
-              <Text>?</Text>
+            {/* GAME CASE SELECTION */}
+            <View style={styles.gameSelectionContainer}>
+              <View style={styles.gameCaseContainer}>
+                <FontAwesome name='question' size={60} color={'white'} />
+              </View>
+              <View style={styles.gameSelectionDetails}>
+                <Text style={styles.gameMessage}>
+                  Your group hasn't chosen a game yet. As the leader of the
+                  group, suggest one to play!
+                </Text>
+
+                <View style={styles.gameSelectionActions}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.gameSelectionBtn,
+                      pressed ? styles.gameSelectionBtnPressed : '',
+                    ]}
+                    onPress={() => setOpenGameSelectionScreen(true)}
+                  >
+                    <Text style={styles.gameSelectionBtnText}>SELECT</Text>
+                  </Pressable>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.gameSelectionBtn,
+                      pressed ? styles.gameSelectionBtnPressed : '',
+                    ]}
+                  >
+                    <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>
+                  </Pressable>
+                </View>
+              </View>
             </View>
           </View>
+
           {/* GROUP GAMES LIST */}
           <View style={styles.headerFontContainer}>
             <Text
@@ -94,18 +143,18 @@ const GroupDetails = ({ group, closeGroup }) => {
                           {
                             color:
                               idx == 0
-                                ? "gold"
+                                ? 'gold'
                                 : idx === 1
-                                ? "silver"
+                                ? 'silver'
                                 : idx === 2
-                                ? "#905923"
-                                : "white",
+                                ? '#905923'
+                                : 'white',
                             fontWeight: idx <= 2 && 900,
                           },
                         ]}
                       >
                         <>
-                          {gameName}: {hoursPlayed + " hours"}
+                          {gameName}: {hoursPlayed + ' hours'}
                         </>
                       </Text>
                     </View>
@@ -117,9 +166,9 @@ const GroupDetails = ({ group, closeGroup }) => {
 
         <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
           <MaterialCommunityIcons
-            name="arrow-left-bold-outline"
+            name='arrow-left-bold-outline'
             size={40}
-            color={"white"}
+            color={'white'}
           />
         </Pressable>
       </ScrollView>

@@ -20,6 +20,7 @@ const WelcomePage = () => {
     'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
     SixCaps: require('../assets/fonts/SixCaps-Regular.ttf'),
     Inter: require('../assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
+    PlayerStart: require('../assets/fonts/PressStart2P-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {

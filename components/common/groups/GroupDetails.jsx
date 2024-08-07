@@ -1,17 +1,26 @@
-import { View, Text, Pressable, FlatList, ScrollView } from 'react-native';
-import { useState } from 'react';
-import styles from './groupDetails.style.js';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import CustomModal from '../modal/CustomModal.jsx';
+import {
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import { useState } from "react";
+import styles from "./groupDetails.style.js";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import CustomModal from "../modal/CustomModal.jsx";
 
 const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
   const voteForCurrentGameSelection = () => {};
   console.log(chosenGame);
+
   return (
     <View style={styles.groupDetailsWrapper}>
+      {/* Game Picker Modal */}
       <CustomModal
         modalStatus={openGameSelectionScreen}
         closeModal={() => {
@@ -34,7 +43,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               style={[
                 styles.headerFont,
                 {
-                  color: 'white',
+                  color: "white",
                   paddingHorizontal: 10,
                   lineHeight: 53,
                 },
@@ -43,6 +52,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               Members
             </Text>
           </View>
+          {/* Members List */}
           <View style={styles.memberListContainer}>
             <FlatList
               horizontal={true}
@@ -53,9 +63,8 @@ const GroupDetails = ({ group, closeGroup }) => {
                   style={[
                     styles.baseFont,
                     {
-                      // marginHorizontal: 20,
                       marginVertical: 0,
-                      color: 'white',
+                      color: "white",
                     },
                   ]}
                 >
@@ -74,7 +83,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                 style={[
                   styles.headerFont,
                   {
-                    color: 'white',
+                    color: "white",
                     paddingHorizontal: 10,
                     lineHeight: 53,
                   },
@@ -86,7 +95,7 @@ const GroupDetails = ({ group, closeGroup }) => {
             {/* GAME CASE SELECTION */}
             <View style={styles.gameSelectionContainer}>
               <View style={styles.gameCaseContainer}>
-                <FontAwesome name='question' size={60} color={'white'} />
+                <FontAwesome name="question" size={60} color={"white"} />
               </View>
               <View style={styles.gameSelectionDetails}>
                 <Text style={styles.gameMessage}>
@@ -98,7 +107,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : '',
+                      pressed ? styles.gameSelectionBtnPressed : "",
                     ]}
                     onPress={() => setOpenGameSelectionScreen(true)}
                   >
@@ -107,7 +116,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : '',
+                      pressed ? styles.gameSelectionBtnPressed : "",
                     ]}
                   >
                     <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>
@@ -130,6 +139,8 @@ const GroupDetails = ({ group, closeGroup }) => {
               Games List
             </Text>
           </View>
+
+          {/* GAMES PLAYED LIST */}
           <View style={styles.gamesPlayedListWrapper}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {Object.entries(group.gamesPlayed)
@@ -143,18 +154,18 @@ const GroupDetails = ({ group, closeGroup }) => {
                           {
                             color:
                               idx == 0
-                                ? 'gold'
+                                ? "gold"
                                 : idx === 1
-                                ? 'silver'
+                                ? "silver"
                                 : idx === 2
-                                ? '#905923'
-                                : 'white',
+                                ? "#905923"
+                                : "white",
                             fontWeight: idx <= 2 && 900,
                           },
                         ]}
                       >
                         <>
-                          {gameName}: {hoursPlayed + ' hours'}
+                          {gameName}: {hoursPlayed + " hours"}
                         </>
                       </Text>
                     </View>
@@ -164,11 +175,12 @@ const GroupDetails = ({ group, closeGroup }) => {
           </View>
         </View>
 
+        {/* CLOSE GROUP BUTTON */}
         <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
           <MaterialCommunityIcons
-            name='arrow-left-bold-outline'
+            name="arrow-left-bold-outline"
             size={40}
-            color={'white'}
+            color={"white"}
           />
         </Pressable>
       </ScrollView>

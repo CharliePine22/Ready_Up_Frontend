@@ -318,10 +318,10 @@ const Dashboard = ({ signInAuthentication }) => {
             <ScreenHeaderBtn iconUrl={icons.menu} dimension="60%" />
           ),
           headerRight: () => (
-            <>
+            <View>
               <ScreenHeaderBtn iconUrl={images.roxas} dimension="100%" />
               <ScreenHeaderBtn iconUrl={images.roxas} dimension="100%" />
-            </>
+            </View>
           ),
           headerTitle: "Ready Up",
           headerTitleContainerStyle: { paddingHorizontal: 5 },

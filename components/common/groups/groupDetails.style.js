@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   closeGroupBtn: {
     position: "absolute",
     left: 15,
-    top: 20,
+    top: 12,
   },
   gameCaseContainer: {
     height: 250,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT.btnFont,
     fontWeight: 900,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 13,
     textShadowColor: "white",
     textShadowOffset: {
       height: 1,
@@ -130,10 +130,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     zIndex: 1,
-    // overflowY: "auto",
   },
   groupHeader: {
-    // flex: 1,
     alignItems: "center",
     width: "100%",
     marginTop: 60,

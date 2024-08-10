@@ -16,7 +16,6 @@ const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
   const voteForCurrentGameSelection = () => {};
-  console.log(chosenGame);
 
   return (
     <View style={styles.groupDetailsWrapper}>

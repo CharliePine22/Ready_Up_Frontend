@@ -184,6 +184,7 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                               onChangeText={setMemberName}
                               value={memberName}
                               placeholder="Enter user email"
+                              placeholderTextColor="#FFF"
                             />
                             {/* <Text>X</Text> */}
                           </>

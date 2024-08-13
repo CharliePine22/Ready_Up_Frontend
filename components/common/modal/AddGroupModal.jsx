@@ -5,15 +5,16 @@ import {
   TextInput,
   Pressable,
   FlatList,
-} from 'react-native';
-import { useState, useRef, useEffect } from 'react';
-import styles from './addGroupModal.style';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { DUMMYDATA } from '../../dashboard/dummydata';
+  Alert,
+} from "react-native";
+import { useState, useRef, useEffect } from "react";
+import styles from "./addGroupModal.style";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { DUMMYDATA } from "../../dashboard/dummydata";
 
 const AddGroupModal = ({ closeModal, modalStatus }) => {
-  const [groupName, setGroupName] = useState('');
-  const [memberName, setMemberName] = useState('');
+  const [groupName, setGroupName] = useState("");
+  const [memberName, setMemberName] = useState("");
   const [invitingMember, setInvitingMember] = useState(false);
   const [invitedMemberList, setInvitedMemberList] = useState([]);
   const [groupCreationError, setGroupCreationError] = useState(false);
@@ -41,21 +42,29 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
   const sendInvite = () => {
     setInvitedMemberList((previous) => [...previous, memberName]);
     setInvitingMember(false);
-    setMemberName('');
+    setMemberName("");
   };
 
   // Finalize the members and send invites to all emails and create group.
   const createGroup = () => {
     let currentGroups = DUMMYDATA.map((item) => item.groupName);
     if (currentGroups.includes(groupName)) {
-      alert('Group name is already in use.');
+      alert("Group name is already in use.");
+      setGroupCreationError(true);
+      return;
+    } else if (!groupName) {
+      alert("What's your group name again?");
+      setGroupCreationError(true);
+      return;
+    } else if (invitedMemberList.length == 0) {
+      alert("A group involves more than one person...");
       setGroupCreationError(true);
       return;
     } else
       DUMMYDATA.push({
         groupId: DUMMYDATA.length + 1,
         groupName: groupName,
-        members: [],
+        members: ["Cj"],
         groupCount: function () {
           return this.members.length;
         },
@@ -73,10 +82,10 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
         gamesPlayed: {},
         sendInvites: invitedMemberList,
         readyCount: 0,
-        gameChosen: '',
-        recentlyPlayed: '',
-        lastPlayed: '',
-        proposedDate: '',
+        gameChosen: "",
+        recentlyPlayed: "",
+        lastPlayed: "",
+        proposedDate: "",
       });
     closeModal();
   };
@@ -89,11 +98,19 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Alert Title", "My Alert Msg", [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+          Alert.alert("Modal has been closed.");
           closeModal;
         }}
       >
@@ -101,9 +118,9 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
           <View style={styles.modalView}>
             <Pressable onPress={closeModal} style={styles.closeBtn}>
               <MaterialCommunityIcons
-                name='close-box-outline'
+                name="close-box-outline"
                 size={32}
-                color={'white'}
+                color={"white"}
               />
             </Pressable>
             <Text style={styles.modalText}>Create Group</Text>
@@ -133,15 +150,15 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                     >
                       {invitingMember ? (
                         <MaterialCommunityIcons
-                          name='minus-box-outline'
+                          name="minus-box-outline"
                           size={24}
-                          color={'white'}
+                          color={"white"}
                         />
                       ) : (
                         <MaterialCommunityIcons
-                          name='plus-box-outline'
+                          name="plus-box-outline"
                           size={24}
-                          color={'white'}
+                          color={"white"}
                         />
                       )}
                     </Pressable>
@@ -162,13 +179,11 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                         invitingMember ? (
                           <>
                             <TextInput
-                              onKeyPress={({ key }) => {
-                                if (key == 'Enter') sendInvite();
-                              }}
+                              onSubmitEditing={sendInvite}
                               style={styles.groupNameInput}
                               onChangeText={setMemberName}
                               value={memberName}
-                              placeholder='Enter user email'
+                              placeholder="Enter user email"
                             />
                             {/* <Text>X</Text> */}
                           </>
@@ -179,8 +194,8 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                         <View
                           style={{
                             borderBottomWidth: 1,
-                            borderColor: 'white',
-                            borderStyle: 'solid',
+                            borderColor: "white",
+                            borderStyle: "solid",
                           }}
                         >
                           <Text style={styles.memberInvited}>{member}</Text>

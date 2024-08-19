@@ -5,12 +5,13 @@ import {
   FlatList,
   ScrollView,
   TextInput,
-} from "react-native";
-import { useState } from "react";
-import styles from "./groupDetails.style.js";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import CustomModal from "../modal/CustomModal.jsx";
+  ImageBackground,
+} from 'react-native';
+import { useState } from 'react';
+import styles from './groupDetails.style.js';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import CustomModal from '../modal/CustomModal.jsx';
 
 const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
@@ -42,7 +43,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               style={[
                 styles.headerFont,
                 {
-                  color: "white",
+                  color: 'white',
                   paddingHorizontal: 10,
                   lineHeight: 53,
                 },
@@ -63,7 +64,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                     styles.baseFont,
                     {
                       marginVertical: 0,
-                      color: "white",
+                      color: 'white',
                     },
                   ]}
                 >
@@ -82,7 +83,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                 style={[
                   styles.headerFont,
                   {
-                    color: "white",
+                    color: 'white',
                     paddingHorizontal: 10,
                     lineHeight: 53,
                   },
@@ -93,8 +94,26 @@ const GroupDetails = ({ group, closeGroup }) => {
             </View>
             {/* GAME CASE SELECTION */}
             <View style={styles.gameSelectionContainer}>
-              <View style={styles.gameCaseContainer}>
-                <FontAwesome name="question" size={60} color={"white"} />
+              <View
+                style={[
+                  {
+                    padding: chosenGame ? 0 : 5,
+                    borderStyle: chosenGame ? 'solid' : 'dotted',
+                  },
+                  styles.gameCaseContainer,
+                ]}
+              >
+                {!chosenGame ? (
+                  <FontAwesome name='question' size={60} color={'white'} />
+                ) : (
+                  <ImageBackground
+                    style={styles.gameCaseCover}
+                    source={{
+                      uri: chosenGame?.cover,
+                    }}
+                    resizeMode='cover'
+                  />
+                )}
               </View>
               <View style={styles.gameSelectionDetails}>
                 <Text style={styles.gameMessage}>
@@ -106,7 +125,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : "",
+                      pressed ? styles.gameSelectionBtnPressed : '',
                     ]}
                     onPress={() => setOpenGameSelectionScreen(true)}
                   >
@@ -115,7 +134,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : "",
+                      pressed ? styles.gameSelectionBtnPressed : '',
                     ]}
                   >
                     <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>
@@ -142,34 +161,39 @@ const GroupDetails = ({ group, closeGroup }) => {
           {/* GAMES PLAYED LIST */}
           <View style={styles.gamesPlayedListWrapper}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              {Object.entries(group.gamesList)
-                .sort(([, a], [, b]) => b - a)
-                .map(([name, playCount, playTime], idx) => {
-                  return (
-                    <View key={name}>
-                      <Text
-                        style={[
-                          styles.gamesListGameName,
-                          {
-                            color:
-                              idx == 0
-                                ? "gold"
-                                : idx === 1
-                                ? "silver"
-                                : idx === 2
-                                ? "#905923"
-                                : "white",
-                            fontWeight: idx <= 2 && 900,
-                          },
-                        ]}
-                      >
-                        <>
-                          {name}: {playTime + " hours"}
-                        </>
-                      </Text>
-                    </View>
-                  );
-                })}
+              {group.gamesList.length > 0 ? (
+                Object.entries(group.gamesList)
+                  .sort(([, a], [, b]) => b - a)
+                  .reverse()
+                  .map(([position, game], idx) => {
+                    return (
+                      <View key={position}>
+                        <Text
+                          style={[
+                            styles.gamesListGameName,
+                            {
+                              color:
+                                idx == 0
+                                  ? 'gold'
+                                  : idx === 1
+                                  ? 'silver'
+                                  : idx === 2
+                                  ? '#905923'
+                                  : 'white',
+                              fontWeight: idx <= 2 && 900,
+                            },
+                          ]}
+                        >
+                          <>
+                            {game.name}: {game.playTime + ' hours'}
+                          </>
+                        </Text>
+                      </View>
+                    );
+                  })
+              ) : (
+                <Text>Start gaming to begin adding to the groups list!</Text>
+              )}
             </ScrollView>
           </View>
         </View>
@@ -177,9 +201,9 @@ const GroupDetails = ({ group, closeGroup }) => {
         {/* CLOSE GROUP BUTTON */}
         <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
           <MaterialCommunityIcons
-            name="arrow-left-bold-outline"
+            name='arrow-left-bold-outline'
             size={40}
-            color={"white"}
+            color={'white'}
           />
         </Pressable>
       </ScrollView>

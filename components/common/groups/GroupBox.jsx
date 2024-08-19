@@ -1,20 +1,19 @@
-import React from "react";
+import { useState } from 'react';
 import {
   Text,
   View,
   Image,
   TouchableOpacity,
   ImageBackground,
-} from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import styles from "./groupBox.style";
+} from 'react-native';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import styles from './groupBox.style';
 
 const GroupBox = ({ group, openGroup }) => {
+  const [groupTopGame, setGroupTopGame] = useState('');
   // Grab the groups most played game
   const mostPlayedGame = (list) => {
-    console.log(list);
     let games = Object.entries(list);
-    console.log(games);
     // Sort games by hours played and return highest value.
     return games.sort(([, a], [, b]) => b - a)[0][1].name;
   };
@@ -26,9 +25,9 @@ const GroupBox = ({ group, openGroup }) => {
     >
       <ImageBackground
         source={{
-          uri: "https://images.igdb.com/igdb/image/upload/t_1080p/ar5lk.jpg",
+          uri: '//images.igdb.com/igdb/image/upload/t_1080p/ar5lk.jpg',
         }}
-        resizeMode="cover"
+        resizeMode='cover'
         style={styles.groupBannerImage}
       >
         <View
@@ -41,7 +40,7 @@ const GroupBox = ({ group, openGroup }) => {
               },
               shadowOpacity: 0.9,
               shadowRadius: 3,
-              shadowColor: "black",
+              shadowColor: 'black',
             },
           ]}
           onClick={openGroup}
@@ -51,30 +50,32 @@ const GroupBox = ({ group, openGroup }) => {
             {/* How Many users in the group there are */}
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons
-                name="account-group"
+                name='account-group'
                 size={20}
-                color={"white"}
+                color={'white'}
               />
               <Text style={styles.memberCount}>{group.members.length}</Text>
             </View>
             {/* How many users are currently ready */}
-            <View style={styles.memberCountContainer}>
-              <MaterialCommunityIcons
-                name="account-multiple-check"
-                size={23}
-                style={{ marginTop: 2 }}
-                color={"white"}
-              />
-              <Text style={styles.readyCount}>{group.readyCount}</Text>
-            </View>
+            {group.chosenGame && (
+              <View style={styles.memberCountContainer}>
+                <MaterialCommunityIcons
+                  name='account-multiple-check'
+                  size={23}
+                  style={{ marginTop: 2 }}
+                  color={'white'}
+                />
+                <Text style={styles.readyCount}>{group.readyCount}</Text>
+              </View>
+            )}
           </View>
           <View style={styles.lowerSection}>
             <Text
               style={{
-                textAlign: "right",
+                textAlign: 'right',
                 fontSize: 15,
                 marginBottom: 5,
-                color: "white",
+                color: 'white',
               }}
             >
               <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
@@ -82,16 +83,16 @@ const GroupBox = ({ group, openGroup }) => {
             </Text>
             <Text
               style={{
-                textAlign: "right",
+                textAlign: 'right',
                 fontSize: 15,
                 marginBottom: 5,
-                color: "white",
+                color: 'white',
               }}
             >
               <Text style={{ fontWeight: 700 }}>Last Played: </Text>
               {group.lastPlayed}
             </Text>
-            <Text style={{ textAlign: "right", fontSize: 15, color: "white" }}>
+            <Text style={{ textAlign: 'right', fontSize: 15, color: 'white' }}>
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
               {mostPlayedGame(group.gamesList)}
             </Text>

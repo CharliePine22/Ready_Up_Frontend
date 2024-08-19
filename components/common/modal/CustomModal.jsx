@@ -1,7 +1,7 @@
-import { View, Text, Pressable, Modal, ScrollView } from "react-native";
-import { useState } from "react";
-import styles from "./customModal.style.js";
-import DatePicker from "react-native-date-picker";
+import { View, Text, Pressable, Modal, ScrollView } from 'react-native';
+import { useState } from 'react';
+import styles from './customModal.style.js';
+import DatePicker from 'react-native-date-picker';
 
 const CustomModal = ({
   closeModal,
@@ -15,16 +15,16 @@ const CustomModal = ({
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
   const finalizeChoiceHandler = () => {
-    setDateModalOpen(true);
+    closeModal();
   };
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -45,26 +45,26 @@ const CustomModal = ({
               <ScrollView showsVerticalScrollIndicator={false}>
                 {Object.entries(previouslyPlayedGames)
                   .sort(([a], [b]) => b - a)
-                  .map(([gameName, hoursPlayed], idx) => {
+                  .map(([position, game], idx) => {
                     return (
                       <View
-                        key={gameName}
+                        key={game.name}
                         style={{
-                          borderBottomColor: "white",
+                          borderBottomColor: 'white',
                           borderBottomWidth: 2,
-                          borderStyle: "solid",
+                          borderStyle: 'solid',
                         }}
                       >
                         {/* Game Name */}
                         <Pressable
                           style={({ pressed }) => [
-                            gameName == currentlySelectedGame &&
+                            game.name == currentlySelectedGame?.name &&
                               styles.currentSelectedGame,
                           ]}
-                          onPress={() => selectGame(gameName)}
+                          onPress={() => selectGame(game)}
                         >
                           <Text style={[styles.previousGamesListGameName]}>
-                            <>{gameName}</>
+                            <>{game.name}</>
                           </Text>
                         </Pressable>
                       </View>
@@ -74,19 +74,37 @@ const CustomModal = ({
             </View>
             <View style={styles.modalActions}>
               {/* Confirm Button */}
-              <Pressable
-                style={styles.videoGameBtn}
-                onPress={finalizeChoiceHandler}
+              <View
+                style={{
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
-                <Text style={[styles.textStyle, { top: 10 }]}>A</Text>
-              </Pressable>
+                <Pressable
+                  style={styles.videoGameBtn}
+                  onPress={finalizeChoiceHandler}
+                >
+                  <Text style={[styles.textStyle, { top: 10 }]}>A</Text>
+                </Pressable>
+                <Text>Select</Text>
+              </View>
 
               {/* Cancel Button */}
-              <Pressable style={styles.videoGameBtn} onPress={closeModal}>
-                <Text style={[styles.textStyle, { top: 10 }]}>B</Text>
-              </Pressable>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Pressable style={styles.videoGameBtn} onPress={closeModal}>
+                  <Text style={[styles.textStyle, { top: 10 }]}>B</Text>
+                </Pressable>
+                <Text>Back</Text>
+              </View>
             </View>
-            {/* <DatePicker
+            <DatePicker
               modal
               open={dateModalOpen}
               date={date}
@@ -97,7 +115,7 @@ const CustomModal = ({
               onCancel={() => {
                 setDateModalOpen(false);
               }}
-            /> */}
+            />
           </View>
         </View>
       </Modal>

@@ -1,7 +1,7 @@
-import { View, Text, Pressable, Modal, ScrollView } from 'react-native';
-import { useState } from 'react';
-import styles from './customModal.style.js';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { View, Text, Pressable, Modal, ScrollView } from "react-native";
+import { useState } from "react";
+import styles from "./customModal.style.js";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const CustomModal = ({
   closeModal,
@@ -9,22 +9,23 @@ const CustomModal = ({
   previouslyPlayedGames,
   selectGame,
   currentlySelectedGame,
+  selectDate,
 }) => {
-  const [date, setDate] = useState(new Date());
   const [dateModalOpen, setDateModalOpen] = useState(false);
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
   const finalizeChoiceHandler = () => {
-    closeModal();
+    setDateModalOpen(true);
+    // closeModal();
   };
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           closeModal;
         }}
       >
@@ -50,9 +51,9 @@ const CustomModal = ({
                       <View
                         key={game.name}
                         style={{
-                          borderBottomColor: 'white',
+                          borderBottomColor: "white",
                           borderBottomWidth: 2,
-                          borderStyle: 'solid',
+                          borderStyle: "solid",
                         }}
                       >
                         {/* Game Name */}
@@ -76,9 +77,9 @@ const CustomModal = ({
               {/* Confirm Button */}
               <View
                 style={{
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <Pressable
@@ -93,9 +94,9 @@ const CustomModal = ({
               {/* Cancel Button */}
               <View
                 style={{
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <Pressable style={styles.videoGameBtn} onPress={closeModal}>
@@ -105,12 +106,14 @@ const CustomModal = ({
               </View>
             </View>
 
+            {/* Date Time Picker that appears after selecting game */}
             <DateTimePickerModal
               isVisible={dateModalOpen}
-              mode='date'
+              mode="datetime"
               onConfirm={(date) => {
                 setDateModalOpen(false);
-                setDate(new Date(date));
+                selectDate(date);
+                closeModal();
               }}
               onCancel={() => {
                 setDateModalOpen(false);

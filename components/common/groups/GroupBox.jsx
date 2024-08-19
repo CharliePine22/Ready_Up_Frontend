@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Text,
   View,
   Image,
   TouchableOpacity,
   ImageBackground,
-} from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import styles from './groupBox.style';
+} from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import styles from "./groupBox.style";
 
 const GroupBox = ({ group, openGroup }) => {
-  const [groupTopGame, setGroupTopGame] = useState('');
+  const [groupTopGame, setGroupTopGame] = useState("");
   // Grab the groups most played game
   const mostPlayedGame = (list) => {
     let games = Object.entries(list);
@@ -25,9 +25,9 @@ const GroupBox = ({ group, openGroup }) => {
     >
       <ImageBackground
         source={{
-          uri: '//images.igdb.com/igdb/image/upload/t_1080p/ar5lk.jpg',
+          uri: "https://images.igdb.com/igdb/image/upload/t_1080p/ar5lk.jpg",
         }}
-        resizeMode='cover'
+        resizeMode="cover"
         style={styles.groupBannerImage}
       >
         <View
@@ -40,7 +40,7 @@ const GroupBox = ({ group, openGroup }) => {
               },
               shadowOpacity: 0.9,
               shadowRadius: 3,
-              shadowColor: 'black',
+              shadowColor: "black",
             },
           ]}
           onClick={openGroup}
@@ -50,9 +50,9 @@ const GroupBox = ({ group, openGroup }) => {
             {/* How Many users in the group there are */}
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons
-                name='account-group'
+                name="account-group"
                 size={20}
-                color={'white'}
+                color={"white"}
               />
               <Text style={styles.memberCount}>{group.members.length}</Text>
             </View>
@@ -60,10 +60,10 @@ const GroupBox = ({ group, openGroup }) => {
             {group.chosenGame && (
               <View style={styles.memberCountContainer}>
                 <MaterialCommunityIcons
-                  name='account-multiple-check'
+                  name="account-multiple-check"
                   size={23}
                   style={{ marginTop: 2 }}
-                  color={'white'}
+                  color={"white"}
                 />
                 <Text style={styles.readyCount}>{group.readyCount}</Text>
               </View>
@@ -72,27 +72,16 @@ const GroupBox = ({ group, openGroup }) => {
           <View style={styles.lowerSection}>
             <Text
               style={{
-                textAlign: 'right',
+                textAlign: "right",
                 fontSize: 15,
                 marginBottom: 5,
-                color: 'white',
+                color: "white",
               }}
             >
               <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
-              {group.recentlyPlayed}
+              {group.recentlyPlayed || "Hey"}
             </Text>
-            <Text
-              style={{
-                textAlign: 'right',
-                fontSize: 15,
-                marginBottom: 5,
-                color: 'white',
-              }}
-            >
-              <Text style={{ fontWeight: 700 }}>Last Played: </Text>
-              {group.lastPlayed}
-            </Text>
-            <Text style={{ textAlign: 'right', fontSize: 15, color: 'white' }}>
+            <Text style={{ textAlign: "right", fontSize: 15, color: "white" }}>
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
               {mostPlayedGame(group.gamesList)}
             </Text>

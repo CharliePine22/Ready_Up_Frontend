@@ -29,7 +29,7 @@ const GroupDetails = ({ group, closeGroup }) => {
           setOpenGameSelectionScreen(false);
           setChosenGame(null);
         }}
-        previouslyPlayedGames={group.gamesPlayed}
+        previouslyPlayedGames={group.gamesList}
         selectGame={(game) => setChosenGame(game)}
         currentlySelectedGame={chosenGame}
       />
@@ -142,11 +142,11 @@ const GroupDetails = ({ group, closeGroup }) => {
           {/* GAMES PLAYED LIST */}
           <View style={styles.gamesPlayedListWrapper}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              {Object.entries(group.gamesPlayed)
+              {Object.entries(group.gamesList)
                 .sort(([, a], [, b]) => b - a)
-                .map(([gameName, hoursPlayed], idx) => {
+                .map(([name, playCount, playTime], idx) => {
                   return (
-                    <View key={gameName}>
+                    <View key={name}>
                       <Text
                         style={[
                           styles.gamesListGameName,
@@ -164,7 +164,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                         ]}
                       >
                         <>
-                          {gameName}: {hoursPlayed + " hours"}
+                          {name}: {playTime + " hours"}
                         </>
                       </Text>
                     </View>

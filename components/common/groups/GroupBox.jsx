@@ -10,6 +10,15 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import styles from "./groupBox.style";
 
 const GroupBox = ({ group, openGroup }) => {
+  // Grab the groups most played game
+  const mostPlayedGame = (list) => {
+    console.log(list);
+    let games = Object.entries(list);
+    console.log(games);
+    // Sort games by hours played and return highest value.
+    return games.sort(([, a], [, b]) => b - a)[0][1].name;
+  };
+
   return (
     <TouchableOpacity
       style={{ marginTop: 15, marginBottom: 10 }}
@@ -46,7 +55,7 @@ const GroupBox = ({ group, openGroup }) => {
                 size={20}
                 color={"white"}
               />
-              <Text style={styles.memberCount}>{group.groupCount()}</Text>
+              <Text style={styles.memberCount}>{group.members.length}</Text>
             </View>
             {/* How many users are currently ready */}
             <View style={styles.memberCountContainer}>
@@ -84,7 +93,7 @@ const GroupBox = ({ group, openGroup }) => {
             </Text>
             <Text style={{ textAlign: "right", fontSize: 15, color: "white" }}>
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
-              {group.mostPlayedGame()}
+              {mostPlayedGame(group.gamesList)}
             </Text>
           </View>
         </View>

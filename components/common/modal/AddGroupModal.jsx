@@ -11,6 +11,8 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./addGroupModal.style";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { DUMMYDATA } from "../../dashboard/dummydata";
+import app from "../../../firebaseConfig";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const AddGroupModal = ({ closeModal, modalStatus }) => {
   const [groupName, setGroupName] = useState("");
@@ -20,12 +22,10 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
   const [groupCreationError, setGroupCreationError] = useState(false);
   const memberListRef = useRef();
 
-  // [
-  //   'megamannv10@aol.com',
-  //   'jbrice468@gmail.com',
-  //   'jessicachilek@gmail.com',
-  //   'tamborinet@yahoo.com',
-  // ]
+  const db = getFirestore(app);
+  const addNewGroupHandler = async () => {
+    const docRef = await addDoc(collection(db, "Groups"));
+  };
 
   // Listen to see if user is addding a new member and jump to the bottom or top of the list.
   useEffect(() => {
@@ -65,26 +65,13 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
         groupId: DUMMYDATA.length + 1,
         groupName: groupName,
         members: ["Cj"],
-        groupCount: function () {
-          return this.members.length;
-        },
-        chooseRandomGame: function () {
-          let games = Object.keys(this.gamesPlayed);
-          if (games.length == 0) return;
-          return games[(games.length * Math.random()) << 0];
-        },
-        mostPlayedGame: function () {
-          let games = Object.entries(this.gamesPlayed);
-          if (games.length == 0) return;
-          // Sort games by hours played and return highest value
-          return games.sort(([, a], [, b]) => b - a)[0][0];
-        },
-        gamesPlayed: {},
+        groupCount: this.members.length,
+        gamesList: {},
         sendInvites: invitedMemberList,
         readyCount: 0,
-        gameChosen: "",
-        recentlyPlayed: "",
-        lastPlayed: "",
+        gameChosen: "N/A",
+        recentlyPlayed: "N/A",
+        lastPlayed: "N/A",
         proposedDate: "",
       });
     closeModal();

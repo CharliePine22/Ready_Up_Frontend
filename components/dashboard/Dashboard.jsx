@@ -1,21 +1,36 @@
-import { View, Text, Pressable, FlatList, DatePickerIOS } from 'react-native';
-import styles from './dashboard.style';
-import { useState, useEffect } from 'react';
-import { Stack } from 'expo-router';
-import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
-import GroupBox from '../common/groups/GroupBox';
-import { icons, images } from '../../constants';
-import GroupDetails from '../common/groups/GroupDetails';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { DUMMYDATA } from './dummydata';
-import AddGroupModal from '../common/modal/AddGroupModal';
+import { View, Text, Pressable, FlatList, DatePickerIOS } from "react-native";
+import styles from "./dashboard.style";
+import { useState, useEffect } from "react";
+import { Stack } from "expo-router";
+import ScreenHeaderBtn from "../common/header/ScreenHeaderBtn";
+import GroupBox from "../common/groups/GroupBox";
+import { icons, images } from "../../constants";
+import GroupDetails from "../common/groups/GroupDetails";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+// import { DUMMYDATA } from "./dummydata";
+import AddGroupModal from "../common/modal/AddGroupModal";
+import { getFirestore, getDocs, collection } from "firebase/firestore";
+import { app } from "../../firebaseConfig";
 
 const Dashboard = ({ signInAuthentication }) => {
-  const [currentGroup, setCurrentGroup] = useState('');
+  const db = getFirestore(app);
+  const [currentGroup, setCurrentGroup] = useState("");
   const [openAddGroup, setOpenAddGroup] = useState(false);
-  const [allTopGames, setAllTopGames] = useState('');
-  const [allGroups, setAllGroups] = useState(DUMMYDATA);
+  const [allTopGames, setAllTopGames] = useState("");
+  const [allGroups, setAllGroups] = useState([]);
   let groupTopGames = [];
+
+  useEffect(() => {
+    fetchUserGroups();
+  }, []);
+
+  const fetchUserGroups = async () => {
+    const groupQuerySnapshot = await getDocs(collection(db, "Groups"));
+    groupQuerySnapshot.forEach((doc) => {
+      // console.log(doc.data());
+      setAllGroups((group) => [...group, doc.data()]);
+    });
+  };
 
   const grabTopGames = (groups) => {
     let groupTopGames = [];
@@ -25,15 +40,15 @@ const Dashboard = ({ signInAuthentication }) => {
     // setGroupsMostPlayed(groupTopGames);
   };
 
-  useEffect(() => {
-    if (allGroups.length == 0) {
-      setAllGroups(DUMMYDATA);
-      return;
-    }
-    for (const group of allGroups) {
-      groupTopGames.push(group.mostPlayedGame());
-    }
-  }, [allGroups]);
+  // useEffect(() => {
+  //   if (allGroups.length == 0) {
+  //     setAllGroups(DUMMYDATA);
+  //     return;
+  //   }
+  //   for (const group of allGroups) {
+  //     groupTopGames.push(group.mostPlayedGame());
+  //   }
+  // }, [allGroups]);
 
   // const getTopGamesBanner = async () => {
   //   try {
@@ -45,6 +60,7 @@ const Dashboard = ({ signInAuthentication }) => {
   //   }
   // };
 
+  console.log(allGroups);
   return (
     <View style={styles.dashWrapper}>
       {currentGroup && (
@@ -62,8 +78,8 @@ const Dashboard = ({ signInAuthentication }) => {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: 'white',
-            shadowColor: 'red',
+            backgroundColor: "white",
+            shadowColor: "red",
             shadowOpacity: 0.7,
             shadowRadius: 3,
             shadowOffset: {
@@ -74,7 +90,7 @@ const Dashboard = ({ signInAuthentication }) => {
           headerShadowVisible: true,
           headerShown: true,
           headerLeft: () => (
-            <ScreenHeaderBtn iconUrl={images.roxas} dimension='100%' />
+            <ScreenHeaderBtn iconUrl={images.roxas} dimension="100%" />
           ),
           headerRight: () => (
             <View style={styles.headerRight}>
@@ -83,15 +99,15 @@ const Dashboard = ({ signInAuthentication }) => {
                 style={({ pressed }) => [
                   styles.addGroupBtn,
                   {
-                    backgroundColor: pressed ? 'lightgrey' : 'white',
+                    backgroundColor: pressed ? "lightgrey" : "white",
                   },
                 ]}
               >
-                <MaterialIcons name='group-add' size={20} color={'black'} />
+                <MaterialIcons name="group-add" size={20} color={"black"} />
               </Pressable>
             </View>
           ),
-          headerTitle: 'Ready Up',
+          headerTitle: "Ready Up",
           headerTitleContainerStyle: { paddingHorizontal: 5 },
         }}
       />

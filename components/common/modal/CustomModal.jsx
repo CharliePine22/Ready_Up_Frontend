@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Modal, ScrollView } from 'react-native';
 import { useState } from 'react';
 import styles from './customModal.style.js';
-import DatePicker from 'react-native-date-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const CustomModal = ({
   closeModal,
@@ -104,10 +104,10 @@ const CustomModal = ({
                 <Text>Back</Text>
               </View>
             </View>
-            <DatePicker
-              modal
-              open={dateModalOpen}
-              date={date}
+
+            <DateTimePickerModal
+              isVisible={dateModalOpen}
+              mode='date'
               onConfirm={(date) => {
                 setDateModalOpen(false);
                 setDate(new Date(date));

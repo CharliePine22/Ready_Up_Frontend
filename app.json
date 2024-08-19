@@ -11,13 +11,16 @@
         {
           "fonts": [
             "assets/fonts/DMSans-Bold.ttf",
-            "assets/fonts/pkdark.ttf",
+            "assets/fonts/pdark.ttf",
             "assets/fonts/GaliverSans.ttf"
           ]
         }
       ]
     ],
     "name": "Ready Up",
-    "slug": "Ready-Up"
+    "slug": "Ready-Up",
+    "android": {
+      "package": "com.anonymous.ReadyUp"
+    }
   }
 }

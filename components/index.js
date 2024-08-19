@@ -8,7 +8,4 @@ import Signin from './home/signin/Signin';
 // Dashboard (Signed In) Screen
 import Dashboard from './dashboard/Dashboard';
 
-// common
-import NearbyJobCard from './common/cards/nearby/NearbyJobCard';
-
-export { Dashboard, ScreenHeaderBtn, Welcome, Signin, Signup, NearbyJobCard };
+export { Dashboard, ScreenHeaderBtn, Welcome, Signin, Signup };

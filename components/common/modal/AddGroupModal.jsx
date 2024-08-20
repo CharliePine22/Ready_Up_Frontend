@@ -24,7 +24,18 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
 
   const db = getFirestore(app);
   const addNewGroupHandler = async () => {
-    const docRef = await addDoc(collection(db, "Groups"));
+    const docRef = await addDoc(collection(db, "Groups"), {
+      groupName: groupName,
+      members: ["Cj"],
+      groupCount: 1,
+      gamesList: {},
+      sendInvites: invitedMemberList,
+      readyCount: 0,
+      gameChosen: "N/A",
+      recentlyPlayed: "N/A",
+      lastPlayed: "N/A",
+      proposedDate: "",
+    });
   };
 
   // Listen to see if user is addding a new member and jump to the bottom or top of the list.
@@ -65,7 +76,7 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
         groupId: DUMMYDATA.length + 1,
         groupName: groupName,
         members: ["Cj"],
-        groupCount: this.members.length,
+        groupCount: 1,
         gamesList: {},
         sendInvites: invitedMemberList,
         readyCount: 0,
@@ -186,7 +197,18 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                             borderStyle: "solid",
                           }}
                         >
-                          <Text style={styles.memberInvited}>{member}</Text>
+                          <Text style={styles.memberInvited}>
+                            {member + " "}
+                            <Text
+                              style={{
+                                fontStyle: "italic",
+                                fontSize: 14,
+                                color: "lightgrey",
+                              }}
+                            >
+                              (Pending)
+                            </Text>
+                          </Text>
                         </View>
                       )}
                     />

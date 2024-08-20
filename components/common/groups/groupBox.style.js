@@ -4,26 +4,31 @@ import { FONT, SIZES, COLORS } from "../../../constants";
 const styles = StyleSheet.create({
   groupBoxWrapper: {
     display: "flex",
+    justifyContent: "space-between",
     width: "100%",
-    paddingHorizontal: 8,
+    paddingHorizontal: 15,
     paddingVertical: 10,
     borderColor: "white",
     borderStyle: "solid",
     borderWidth: 2,
-    boxShadow: "0px 3px 3px rgba(0,0,0,.6)",
+    height: 185,
   },
   groupBannerImage: {
     flex: 1,
     justifyContent: "center",
-    // height: 100,
-    // width: 500,
     height: "100%",
     width: "100%",
   },
   groupName: {
-    fontSize: 30,
+    fontSize: 40,
     fontFamily: FONT.regular,
     color: COLORS.white,
+    textShadowColor: "black",
+    textShadowOffset: {
+      height: 6,
+      width: 6,
+    },
+    textShadowRadius: 3,
   },
   innerGroupBox: {
     flexDirection: "row",

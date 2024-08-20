@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     top: 12,
   },
   gameCaseContainer: {
-    height: 250,
+    height: 275,
     backgroundColor: "rgba(0,0,0,.4)",
-    width: 165,
+    width: 175,
     justifyContent: "center",
     borderColor: COLORS.white,
     borderWidth: 2,

@@ -1,17 +1,17 @@
-import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import googleIcon from '../../../assets/icons/google.png';
-import discordIcon from '../../../assets/icons/discord.png';
-
-import styles from './signin.style';
+import { useState, useContext } from "react";
+import { View, Text, TextInput, Button, Pressable, Image } from "react-native";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import googleIcon from "../../../assets/icons/google.png";
+import discordIcon from "../../../assets/icons/discord.png";
+import styles from "./signin.style";
 
 const Signin = ({ signInAuthentication, createNewAccount }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-
+  const auth = getAuth();
   // const { signIn } = useContext(AuthContext);
 
   const signInHandler = (email, password) => {
@@ -19,7 +19,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
     let passwordErrorFlag = false;
 
     // Email Error Flag
-    if (!email || !email.includes('@') || email.split().length == 0) {
+    if (!email || !email.includes("@") || email.split().length == 0) {
       emailErrorFlag = true;
       setEmailError(true);
     }
@@ -55,8 +55,8 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
       {/* Email Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          id='email'
-          placeholder='EMAIL'
+          id="email"
+          placeholder="EMAIL"
           value={email}
           onChangeText={setEmail}
           style={
@@ -65,12 +65,12 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
               : { ...styles.textInput, ...styles.errorInput }
           }
           placeholderStyle={styles.textInput}
-          placeholderTextColor='white'
+          placeholderTextColor="white"
         />
         <MaterialCommunityIcons
-          name='email'
+          name="email"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -78,8 +78,8 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
       {/* Password Input */}
       <View style={styles.inputContainer}>
         <TextInput
-          id='password'
-          placeholder='PASSWORD'
+          id="password"
+          placeholder="PASSWORD"
           value={password}
           onChangeText={setPassword}
           style={
@@ -87,13 +87,13 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
               ? { ...styles.textInput }
               : { ...styles.textInput, ...styles.errorInput }
           }
-          placeholderTextColor='white'
+          placeholderTextColor="white"
           secureTextEntry
         />
         <MaterialCommunityIcons
-          name='key-variant'
+          name="key-variant"
           size={24}
-          color='white'
+          color="white"
           style={styles.inputIcon}
         />
       </View>
@@ -105,6 +105,8 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
         >
           <Text style={styles.loginText}>LOGIN</Text>
         </Pressable>
+
+        {/* Discord and Facebook Signin Options */}
         <View style={styles.loginAltsContainer}>
           <Text style={styles.loginActionsText}>
             <Text style={styles.loginActionsTextInner}>Or Sign In With</Text>
@@ -117,19 +119,25 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
             <Image source={discordIcon} style={styles.loginAltIcon} />
           </Pressable>
         </View>
+
+        {/* Signup Text Option */}
         <Text style={styles.createAccountText}>
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Pressable
-            style={{ padding: 0, alignItems: 'center' }}
+            style={{
+              padding: 0,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
             onPress={createNewAccount}
           >
             <Text
               style={{
                 fontWeight: 900,
-                color: 'white',
+                color: "white",
                 includeFontPadding: false,
-                verticalAlign: 'middle',
-                alignItems: 'center',
+                verticalAlign: "middle",
+                alignItems: "center",
               }}
             >
               Sign Up

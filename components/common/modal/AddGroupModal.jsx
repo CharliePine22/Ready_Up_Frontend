@@ -29,7 +29,7 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
       members: ["Cj"],
       groupCount: 1,
       gamesList: {},
-      sendInvites: invitedMemberList,
+      sentInvites: invitedMemberList,
       readyCount: 0,
       gameChosen: "N/A",
       recentlyPlayed: "N/A",

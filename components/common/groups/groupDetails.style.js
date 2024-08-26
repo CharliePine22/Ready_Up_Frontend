@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     maxWidth: "53%",
     justifyContent: "space-around",
-    // paddingVertical: 10,
   },
   gameSelectionHeader: {
     alignItems: "center",
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   groupDetailsWrapper: {
-    backgroundColor: "#36454F",
+    backgroundColor: "rgb(32, 57, 73)",
     position: "absolute",
     top: 3,
     height: "100%",

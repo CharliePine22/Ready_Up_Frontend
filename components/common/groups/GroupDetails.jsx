@@ -197,7 +197,6 @@ const GroupDetails = ({ group, closeGroup }) => {
                     source={{
                       uri: chosenGame?.cover,
                     }}
-                    resizeMode="cover"
                   />
                 )}
               </View>

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     display: "flex",
     width: "100%",
     height: "100%",
-    backgroundColor: "#36454F",
+    backgroundColor: "#203949",
   },
   groupListContainer: {
     height: "100%",
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   mainContainer: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     flex: 1,
   },
 });

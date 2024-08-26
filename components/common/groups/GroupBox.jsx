@@ -11,6 +11,7 @@ import styles from "./groupBox.style";
 
 const GroupBox = ({ group, openGroup }) => {
   const [groupTopGame, setGroupTopGame] = useState("");
+  console.log(group);
   // Grab the groups most played game
   const mostPlayedGame = (list) => {
     let games = Object.entries(list);
@@ -25,10 +26,11 @@ const GroupBox = ({ group, openGroup }) => {
     >
       <ImageBackground
         source={{
-          uri: "https://images.igdb.com/igdb/image/upload/t_1080p/ar5lk.jpg",
+          uri: group.previouslyPlayed.banner,
         }}
         resizeMode="cover"
         style={styles.groupBannerImage}
+        imageStyle={{ opacity: 0.6 }}
       >
         <View
           style={[
@@ -36,10 +38,10 @@ const GroupBox = ({ group, openGroup }) => {
             {
               shadowOffset: {
                 width: 0,
-                height: 3,
+                height: 7,
               },
-              shadowOpacity: 0.9,
-              shadowRadius: 3,
+              // shadowOpacity: 0.7,
+              shadowRadius: 7,
               shadowColor: "black",
             },
           ]}
@@ -51,7 +53,7 @@ const GroupBox = ({ group, openGroup }) => {
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons
                 name="account-group"
-                size={20}
+                size={28}
                 color={"white"}
               />
               <Text style={styles.memberCount}>{group.members.length}</Text>
@@ -73,15 +75,15 @@ const GroupBox = ({ group, openGroup }) => {
             <Text
               style={{
                 textAlign: "right",
-                fontSize: 15,
+                fontSize: 18,
                 marginBottom: 5,
                 color: "white",
               }}
             >
               <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
-              {group.recentlyPlayed || "Hey"}
+              {group.previouslyPlayed.name}
             </Text>
-            <Text style={{ textAlign: "right", fontSize: 15, color: "white" }}>
+            <Text style={{ textAlign: "right", fontSize: 18, color: "white" }}>
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
               {mostPlayedGame(group.gamesList)}
             </Text>

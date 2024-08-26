@@ -1,39 +1,39 @@
-import { StyleSheet } from 'react-native';
-import { COLORS, FONT } from '../../../constants';
+import { StyleSheet } from "react-native";
+import { COLORS, FONT } from "../../../constants";
 
 const styles = StyleSheet.create({
   addMemberBtn: {
-    position: 'absolute',
+    position: "absolute",
     top: -34,
     left: 67,
   },
   buttonClose: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   centeredView: {
     flex: 1,
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, .5)',
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, .5)",
   },
   closeBtn: {
-    position: 'absolute',
+    position: "absolute",
     top: 8,
     right: 8,
   },
   emptyListContainer: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 5,
   },
   emptyListText: {
     color: COLORS.white,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
   },
   formTextHeader: {
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   groupFormContainer: {
-    width: '100%',
-    paddingHorizontal: 10,
+    width: "100%",
+    // paddingHorizontal: 10,
   },
   groupFormWrapper: {
     marginTop: 10,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   groupNameInput: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 2,
     borderColor: COLORS.white,
     color: COLORS.white,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   groupNameInputError: {
-    borderColor: 'red',
+    borderColor: "red",
   },
   memberInvited: {
     color: COLORS.white,
@@ -71,21 +71,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   memberListContainer: {
-    backgroundColor: 'black',
-    height: 150,
+    backgroundColor: "black",
+    height: 250,
     // width: '100%',
   },
   modalActions: {
     marginTop: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    width: '100%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: "100%",
   },
   modalText: {
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.white,
     fontSize: 30,
     fontFamily: FONT.videogame,
@@ -93,15 +93,15 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'rgb(69, 73, 78)',
+    backgroundColor: "rgb(69, 73, 78)",
     borderRadius: 5,
-    borderColor: 'white',
-    bordedrStyle: 'solid',
+    borderColor: "white",
+    bordedrStyle: "solid",
     borderWidth: 2,
     paddingVertical: 50,
     paddingHorizontal: 25,
-    alignItems: 'center',
-    shadowColor: 'black',
+    alignItems: "center",
+    shadowColor: "black",
     shadowOffset: {
       width: 0,
       height: 7,
@@ -109,19 +109,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: '88%',
+    width: "88%",
     maxWidth: 500,
   },
   videoGameBtn: {
     lineHeight: 16,
     height: 40,
-    textAlign: 'center',
-    display: 'inline-block',
+    textAlign: "center",
+    display: "inline-block",
     width: 40,
     borderRadius: 100,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     margin: 5,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     paddingLeft: 5,
   },
 });

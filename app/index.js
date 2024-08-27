@@ -45,7 +45,7 @@ const WelcomePage = () => {
   return isSignedIn ? (
     <SafeAreaView
       onLayout={onLayoutRootView}
-      style={{ flex: 1, height: '100%', backgroundColor: '#36454F' }}
+      style={{ flex: 1, height: '100%', backgroundColor: '#203949' }}
     >
       <Dashboard signInAuthentication={signInAuthentication} />
     </SafeAreaView>

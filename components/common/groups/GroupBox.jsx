@@ -21,7 +21,18 @@ const GroupBox = ({ group, openGroup }) => {
 
   return (
     <TouchableOpacity
-      style={{ marginTop: 15, marginBottom: 10 }}
+      style={{
+        marginTop: 15,
+        marginBottom: 10,
+
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3,
+        shadowColor: "black",
+      }}
       onPress={openGroup}
     >
       <ImageBackground
@@ -32,21 +43,7 @@ const GroupBox = ({ group, openGroup }) => {
         style={styles.groupBannerImage}
         imageStyle={{ opacity: 0.6 }}
       >
-        <View
-          style={[
-            styles.groupBoxWrapper,
-            {
-              shadowOffset: {
-                width: 0,
-                height: 7,
-              },
-              // shadowOpacity: 0.7,
-              shadowRadius: 7,
-              shadowColor: "black",
-            },
-          ]}
-          onClick={openGroup}
-        >
+        <View style={styles.groupBoxWrapper} onClick={openGroup}>
           <View style={styles.innerGroupBox}>
             <Text style={styles.groupName}>{group.groupName}</Text>
             {/* How Many users in the group there are */}
@@ -77,13 +74,31 @@ const GroupBox = ({ group, openGroup }) => {
                 textAlign: "right",
                 fontSize: 18,
                 marginBottom: 5,
+                textShadowColor: "black",
+                textShadowOffset: {
+                  height: 3,
+                  width: 2,
+                },
+                textShadowRadius: 2,
                 color: "white",
               }}
             >
               <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
               {group.previouslyPlayed.name}
             </Text>
-            <Text style={{ textAlign: "right", fontSize: 18, color: "white" }}>
+            <Text
+              style={{
+                textAlign: "right",
+                fontSize: 18,
+                color: "white",
+                textShadowColor: "black",
+                textShadowOffset: {
+                  height: 3,
+                  width: 2,
+                },
+                textShadowRadius: 2,
+              }}
+            >
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
               {mostPlayedGame(group.gamesList)}
             </Text>

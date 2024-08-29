@@ -5,10 +5,11 @@ import {
   Modal,
   ScrollView,
   TextInput,
-} from "react-native";
-import { useState, useEffect } from "react";
-import styles from "./customModal.style.js";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './customModal.style.js';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 // Rename to Game Picker Modal
 const CustomModal = ({
@@ -20,28 +21,27 @@ const CustomModal = ({
   selectDate,
 }) => {
   const [dateModalOpen, setDateModalOpen] = useState(false);
-  const [gameName, setGameName] = useState("");
+  const [gameName, setGameName] = useState('');
   const [searchingGame, setSearchingGame] = useState(false);
 
-  const searchGame = async (gameName) => {
-    const headers = {
-      "Client-ID": "6f6lb21y9766gzprefym4vq4elgsib",
-      Authorization: `Bearer bvswmi203j2v3gpjx2jtqv77qmk7fb`,
-    };
+  const searchGame = async () => {
+    const twitchToken = `bvswmi203j2v3gpjx2jtqv77qmk7fb`;
     try {
-      const response = await fetch("https://api.igdb.com/v4/games", {
-        method: "POST",
-        headers: headers,
-        body: `fields *, cover.*, artworks.*; where name = "${gameName}"* & platforms != (34)`,
-      });
-      const json = await response.json();
-      console.log(json);
+      const request = await axios.post(
+        `http://localhost:3001/igdb/get_game_cover`,
+        {
+          token: twitchToken,
+          gameName: gameName,
+        }
+      );
+      const json = await request.data;
+      console.log(request);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
-    if (gameName !== "") setSearchingGame(true);
+    if (gameName !== '') setSearchingGame(true);
   }, [gameName]);
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
@@ -52,11 +52,11 @@ const CustomModal = ({
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -90,9 +90,9 @@ const CustomModal = ({
                       <View
                         key={game.name}
                         style={{
-                          borderBottomColor: "white",
+                          borderBottomColor: 'white',
                           borderBottomWidth: 2,
-                          borderStyle: "solid",
+                          borderStyle: 'solid',
                         }}
                       >
                         {/* Game Name */}
@@ -116,9 +116,9 @@ const CustomModal = ({
               {/* Confirm Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable
@@ -133,9 +133,9 @@ const CustomModal = ({
               {/* Cancel Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable style={styles.videoGameBtn} onPress={closeModal}>
@@ -148,7 +148,7 @@ const CustomModal = ({
             {/* Date Time Picker that appears after selecting game */}
             <DateTimePickerModal
               isVisible={dateModalOpen}
-              mode="datetime"
+              mode='datetime'
               onConfirm={(date) => {
                 setDateModalOpen(false);
                 selectDate(date);

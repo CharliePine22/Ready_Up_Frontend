@@ -45,7 +45,7 @@ const GroupBox = ({ group, openGroup }) => {
       >
         <View style={styles.groupBoxWrapper} onClick={openGroup}>
           <View style={styles.innerGroupBox}>
-            <Text style={styles.groupName}>{group.groupName}</Text>
+            <Text style={styles.groupName}>{group.groupName + " "}</Text>
             {/* How Many users in the group there are */}
             <View style={styles.memberCountContainer}>
               <MaterialCommunityIcons

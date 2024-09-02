@@ -6,10 +6,10 @@ import {
   ScrollView,
   FlatList,
   TextInput,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import styles from './editGroupModal.style';
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import styles from "./editGroupModal.style";
 
 const EditGroupModal = ({ modalStatus, closeModal, group }) => {
   const memberListRef = useRef();
@@ -24,21 +24,22 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
+          Alert.alert("Modal has been closed.");
           closeModal;
         }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            {/* Close Modal Button */}
             <Pressable style={styles.closeModalBtn} onPress={closeModal}>
               <MaterialCommunityIcons
-                name='close-box-outline'
+                name="close-box-outline"
                 size={32}
-                color={'white'}
+                color={"white"}
               />
             </Pressable>
             {/* Start of Group Settings Details */}
@@ -50,6 +51,7 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
                 <FlatList
                   ref={memberListRef}
                   data={currentMembers}
+                  style={styles.memberList}
                   // ListFooterComponent={
                   //   invitingMember ? (
                   //     <>
@@ -66,22 +68,24 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
                   //   ) : null
                   // }
                   extraData={invitedMemberList}
-                  renderItem={({ item: member }) => (
+                  renderItem={({ item: member, index: position }) => (
                     <View
+                      key={member}
                       style={{
-                        borderBottomWidth: 1,
-                        borderColor: 'white',
-                        borderStyle: 'solid',
+                        borderBottomWidth:
+                          position !== currentMembers.length - 1 && 1,
+                        borderColor: "white",
+                        borderStyle: "solid",
                       }}
                     >
-                      <Text style={styles.memberInvited}>
-                        {member + ' '}
-                        {member.includes('@') && (
+                      <Text style={styles.memberName}>
+                        {member + " "}
+                        {member.includes("@") && (
                           <Text
                             style={{
-                              fontStyle: 'italic',
+                              fontStyle: "italic",
                               fontSize: 14,
-                              color: 'lightgrey',
+                              color: "lightgrey",
                             }}
                           >
                             (Pending)

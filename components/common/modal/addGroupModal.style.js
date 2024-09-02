@@ -12,8 +12,9 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
+    top: 0,
     position: "absolute",
-    height: "100%",
+    height: "105%",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",

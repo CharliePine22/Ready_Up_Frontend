@@ -1,21 +1,21 @@
-import { View, Text, Pressable, FlatList } from 'react-native';
-import styles from './dashboard.style';
-import { useState, useEffect } from 'react';
-import { Stack } from 'expo-router';
-import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
-import GroupBox from '../common/groups/GroupBox';
-import { icons, images } from '../../constants';
-import GroupDetails from '../common/groups/GroupDetails';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AddGroupModal from '../common/modal/AddGroupModal';
-import { getFirestore, getDocs, collection } from 'firebase/firestore';
-import { app } from '../../firebaseConfig';
+import { View, Text, Pressable, FlatList } from "react-native";
+import styles from "./dashboard.style";
+import { useState, useEffect } from "react";
+import { Stack } from "expo-router";
+import ScreenHeaderBtn from "../common/header/ScreenHeaderBtn";
+import GroupBox from "../common/groups/GroupBox";
+import { icons, images } from "../../constants";
+import GroupDetails from "../common/groups/GroupDetails";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AddGroupModal from "../common/modal/AddGroupModal";
+import { getFirestore, getDocs, collection } from "firebase/firestore";
+import { app } from "../../firebaseConfig";
 
 const Dashboard = ({ signInAuthentication }) => {
   const db = getFirestore(app);
-  const [currentGroup, setCurrentGroup] = useState('');
+  const [currentGroup, setCurrentGroup] = useState("");
   const [openAddGroup, setOpenAddGroup] = useState(false);
-  const [allTopGames, setAllTopGames] = useState('');
+  const [allTopGames, setAllTopGames] = useState("");
   const [allGroups, setAllGroups] = useState([]);
   let groupTopGames = [];
 
@@ -24,7 +24,7 @@ const Dashboard = ({ signInAuthentication }) => {
   }, []);
 
   const fetchUserGroups = async () => {
-    const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
+    const groupQuerySnapshot = await getDocs(collection(db, "Groups"));
     groupQuerySnapshot.forEach((doc) => {
       setAllGroups((group) => [...group, doc.data()]);
     });
@@ -70,8 +70,8 @@ const Dashboard = ({ signInAuthentication }) => {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: 'white',
-            shadowColor: 'red',
+            backgroundColor: "white",
+            shadowColor: "red",
             shadowOpacity: 0.7,
             shadowRadius: 3,
             shadowOffset: {
@@ -82,7 +82,7 @@ const Dashboard = ({ signInAuthentication }) => {
           headerShadowVisible: true,
           headerShown: !currentGroup,
           headerLeft: () => (
-            <ScreenHeaderBtn iconUrl={images.roxas} dimension='100%' />
+            <ScreenHeaderBtn iconUrl={images.roxas} dimension="100%" />
           ),
           headerRight: () => (
             <View style={styles.headerRight}>
@@ -91,15 +91,15 @@ const Dashboard = ({ signInAuthentication }) => {
                 style={({ pressed }) => [
                   styles.addGroupBtn,
                   {
-                    backgroundColor: pressed ? 'lightgrey' : 'white',
+                    backgroundColor: pressed ? "lightgrey" : "white",
                   },
                 ]}
               >
-                <MaterialIcons name='group-add' size={20} color={'black'} />
+                <MaterialIcons name="group-add" size={20} color={"black"} />
               </Pressable>
             </View>
           ),
-          headerTitle: 'Ready Up',
+          headerTitle: "Ready Up",
           headerTitleContainerStyle: { paddingHorizontal: 5 },
         }}
       />

@@ -13,12 +13,14 @@ import styles from './groupDetails.style.js';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CustomModal from '../modal/CustomModal.jsx';
+import EditGroupModal from '../modal/EditGroupModal.jsx';
 
 const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
   const [dateTimeSettings, setDateTimeSettings] = useState({});
   const [date, setDate] = useState(new Date());
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
+  const [editingGroup, setEditingGroup] = useState(false);
   const slideAnim = useRef(new Animated.Value(1000)).current;
 
   useEffect(() => {
@@ -135,6 +137,16 @@ const GroupDetails = ({ group, closeGroup }) => {
           convertDateTime(date);
         }}
       />
+
+      {/* EDIT GROUP MODAL */}
+      <EditGroupModal
+        modalStatus={editingGroup}
+        closeModal={() => {
+          setEditingGroup(false);
+        }}
+        group={group}
+      />
+
       {/* CLOSE GROUP BUTTON */}
       <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
         <MaterialCommunityIcons
@@ -143,6 +155,16 @@ const GroupDetails = ({ group, closeGroup }) => {
           color={'white'}
         />
       </Pressable>
+
+      {/* EDIT GROUP SETTINGS BUTTON */}
+      <Pressable
+        onPress={() => setEditingGroup(true)}
+        style={styles.editGroupBtn}
+      >
+        <MaterialCommunityIcons name='cog' size={40} color={'white'} />
+      </Pressable>
+
+      {/* Group Details Wrapper */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.groupHeader}>
           <Text style={styles.groupName}>{group.groupName}</Text>

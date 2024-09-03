@@ -5,11 +5,13 @@ import {
   Modal,
   ScrollView,
   TextInput,
-} from "react-native";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import styles from "./customModal.style.js";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './customModal.style.js';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useCheckToken from '../../../hooks/useCheckToken.js';
 
 // Rename to Game Picker Modal
 const CustomModal = ({
@@ -21,29 +23,38 @@ const CustomModal = ({
   selectDate,
 }) => {
   const [dateModalOpen, setDateModalOpen] = useState(false);
-  const [gameName, setGameName] = useState("");
+  const [gameName, setGameName] = useState('');
   const [searchingGame, setSearchingGame] = useState(false);
+  const { token, awaitToken, generateNewToken } = useCheckToken();
 
+  // Search IGDB Api Database for game case cover
   const searchGame = async () => {
-    const twitchToken = `bvswmi203j2v3gpjx2jtqv77qmk7fb`;
     try {
       const request = await axios.post(
         `http://localhost:3001/igdb/get_game_cover`,
         {
-          token: twitchToken,
+          token: token,
           gameName: gameName,
         }
       );
-      const json = await request.data;
-      console.log(json);
+      const response = await request.data;
+      console.log(response);
+      // Since api doesnt return an error code, if it returns 3 tips,
+      // It means the token has expired
+      if (response['Tip 3']) {
+        throw new Error('Token expiration');
+      }
     } catch (error) {
-      console.log("WHOOPS");
-
-      console.log(error);
+      if (error == 'Error: Token expiration') generateNewToken();
     }
   };
+
   useEffect(() => {
-    if (gameName !== "") setSearchingGame(true);
+    awaitToken();
+  }, []);
+
+  useEffect(() => {
+    if (gameName !== '') setSearchingGame(true);
   }, [gameName]);
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
@@ -54,11 +65,11 @@ const CustomModal = ({
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -92,9 +103,9 @@ const CustomModal = ({
                       <View
                         key={game.name}
                         style={{
-                          borderBottomColor: "white",
+                          borderBottomColor: 'white',
                           borderBottomWidth: 2,
-                          borderStyle: "solid",
+                          borderStyle: 'solid',
                         }}
                       >
                         {/* Game Name */}
@@ -118,9 +129,9 @@ const CustomModal = ({
               {/* Confirm Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable
@@ -135,9 +146,9 @@ const CustomModal = ({
               {/* Cancel Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable style={styles.videoGameBtn} onPress={closeModal}>
@@ -150,7 +161,7 @@ const CustomModal = ({
             {/* Date Time Picker that appears after selecting game */}
             <DateTimePickerModal
               isVisible={dateModalOpen}
-              mode="datetime"
+              mode='datetime'
               onConfirm={(date) => {
                 setDateModalOpen(false);
                 selectDate(date);

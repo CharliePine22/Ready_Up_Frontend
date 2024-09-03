@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 6,
     alignItems: "center",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowRadius: 7,
+    shadowColor: "black",
   },
   gameCaseCover: {
     flex: 1,

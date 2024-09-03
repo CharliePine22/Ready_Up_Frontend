@@ -7,13 +7,13 @@ import {
   TextInput,
   ImageBackground,
   Animated,
-} from 'react-native';
-import { useState, useEffect, useRef } from 'react';
-import styles from './groupDetails.style.js';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import CustomModal from '../modal/CustomModal.jsx';
-import EditGroupModal from '../modal/EditGroupModal.jsx';
+} from "react-native";
+import { useState, useEffect, useRef } from "react";
+import styles from "./groupDetails.style.js";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import GamePickerModal from "../modal/GamePickerModal.jsx";
+import EditGroupModal from "../modal/EditGroupModal.jsx";
 
 const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
@@ -21,6 +21,7 @@ const GroupDetails = ({ group, closeGroup }) => {
   const [date, setDate] = useState(new Date());
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
   const [editingGroup, setEditingGroup] = useState(false);
+  // Animations
   const slideAnim = useRef(new Animated.Value(1000)).current;
 
   useEffect(() => {
@@ -35,34 +36,34 @@ const GroupDetails = ({ group, closeGroup }) => {
   const convertDateTime = (date) => {
     let humanTime = date.getDate();
     console.log(
-      'Day of Month:' + date.getDate(),
-      'Hour' + date.getHours(),
-      'Minute' + date.getMinutes()
+      "Day of Month:" + date.getDate(),
+      "Hour" + date.getHours(),
+      "Minute" + date.getMinutes()
     );
 
     // Get numbered day of the week and convert it to English day of the week
     let weekday = date.getDay();
     switch (weekday) {
       case 0:
-        weekday = 'Sunday';
+        weekday = "Sunday";
         break;
       case 1:
-        weekday = 'Monday';
+        weekday = "Monday";
         break;
       case 2:
-        weekday = 'Tuesday';
+        weekday = "Tuesday";
         break;
       case 3:
-        weekday = 'Wednesday';
+        weekday = "Wednesday";
         break;
       case 4:
-        weekday = 'Thursday';
+        weekday = "Thursday";
         break;
       case 5:
-        weekday = 'Friday';
+        weekday = "Friday";
         break;
       case 6:
-        weekday = 'Saturday';
+        weekday = "Saturday";
         break;
     }
 
@@ -70,40 +71,40 @@ const GroupDetails = ({ group, closeGroup }) => {
     let currentMonth = date.getMonth();
     switch (currentMonth) {
       case 0:
-        currentMonth = 'January';
+        currentMonth = "January";
         break;
       case 1:
-        currentMonth = 'February';
+        currentMonth = "February";
         break;
       case 2:
-        currentMonth = 'March';
+        currentMonth = "March";
         break;
       case 3:
-        currentMonth = 'April';
+        currentMonth = "April";
         break;
       case 4:
-        currentMonth = 'May';
+        currentMonth = "May";
         break;
       case 5:
-        currentMonth = 'June';
+        currentMonth = "June";
         break;
       case 6:
-        currentMonth = 'July';
+        currentMonth = "July";
         break;
       case 7:
-        currentMonth = 'August';
+        currentMonth = "August";
         break;
       case 8:
-        currentMonth = 'September';
+        currentMonth = "September";
         break;
       case 9:
-        currentMonth = 'October';
+        currentMonth = "October";
         break;
       case 10:
-        currentMonth = 'November';
+        currentMonth = "November";
         break;
       case 11:
-        currentMonth = 'December';
+        currentMonth = "December";
         break;
     }
     console.log(weekday);
@@ -120,7 +121,7 @@ const GroupDetails = ({ group, closeGroup }) => {
       }}
     >
       {/* Game Picker Modal */}
-      <CustomModal
+      <GamePickerModal
         modalStatus={openGameSelectionScreen}
         closeModal={() => {
           setOpenGameSelectionScreen(false);
@@ -150,9 +151,9 @@ const GroupDetails = ({ group, closeGroup }) => {
       {/* CLOSE GROUP BUTTON */}
       <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
         <MaterialCommunityIcons
-          name='arrow-left-bold-outline'
+          name="arrow-left-bold-outline"
           size={40}
-          color={'white'}
+          color={"white"}
         />
       </Pressable>
 
@@ -161,7 +162,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         onPress={() => setEditingGroup(true)}
         style={styles.editGroupBtn}
       >
-        <MaterialCommunityIcons name='cog' size={40} color={'white'} />
+        <MaterialCommunityIcons name="cog" size={40} color={"white"} />
       </Pressable>
 
       {/* Group Details Wrapper */}
@@ -174,7 +175,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               style={[
                 styles.headerFont,
                 {
-                  color: 'white',
+                  color: "white",
                   paddingHorizontal: 10,
                   lineHeight: 53,
                 },
@@ -195,7 +196,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                     styles.baseFont,
                     {
                       marginVertical: 0,
-                      color: 'white',
+                      color: "white",
                     },
                   ]}
                 >
@@ -214,7 +215,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                 style={[
                   styles.headerFont,
                   {
-                    color: 'white',
+                    color: "white",
                     paddingHorizontal: 10,
                     lineHeight: 53,
                   },
@@ -229,13 +230,13 @@ const GroupDetails = ({ group, closeGroup }) => {
                 style={[
                   {
                     padding: chosenGame ? 0 : 5,
-                    borderStyle: chosenGame ? 'solid' : 'dotted',
+                    borderStyle: chosenGame ? "solid" : "dotted",
                   },
                   styles.gameCaseContainer,
                 ]}
               >
                 {!chosenGame ? (
-                  <FontAwesome name='question' size={60} color={'white'} />
+                  <FontAwesome name="question" size={60} color={"white"} />
                 ) : (
                   <ImageBackground
                     style={styles.gameCaseCover}
@@ -255,7 +256,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : '',
+                      pressed ? styles.gameSelectionBtnPressed : "",
                     ]}
                     onPress={() => setOpenGameSelectionScreen(true)}
                   >
@@ -264,7 +265,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                   <Pressable
                     style={({ pressed }) => [
                       styles.gameSelectionBtn,
-                      pressed ? styles.gameSelectionBtnPressed : '',
+                      pressed ? styles.gameSelectionBtnPressed : "",
                     ]}
                   >
                     <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>
@@ -304,18 +305,18 @@ const GroupDetails = ({ group, closeGroup }) => {
                             {
                               color:
                                 idx == 0
-                                  ? 'gold'
+                                  ? "gold"
                                   : idx === 1
-                                  ? 'silver'
+                                  ? "silver"
                                   : idx === 2
-                                  ? '#905923'
-                                  : 'white',
+                                  ? "#905923"
+                                  : "white",
                               fontWeight: idx <= 2 && 900,
                             },
                           ]}
                         >
                           <>
-                            {game.name}: {game.playTime + ' hours'}
+                            {game.name}: {game.playTime + " hours"}
                           </>
                         </Text>
                       </View>

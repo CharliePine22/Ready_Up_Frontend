@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   memberCount: {
     fontSize: FONT.large,

@@ -5,13 +5,14 @@ import {
   Modal,
   ScrollView,
   TextInput,
-} from "react-native";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import styles from "./gamePickerModal.style.js";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import useCheckToken from "../../../hooks/useCheckToken.js";
-import SearchResults from "../game/SearchResults.jsx";
+  Platform,
+} from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './gamePickerModal.style.js';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import useCheckToken from '../../../hooks/useCheckToken.js';
+import SearchResults from '../game/SearchResults.jsx';
 
 // Rename to Game Picker Modal
 const GamePickerModal = ({
@@ -24,7 +25,7 @@ const GamePickerModal = ({
 }) => {
   // State Variables
   const [dateModalOpen, setDateModalOpen] = useState(false);
-  const [gameName, setGameName] = useState("");
+  const [gameName, setGameName] = useState('');
   const [previousGame, setPreviousGame] = useState(null);
   const [searchingGame, setSearchingGame] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,10 @@ const GamePickerModal = ({
   const { token, awaitToken, generateNewToken } = useCheckToken();
 
   const groupGameList = Object.entries(previouslyPlayedGames);
+  let backendUrl =
+    Platform.OS === 'web'
+      ? 'http://localhost:3001'
+      : 'https://ready-up-backend.onrender.com';
 
   /**
    * Search IGDB Api Database for game case cover
@@ -42,22 +47,18 @@ const GamePickerModal = ({
     if (gameName == previousGame) return;
     setLoading(true);
     try {
-      console.log("Sending request to IGDB API with game name:", gameName);
+      console.log('Sending request to IGDB API with game name:', gameName);
       // Send a POST request to the IGDB API
-      const request = await axios.post(
-        `http://localhost:3001/igdb/get_game_cover`,
-        {
-          // Pass the token and game name to the request
-          token: token,
-          gameName: gameName,
-        }
-      );
+      const request = await axios.post(`${backendUrl}/igdb/get_game_cover`, {
+        // Pass the token and game name to the request
+        token: token,
+        gameName: gameName,
+      });
       const response = await request.data;
-      console.log("IGDB API response:", response);
       // IGDB API returns an error code as a string, if it returns "Tip 3"
       // It means the token has expired
-      if (response["Tip 3"]) {
-        throw new Error("Token expiration");
+      if (response['Tip 3']) {
+        throw new Error('Token expiration');
       } else {
         setPreviousGame(gameName);
         setSearchResults(response);
@@ -65,8 +66,8 @@ const GamePickerModal = ({
     } catch (error) {
       // If there is an error, and the error is "Token expiration"
       // Call the generateNewToken function to get a new token
-      if (error == "Error: Token expiration") {
-        console.log("Error: Token expiration");
+      if (error == 'Error: Token expiration') {
+        console.log('Error: Token expiration');
         generateNewToken();
       }
     } finally {
@@ -80,8 +81,7 @@ const GamePickerModal = ({
   }, []);
 
   useEffect(() => {
-    if (gameName !== "") setSearchingGame(true);
-    console.log(loading);
+    if (gameName !== '') setSearchingGame(true);
     // searchGame(gameName);
   }, [gameName]);
 
@@ -93,11 +93,11 @@ const GamePickerModal = ({
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -125,7 +125,7 @@ const GamePickerModal = ({
             >
               <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
               >
                 {/* If the user has begun searching for a game not already in group list */}
                 {/* Display search results */}
@@ -137,10 +137,10 @@ const GamePickerModal = ({
                         <View
                           key={game.name}
                           style={{
-                            borderBottomColor: "white",
+                            borderBottomColor: 'white',
                             borderBottomWidth:
                               idx == groupGameList.length - 1 ? 0 : 2,
-                            borderStyle: "solid",
+                            borderStyle: 'solid',
                           }}
                         >
                           {/* Game Name */}
@@ -172,9 +172,9 @@ const GamePickerModal = ({
               {/* Confirm Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable
@@ -189,9 +189,9 @@ const GamePickerModal = ({
               {/* Cancel Button */}
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Pressable style={styles.videoGameBtn} onPress={closeModal}>
@@ -204,7 +204,7 @@ const GamePickerModal = ({
             {/* Date Time Picker that appears after selecting game */}
             <DateTimePickerModal
               isVisible={dateModalOpen}
-              mode="datetime"
+              mode='datetime'
               onConfirm={(date) => {
                 setDateModalOpen(false);
                 selectDate(date);

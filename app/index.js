@@ -6,7 +6,6 @@ import { Dashboard, Welcome } from '../components';
 import welcomePageBackground from '../assets/images/ready-up-home-page-wallpaper.png';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {

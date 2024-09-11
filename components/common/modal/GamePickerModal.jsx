@@ -44,7 +44,7 @@ const GamePickerModal = ({
    * Search IGDB Api Database for game case cover
    */
   const searchGame = async () => {
-    if (gameName == previousGame) return;
+    if (gameName == previousGame || gameName == '') return;
     setLoading(true);
     try {
       console.log('Sending request to IGDB API with game name:', gameName);
@@ -55,6 +55,7 @@ const GamePickerModal = ({
         gameName: gameName,
       });
       const response = await request.data;
+      console.log(response);
       // IGDB API returns an error code as a string, if it returns "Tip 3"
       // It means the token has expired
       if (response['Tip 3']) {
@@ -82,6 +83,7 @@ const GamePickerModal = ({
 
   useEffect(() => {
     if (gameName !== '') setSearchingGame(true);
+    else setSearchingGame(false);
     // searchGame(gameName);
   }, [gameName]);
 
@@ -130,34 +132,39 @@ const GamePickerModal = ({
                 {/* If the user has begun searching for a game not already in group list */}
                 {/* Display search results */}
                 {!searchingGame ? (
-                  groupGameList
-                    .sort(([a], [b]) => b - a)
-                    .map(([position, game], idx) => {
-                      return (
-                        <View
-                          key={game.name}
-                          style={{
-                            borderBottomColor: 'white',
-                            borderBottomWidth:
-                              idx == groupGameList.length - 1 ? 0 : 2,
-                            borderStyle: 'solid',
-                          }}
-                        >
-                          {/* Game Name */}
-                          <Pressable
-                            style={({ pressed }) => [
-                              game.name == currentlySelectedGame?.name &&
-                                styles.currentSelectedGame,
-                            ]}
-                            onPress={() => selectGame(game)}
+                  <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ height: '100%' }}
+                  >
+                    {groupGameList
+                      .sort(([a], [b]) => b - a)
+                      .map(([position, game], idx) => {
+                        return (
+                          <View
+                            key={game.name}
+                            style={{
+                              borderBottomColor: 'white',
+                              borderBottomWidth:
+                                idx == groupGameList.length - 1 ? 0 : 2,
+                              borderStyle: 'solid',
+                            }}
                           >
-                            <Text style={[styles.previousGamesListGameName]}>
-                              <>{game.name}</>
-                            </Text>
-                          </Pressable>
-                        </View>
-                      );
-                    })
+                            {/* Game Name */}
+                            <Pressable
+                              style={({ pressed }) => [
+                                game.name == currentlySelectedGame?.name &&
+                                  styles.currentSelectedGame,
+                              ]}
+                              onPress={() => selectGame(game)}
+                            >
+                              <Text style={[styles.previousGamesListGameName]}>
+                                <>{game.name}</>
+                              </Text>
+                            </Pressable>
+                          </View>
+                        );
+                      })}
+                  </ScrollView>
                 ) : (
                   // Game Search Results
                   <SearchResults

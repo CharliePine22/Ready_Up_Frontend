@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     lineHeight: 25,
   },
   previousGamesList: {
-    height: 250,
+    height: 300,
     // height: 232,
     width: '100%',
     backgroundColor: 'black',

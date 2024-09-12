@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT.header,
     fontWeight: 500,
     letterSpacing: 0.6,
+    marginTop: 10,
   },
   genreItem: {
     height: '100%',
@@ -32,19 +33,33 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginRight: 10,
   },
+  multiplayerIcon: {
+    color: COLORS.white,
+    marginRight: 4,
+  },
   multiplayerModes: {
     display: 'flex',
     flexDirection: 'column',
+    position: 'absolute',
+    justifyContent: 'space-evenly',
+    height: 45,
+    top: 5,
+    right: 10,
+  },
+  multiplayerModeText: {
+    color: COLORS.white,
+    fontSize: 12,
   },
   searchedItemGameInfo: {
     height: '100%',
-    justifyContent: 'center',
-    marginLeft: 10,
+    justifyContent: 'flex-start',
+    marginLeft: 5,
+    paddingRight: 30,
     flex: 1,
   },
   searchResultsItemCover: {
     height: '100%',
-    width: 70,
+    width: 80,
     zIndex: 2,
   },
   searchResultsWrapper: {

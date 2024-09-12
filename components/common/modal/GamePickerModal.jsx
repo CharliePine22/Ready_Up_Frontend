@@ -33,7 +33,6 @@ const GamePickerModal = ({
 
   // Custom Hooks
   const { token, awaitToken, generateNewToken } = useCheckToken();
-
   const groupGameList = Object.entries(previouslyPlayedGames);
   let backendUrl =
     Platform.OS === 'web'
@@ -81,9 +80,13 @@ const GamePickerModal = ({
     awaitToken();
   }, []);
 
+  // Display search results when user begins typing to attemt to smart match
   useEffect(() => {
     if (gameName !== '') setSearchingGame(true);
-    else setSearchingGame(false);
+    else {
+      setSearchResults([]);
+      setSearchingGame(false);
+    }
     // searchGame(gameName);
   }, [gameName]);
 
@@ -171,6 +174,7 @@ const GamePickerModal = ({
                     game={gameName}
                     loading={loading}
                     searchResults={searchResults}
+                    selectGame={selectGame}
                   />
                 )}
               </ScrollView>
@@ -201,7 +205,13 @@ const GamePickerModal = ({
                   alignItems: 'center',
                 }}
               >
-                <Pressable style={styles.videoGameBtn} onPress={closeModal}>
+                <Pressable
+                  style={styles.videoGameBtn}
+                  onPress={() => {
+                    setGameName('');
+                    closeModal();
+                  }}
+                >
                   <Text style={[styles.textStyle, { top: 10 }]}>B</Text>
                 </Pressable>
                 <Text>Back</Text>

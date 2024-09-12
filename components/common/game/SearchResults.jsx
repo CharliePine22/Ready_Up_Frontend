@@ -10,14 +10,15 @@ import {
 import React from 'react';
 import styles from './searchResults.style';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-const SearchResults = ({ game, searchResults, loading }) => {
-  // console.log(searchResults);
-
+const SearchResults = ({ game, searchResults, loading, selectGame }) => {
   const shortenGenreNames = (genre) => {
     switch (genre) {
       case 'Role-playing (RPG)':
         return 'RPG';
+      case 'Real Time Strategy (RTS)':
+        return 'RTS';
       case "Hack and slash/Beat 'em up":
         return 'Hack/Slash';
       case 'Turn-based strategy (TBS)':
@@ -40,7 +41,7 @@ const SearchResults = ({ game, searchResults, loading }) => {
         <View style={styles.searchResultsContainer}>
           <ScrollView>
             {searchResults.map((game) => (
-              <Pressable key={game.id}>
+              <Pressable key={game.id} onPress={() => selectGame(game)}>
                 <View style={styles.searchResultItem}>
                   <Image
                     resizeMode={'cover'}
@@ -53,7 +54,7 @@ const SearchResults = ({ game, searchResults, loading }) => {
                   <View style={styles.searchedItemGameInfo}>
                     <Text style={styles.gameName}>
                       {game.name}
-                      {game.websites.category == 13 && (
+                      {game?.websites?.category == 13 && (
                         <Pressable>
                           <MaterialCommunityIcons
                             style={styles.steamIcon}
@@ -76,21 +77,51 @@ const SearchResults = ({ game, searchResults, loading }) => {
                       </View>
                     </View>
                     {/* GAME MULTIPLAYER MODES */}
-                    {game?.multiplayer_modes &&
-                      game.multiplayer_modes[0]?.onlinecoop && (
-                        <View style={styles.multiplayerModes}>
-                          <Text style={{ color: 'white' }}>
-                            Campaign Coop:{' '}
+                    {game?.multiplayer_modes && (
+                      <View style={styles.multiplayerModes}>
+                        {/* Campaign Coop? */}
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <FontAwesome6
+                            style={styles.multiplayerIcon}
+                            name='people-carry-box'
+                            size={14}
+                            color={'white'}
+                          />
+                          <Text style={styles.multiplayerModeText}>
+                            :{' '}
                             {game.multiplayer_modes[0].campaigncoop
                               ? 'Yes'
                               : 'No'}
                           </Text>
-                          <Text style={{ color: 'white' }}>
-                            Max Players:{' '}
-                            {game.multiplayer_modes[0].onlinecoopmax}
+                        </View>
+
+                        {/* Max Players */}
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <FontAwesome6
+                            style={styles.multiplayerIcon}
+                            name='people-group'
+                            size={14}
+                            color={'white'}
+                          />
+                          <Text style={styles.multiplayerModeText}>
+                            :{' '}
+                            {game.multiplayer_modes[0].onlinecoopmax
+                              ? game.multiplayer_modes[0].onlinecoopmax
+                              : game.multiplayer_modes[0].offlinecoopmax}
                           </Text>
                         </View>
-                      )}
+                      </View>
+                    )}
                   </View>
                 </View>
               </Pressable>

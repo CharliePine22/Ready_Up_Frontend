@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   searchedItemGameInfo: {
     height: '100%',
     justifyContent: 'flex-start',
-    marginLeft: 5,
+    marginLeft: 7,
     paddingRight: 30,
     flex: 1,
   },

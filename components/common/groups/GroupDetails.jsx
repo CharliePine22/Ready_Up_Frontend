@@ -16,14 +16,17 @@ import GamePickerModal from '../modal/GamePickerModal.jsx';
 import EditGroupModal from '../modal/EditGroupModal.jsx';
 
 const GroupDetails = ({ group, closeGroup }) => {
+  // Game States
+  const [beginVoting, setBeginVoting] = useState(false);
   const [chosenGame, setChosenGame] = useState(null);
-  const [dateTimeSettings, setDateTimeSettings] = useState({});
-  const [date, setDate] = useState(new Date());
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
+  const [gamesToVote, setGamesToVote] = useState([]);
+  // Date States
+  const [date, setDate] = useState(new Date());
+  const [dateTimeSettings, setDateTimeSettings] = useState({});
   const [editingGroup, setEditingGroup] = useState(false);
   // Animations
   const slideAnim = useRef(new Animated.Value(1000)).current;
-
   useEffect(() => {
     Animated.timing(slideAnim, {
       toValue: 0,
@@ -136,6 +139,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         selectDate={(date) => {
           setDate(new Date(date));
           convertDateTime(date);
+          setBeginVoting(true);
         }}
       />
 

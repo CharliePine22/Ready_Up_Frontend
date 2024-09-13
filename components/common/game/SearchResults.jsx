@@ -29,6 +29,15 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
         return genre;
     }
   };
+
+  const determineMultiplayer = (game) => {
+    if (!game.multiplayer_modes) return '2+';
+    else {
+      if (game.multiplayer_modes[0]?.onlinecoopmax)
+        return game.multiplayer_modes[0]?.onlinecoopmax;
+      else return game.multiplayer_modes[0]?.offlinecoopmax;
+    }
+  };
   return (
     <View style={styles.searchResultsWrapper}>
       {loading ? (
@@ -77,28 +86,31 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
                       </View>
                     </View>
                     {/* GAME MULTIPLAYER MODES */}
-                    {game?.multiplayer_modes && (
+                    {game?.game_modes.some((item) => item.id === 2) == true && (
                       <View style={styles.multiplayerModes}>
                         {/* Campaign Coop? */}
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <FontAwesome6
-                            style={styles.multiplayerIcon}
-                            name='people-carry-box'
-                            size={14}
-                            color={'white'}
-                          />
-                          <Text style={styles.multiplayerModeText}>
-                            :{' '}
-                            {game.multiplayer_modes[0].campaigncoop
-                              ? 'Yes'
-                              : 'No'}
-                          </Text>
-                        </View>
+                        {game.multiplayer_modes &&
+                          game?.multiplayer_modes[0]?.campaigncoop && (
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <FontAwesome6
+                                style={styles.multiplayerIcon}
+                                name='people-carry-box'
+                                size={14}
+                                color={'white'}
+                              />
+                              <Text style={styles.multiplayerModeText}>
+                                :{' '}
+                                {game?.multiplayer_modes[0]?.campaigncoop
+                                  ? 'Yes'
+                                  : 'No'}
+                              </Text>
+                            </View>
+                          )}
 
                         {/* Max Players */}
                         <View
@@ -114,10 +126,7 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
                             color={'white'}
                           />
                           <Text style={styles.multiplayerModeText}>
-                            :{' '}
-                            {game.multiplayer_modes[0].onlinecoopmax
-                              ? game.multiplayer_modes[0].onlinecoopmax
-                              : game.multiplayer_modes[0].offlinecoopmax}
+                            : {determineMultiplayer(game)}
                           </Text>
                         </View>
                       </View>

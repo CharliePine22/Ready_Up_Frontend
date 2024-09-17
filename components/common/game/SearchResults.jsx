@@ -6,54 +6,90 @@ import {
   Image,
   ScrollView,
   Pressable,
-} from 'react-native';
-import React from 'react';
-import styles from './searchResults.style';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+} from "react-native";
+import React from "react";
+import styles from "./searchResults.style";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-const SearchResults = ({ game, searchResults, loading, selectGame }) => {
+const SearchResults = ({
+  game,
+  searchResults,
+  loading,
+  selectGame,
+  currentGame,
+}) => {
+  /**
+   * Shorten the given genre name to a more concise representation.
+   * @param {String} genre - The genre name to shorten.
+   * @returns {String} The shortened genre name.
+   */
   const shortenGenreNames = (genre) => {
+    // Switch on the genre name and return a shortened version if applicable.
     switch (genre) {
-      case 'Role-playing (RPG)':
-        return 'RPG';
-      case 'Real Time Strategy (RTS)':
-        return 'RTS';
+      // Role-playing (RPG) -> RPG
+      case "Role-playing (RPG)":
+        return "RPG";
+      // Real Time Strategy (RTS) -> RTS
+      case "Real Time Strategy (RTS)":
+        return "RTS";
+      // Hack and slash/Beat 'em up -> Hack/Slash
       case "Hack and slash/Beat 'em up":
-        return 'Hack/Slash';
-      case 'Turn-based strategy (TBS)':
+        return "Hack/Slash";
+      // Turn-based strategy (TBS) is not shortened.
+      case "Turn-based strategy (TBS)":
         break;
-      case 'Card & Board Game':
-        return 'Cards';
+      // Card & Board Game -> Cards
+      case "Card & Board Game":
+        return "Cards";
+      // Default to the original genre name if no shortening is applicable.
       default:
         return genre;
     }
   };
 
+  /**
+   * Determine the multiplayer mode of a game, given its game object from the IGDB API.
+   * If the game has no given multiplayer modes, return "2+".
+   * If the game has online co-op, return the online co-op max.
+   * If the game has offline co-op, return the offline co-op max.
+   * @param {Object} game - The game object from the IGDB API.
+   * @returns {String} The multiplayer mode of the game.
+   */
   const determineMultiplayer = (game) => {
-    if (!game.multiplayer_modes) return '2+';
+    if (!game.multiplayer_modes) return "2+";
     else {
       if (game.multiplayer_modes[0]?.onlinecoopmax)
         return game.multiplayer_modes[0]?.onlinecoopmax;
-      else return game.multiplayer_modes[0]?.offlinecoopmax;
+      else if (game.multiplayer_modes[0]?.offlinecoopmax)
+        return game.multiplayer_modes[0]?.offlinecoopmax;
+      else return game.multiplayer_modes[0]?.offlinemax;
     }
   };
   return (
     <View style={styles.searchResultsWrapper}>
       {loading ? (
         <ActivityIndicator
-          style={{ marginVertical: 'auto' }}
-          size='large'
-          color='#FFF'
+          style={{ marginVertical: "auto" }}
+          size="large"
+          color="#FFF"
         />
       ) : (
         <View style={styles.searchResultsContainer}>
           <ScrollView>
             {searchResults.map((game) => (
               <Pressable key={game.id} onPress={() => selectGame(game)}>
-                <View style={styles.searchResultItem}>
+                <View
+                  style={[
+                    styles.searchResultItem,
+                    {
+                      backgroundColor:
+                        currentGame?.name == game.name ? "green" : "black",
+                    },
+                  ]}
+                >
                   <Image
-                    resizeMode={'cover'}
+                    resizeMode={"cover"}
                     style={styles.searchResultsItemCover}
                     source={{
                       uri: `https://images.igdb.com/igdb/image/upload/t_1080p/${game.cover.image_id}.jpg`,
@@ -67,15 +103,15 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
                         <Pressable>
                           <MaterialCommunityIcons
                             style={styles.steamIcon}
-                            name='steam'
+                            name="steam"
                             size={20}
-                            color={'#66c0f4'}
+                            color={"#66c0f4"}
                           />
                         </Pressable>
                       )}
                     </Text>
 
-                    {/* Genre Info */}
+                    {/* GENRE INFO */}
                     <View style={styles.genreInfo}>
                       <View style={styles.genreList}>
                         {game.genres.map((genre) => (
@@ -85,6 +121,7 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
                         ))}
                       </View>
                     </View>
+
                     {/* GAME MULTIPLAYER MODES */}
                     {game?.game_modes.some((item) => item.id === 2) == true && (
                       <View style={styles.multiplayerModes}>
@@ -93,37 +130,38 @@ const SearchResults = ({ game, searchResults, loading, selectGame }) => {
                           game?.multiplayer_modes[0]?.campaigncoop && (
                             <View
                               style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
+                                flexDirection: "row",
+                                alignItems: "center",
                               }}
                             >
                               <FontAwesome6
                                 style={styles.multiplayerIcon}
-                                name='people-carry-box'
+                                name="people-carry-box"
                                 size={14}
-                                color={'white'}
+                                color={"white"}
                               />
                               <Text style={styles.multiplayerModeText}>
-                                :{' '}
+                                :{" "}
                                 {game?.multiplayer_modes[0]?.campaigncoop
-                                  ? 'Yes'
-                                  : 'No'}
+                                  ? "Yes"
+                                  : "No"}
                               </Text>
+                              <Text>|</Text>
                             </View>
                           )}
 
                         {/* Max Players */}
                         <View
                           style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
+                            flexDirection: "row",
+                            alignItems: "center",
                           }}
                         >
                           <FontAwesome6
                             style={styles.multiplayerIcon}
-                            name='people-group'
+                            name="people-group"
                             size={14}
-                            color={'white'}
+                            color={"white"}
                           />
                           <Text style={styles.multiplayerModeText}>
                             : {determineMultiplayer(game)}

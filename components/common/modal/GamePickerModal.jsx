@@ -46,7 +46,6 @@ const GamePickerModal = ({
    */
   const searchGame = async () => {
     if (gameName == previousGame || gameName == '') return;
-    setSearchingGame(true);
     setLoading(true);
     try {
       console.log('Sending request to IGDB API with game name:', gameName);
@@ -56,6 +55,7 @@ const GamePickerModal = ({
         token: token,
         gameName: gameName,
       });
+      console.log(request);
       const response = await request.data;
       console.log(response);
       // IGDB API returns an error code as a string, if it returns "Tip 3"
@@ -85,17 +85,8 @@ const GamePickerModal = ({
 
   // Display search results when user begins typing to attemt to smart match
   useEffect(() => {
-    if (gameName !== '') {
-      previouslyPlayedGames.length > 0 &&
-        setGroupGamesList(
-          Object.entries(previouslyPlayedGames).filter((game) => {
-            return (
-              game[1]?.name.slice(0, gameName.length).toLowerCase() ==
-              gameName.toLowerCase()
-            );
-          })
-        );
-    } else {
+    if (gameName !== '') setSearchingGame(true);
+    else {
       setSearchResults([]);
       setSearchingGame(false);
       setGroupGamesList(Object.entries(previouslyPlayedGames));
@@ -190,7 +181,7 @@ const GamePickerModal = ({
                             style={{
                               borderBottomColor: 'white',
                               borderBottomWidth:
-                                idx == groupGamesList.length - 1 ? 0 : 2,
+                                idx == groupGameList.length - 1 ? 0 : 2,
                               borderStyle: 'solid',
                             }}
                           >
@@ -217,6 +208,7 @@ const GamePickerModal = ({
                     loading={loading}
                     searchResults={searchResults}
                     selectGame={selectGame}
+                    currentGame={currentlySelectedGame}
                   />
                 )}
               </ScrollView>

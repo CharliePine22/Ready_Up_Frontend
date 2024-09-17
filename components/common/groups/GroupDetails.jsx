@@ -35,17 +35,13 @@ const GroupDetails = ({ group, closeGroup }) => {
     }).start();
   }, [slideAnim]);
 
-  // Reconstruct date object to read more human/user friendly
+  /**
+   * Reconstructs date object to read more human/user friendly
+   */
   const convertDateTime = (date) => {
-    let humanTime = date.getDate();
-    console.log(
-      'Day of Month:' + date.getDate(),
-      'Hour' + date.getHours(),
-      'Minute' + date.getMinutes()
-    );
-
     // Get numbered day of the week and convert it to English day of the week
     let weekday = date.getDay();
+    let numDayAbbreviation;
     switch (weekday) {
       case 0:
         weekday = 'Sunday';
@@ -70,7 +66,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         break;
     }
 
-    // Get numbered momnth and return the name of the month
+    // Get numbered month and return the name of the month
     let currentMonth = date.getMonth();
     switch (currentMonth) {
       case 0:
@@ -110,10 +106,49 @@ const GroupDetails = ({ group, closeGroup }) => {
         currentMonth = 'December';
         break;
     }
-    console.log(weekday);
-    console.log(
-      `You'll be playong on ${weekday}, ${currentMonth} ${date.getDay()} at ${date.getHours()}:${date.getMinutes()}`
-    );
+
+    // Determine the day abbreviation (st, nd, rd, th)
+    switch (date.getDay()) {
+      case (1, 21, 31):
+        numDayAbbreviation = 'st';
+        break;
+      case (2, 22):
+        numDayAbbreviation = 'nd';
+        break;
+      case (3, 23):
+        numDayAbbreviation = 'rd';
+        break;
+      default:
+        numDayAbbreviation = 'th';
+        break;
+    }
+
+    // Determine the day abbreviation (st, nd, rd, th)
+    switch (date.getDay()) {
+      case (1, 21, 31):
+        numDayAbbreviation = 'st';
+        break;
+      case (2, 22):
+        numDayAbbreviation = 'nd';
+        break;
+      case (3, 23):
+        numDayAbbreviation = 'rd';
+        break;
+      default:
+        numDayAbbreviation = 'th';
+        break;
+    }
+
+    // Construct the final string
+    const dateString = `You'll be playong on ${weekday}, ${currentMonth} ${date.getDay()}${numDayAbbreviation} at ${
+      date.getHours() % 12 || 12
+    }:${date.getMinutes()} ${date.getHours() > 12 ? 'PM' : 'AM'}`;
+
+    // Log the date string to the console
+    console.log(dateString);
+
+    // Return the date string
+    return dateString;
   };
 
   console.log(beginVoting);
@@ -142,6 +177,7 @@ const GroupDetails = ({ group, closeGroup }) => {
           setDate(new Date(date));
           convertDateTime(date);
           setBeginVoting(true);
+          setGamesToVote((prev) => [...prev, chosenGame]);
         }}
       />
 

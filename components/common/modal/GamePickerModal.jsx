@@ -25,6 +25,9 @@ const GamePickerModal = ({
 }) => {
   // State Variables
   const [dateModalOpen, setDateModalOpen] = useState(false);
+  const [groupGamesList, setGroupGamesList] = useState(
+    Object.entries(previouslyPlayedGames)
+  );
   const [gameName, setGameName] = useState('');
   const [previousGame, setPreviousGame] = useState(null);
   const [searchingGame, setSearchingGame] = useState(false);
@@ -33,7 +36,6 @@ const GamePickerModal = ({
 
   // Custom Hooks
   const { token, awaitToken, generateNewToken } = useCheckToken();
-  const groupGameList = Object.entries(previouslyPlayedGames);
   let backendUrl =
     Platform.OS === 'web'
       ? 'http://localhost:3001'
@@ -44,6 +46,7 @@ const GamePickerModal = ({
    */
   const searchGame = async () => {
     if (gameName == previousGame || gameName == '') return;
+    setSearchingGame(true);
     setLoading(true);
     try {
       console.log('Sending request to IGDB API with game name:', gameName);
@@ -82,17 +85,56 @@ const GamePickerModal = ({
 
   // Display search results when user begins typing to attemt to smart match
   useEffect(() => {
-    if (gameName !== '') setSearchingGame(true);
-    else {
+    if (gameName !== '') {
+      previouslyPlayedGames.length > 0 &&
+        setGroupGamesList(
+          Object.entries(previouslyPlayedGames).filter((game) => {
+            return (
+              game[1]?.name.slice(0, gameName.length).toLowerCase() ==
+              gameName.toLowerCase()
+            );
+          })
+        );
+    } else {
       setSearchResults([]);
       setSearchingGame(false);
+      setGroupGamesList(Object.entries(previouslyPlayedGames));
     }
     // searchGame(gameName);
   }, [gameName]);
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
+  /**
+   * Opens the date picker modal after a game is selected
+   */
   const finalizeChoiceHandler = () => {
+    if (Platform.OS === 'web') {
+      selectDate(new Date());
+      closeModal();
+    }
     setDateModalOpen(true);
+  };
+
+  const renderPreviouslyPlayedGames = () => {
+    return (
+      <FlatList
+        data={groupGamesList}
+        renderItem={({ item }) => {
+          return (
+            <Pressable
+              style={styles.gameItem}
+              onPress={() => {
+                selectGame(item[1].id);
+                finalizeChoiceHandler();
+              }}
+            >
+              <Text style={styles.gameName}>{item[1].name}</Text>
+            </Pressable>
+          );
+        }}
+        keyExtractor={(item) => item[1].id}
+      />
+    );
   };
 
   return (
@@ -139,7 +181,7 @@ const GamePickerModal = ({
                     showsVerticalScrollIndicator={false}
                     style={{ height: '100%' }}
                   >
-                    {groupGameList
+                    {groupGamesList
                       .sort(([a], [b]) => b - a)
                       .map(([position, game], idx) => {
                         return (
@@ -148,7 +190,7 @@ const GamePickerModal = ({
                             style={{
                               borderBottomColor: 'white',
                               borderBottomWidth:
-                                idx == groupGameList.length - 1 ? 0 : 2,
+                                idx == groupGamesList.length - 1 ? 0 : 2,
                               borderStyle: 'solid',
                             }}
                           >

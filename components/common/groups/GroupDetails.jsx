@@ -116,6 +116,8 @@ const GroupDetails = ({ group, closeGroup }) => {
     );
   };
 
+  console.log(beginVoting);
+
   return (
     <Animated.View
       style={{
@@ -254,8 +256,9 @@ const GroupDetails = ({ group, closeGroup }) => {
               </View>
               <View style={styles.gameSelectionDetails}>
                 <Text style={styles.gameMessage}>
-                  Your group hasn't chosen a game yet. As the leader of the
-                  group, suggest one to play!
+                  {!beginVoting
+                    ? "Your group hasn't chosen a game yet. As the leader of the group, suggest one to play!"
+                    : 'Cast your vote, delay the session, or choose a superior game.'}
                 </Text>
 
                 <View style={styles.gameSelectionActions}>

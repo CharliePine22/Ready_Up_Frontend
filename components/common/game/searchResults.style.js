@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { COLORS, FONT } from "../../../constants";
+import { StyleSheet } from 'react-native';
+import { COLORS, FONT } from '../../../constants';
 
 const styles = StyleSheet.create({
   gameName: {
@@ -11,26 +11,24 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   genreItem: {
-    height: "100%",
+    height: '100%',
   },
   genreInfo: {
-    display: "flex",
-    flexDirection: "row",
-    // alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
   },
   genreList: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "row",
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
   },
   genreName: {
-    color: "lightgrey",
-    fontStyle: "italic",
+    color: 'lightgrey',
+    fontStyle: 'italic',
     fontSize: 12,
-    display: "flex",
-    maxWidth: "fit-content",
-    // flex: 1,
-    flexWrap: "wrap",
+    display: 'flex',
+    maxWidth: 'fit-content',
+    flexWrap: 'wrap',
     marginRight: 10,
   },
   multiplayerIcon: {
@@ -38,10 +36,10 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   multiplayerModes: {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    justifyContent: "space-evenly",
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    justifyContent: 'space-evenly',
     height: 45,
     top: 5,
     right: 10,
@@ -51,35 +49,35 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   searchedItemGameInfo: {
-    height: "100%",
-    justifyContent: "flex-start",
+    height: '100%',
+    justifyContent: 'flex-start',
     marginLeft: 7,
     paddingRight: 30,
     flex: 1,
   },
   searchResultsItemCover: {
-    height: "100%",
+    height: '100%',
     width: 80,
     zIndex: 2,
   },
   searchResultsWrapper: {
-    width: "100%",
+    width: '100%',
     height: 300,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   searchResultItem: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomColor: "white",
-    borderBottomStyle: "solid",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomColor: 'white',
+    borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     height: 120,
   },
   searchResultsContainer: {
-    width: "100%",
+    width: '100%',
   },
   steamIcon: {
     top: -1,

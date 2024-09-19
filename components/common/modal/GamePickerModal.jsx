@@ -181,7 +181,7 @@ const GamePickerModal = ({
                             style={{
                               borderBottomColor: 'white',
                               borderBottomWidth:
-                                idx == groupGameList.length - 1 ? 0 : 2,
+                                idx == groupGamesList.length - 1 ? 0 : 2,
                               borderStyle: 'solid',
                             }}
                           >

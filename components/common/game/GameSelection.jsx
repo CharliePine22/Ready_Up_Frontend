@@ -1,8 +1,9 @@
 import { View, Text, ImageBackground, Pressable } from 'react-native';
 import React from 'react';
-import Carousel from 'react-native-snap-carousel';
+import styles from './gameSelection.style';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-const GameVoting = () => {
+const GameSelection = ({ chosenGame, currentlyVoting, openGameSelection }) => {
   return (
     <View style={styles.gameSelectionContainer}>
       <View
@@ -58,4 +59,4 @@ const GameVoting = () => {
   );
 };
 
-export default GameVoting;
+export default GameSelection;

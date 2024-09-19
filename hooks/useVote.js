@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const useVote = () => {
   const [votedGames, setVotedGames] = useState([]);
 
   const castVote = (game) => {
-    setVotedGames((votedGames) => [
-      ...votedGames,
-      {
-        name: game.name,
-        votes: (votes += 1),
-      },
-    ]);
+    const foundGame = votedGames.find(
+      (votedGame) => votedGame.name === game.name
+    );
+    if (foundGame) {
+      foundGame.votes++;
+      setVotedGames([...votedGames]);
+    }
   };
 
-  const addNewGame = () => {};
+  const addNewGame = (game) => {
+    setVotedGames((votedGames) => [...votedGames, game]);
+  };
 
   const adjustTime = () => {};
 

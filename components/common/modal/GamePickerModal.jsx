@@ -55,7 +55,6 @@ const GamePickerModal = ({
         token: token,
         gameName: gameName,
       });
-      console.log(request);
       const response = await request.data;
       console.log(response);
       // IGDB API returns an error code as a string, if it returns "Tip 3"

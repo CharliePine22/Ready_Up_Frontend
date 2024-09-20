@@ -1,35 +1,58 @@
-import { View, Text, ImageBackground, Pressable } from "react-native";
-import React from "react";
-import Carousel from "react-native-snap-carousel";
-import useVote from "../../../hooks/useVote";
-const GameVoting = () => {
-  const { votedGames } = useVote();
+import {
+  View,
+  Text,
+  ImageBackground,
+  Pressable,
+  ViewStyle,
+} from 'react-native';
+import React from 'react';
+import Carousel from 'react-native-reanimated-carousel';
+import useVote from '../../../hooks/useVote';
+import styles from './gameVoting.style';
+const GameVoting = ({ openGameSelection, votedGames }) => {
+  console.log(votedGames);
   return (
     <View style={styles.gameSelectionContainer}>
       <View
         style={[
           {
-            padding: chosenGame ? 0 : 5,
-            borderStyle: chosenGame ? "solid" : "dotted",
+            padding: 0,
+            borderStyle: 'solid',
           },
           styles.gameCaseContainer,
         ]}
       >
+        {/* <Carousel
+                loop
+                width={100}
+                height={100}
+                autoPlay={false}
+                data={votedGames}
+                renderItem={({ item }) => (
+                  <ImageBackground
+                    style={styles.gameCaseCover}
+                    source={{
+                      uri: `https://images.igdb.com/igdb/image/upload/t_1080p/${item.cover.image_id}.jpg`,
+                    }}
+                  />
+                )}
+                scrollAnimationDuration={1000}
+                onSnapToItem={(index) => console.log('current index:', index)} */}
         <Carousel
-          style={styles.test}
+          // containerCustomStyle={styles.test}
+          // style={styles.gameCaseCover}
           data={votedGames}
           renderItem={({ item }) => (
             <ImageBackground
               style={styles.gameCaseCover}
               source={{
-                uri: !chosenGame.cover.id
-                  ? chosenGame.cover
-                  : `https://images.igdb.com/igdb/image/upload/t_1080p/${chosenGame.cover.image_id}.jpg`,
+                uri: item.cover,
               }}
             />
           )}
           sliderWidth={100}
           itemWidth={100}
+          width={170}
         />
         {/* {!chosenGame ? (
           <FontAwesome name="question" size={60} color={"white"} />
@@ -46,16 +69,14 @@ const GameVoting = () => {
       </View>
       <View style={styles.gameSelectionDetails}>
         <Text style={styles.gameMessage}>
-          {!currentlyVoting
-            ? "Your group hasn't chosen a game yet. As the leader of the group, suggest one to play!"
-            : "Cast your vote, delay the session, or choose a superior game."}
+          Cast your vote, delay the session, or choose a superior game.
         </Text>
 
         <View style={styles.gameSelectionActions}>
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : "",
+              pressed ? styles.gameSelectionBtnPressed : '',
             ]}
             onPress={openGameSelection}
           >
@@ -64,7 +85,7 @@ const GameVoting = () => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : "",
+              pressed ? styles.gameSelectionBtnPressed : '',
             ]}
           >
             <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
   gamesPlayedListWrapper: {
-    width: '90%',
+    // width: '90%',
     minHeight: 200,
     maxHeight: 320,
     maxWidth: 450,

@@ -14,7 +14,9 @@ const useVote = () => {
   };
 
   const addNewGame = (game) => {
-    setVotedGames((votedGames) => [...votedGames, game]);
+    if (votedGames.find((votedGame) => votedGame.name === game.name))
+      castVote(game);
+    else setVotedGames((votedGames) => [...votedGames, game]);
   };
 
   const adjustTime = () => {};

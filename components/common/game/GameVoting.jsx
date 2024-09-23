@@ -1,46 +1,27 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  Pressable,
-  ViewStyle,
-} from 'react-native';
-import React from 'react';
-import Carousel from 'react-native-reanimated-carousel';
-import useVote from '../../../hooks/useVote';
-import styles from './gameVoting.style';
+import { View, Text, ImageBackground, Pressable } from "react-native";
+import { useRef, useState } from "react";
+import Carousel from "react-native-reanimated-carousel";
+import styles from "./gameVoting.style";
+import useVote from "../../../hooks/useVote";
 const GameVoting = ({ openGameSelection, votedGames }) => {
-  console.log(votedGames);
+  const [currentGameInfo, setCurrentGameInfo] = useState("");
+  const { castVote } = useVote();
+  const carouselRef = useRef();
   return (
     <View style={styles.gameSelectionContainer}>
       <View
         style={[
           {
             padding: 0,
-            borderStyle: 'solid',
+            borderStyle: "solid",
           },
           styles.gameCaseContainer,
         ]}
       >
-        {/* <Carousel
-                loop
-                width={100}
-                height={100}
-                autoPlay={false}
-                data={votedGames}
-                renderItem={({ item }) => (
-                  <ImageBackground
-                    style={styles.gameCaseCover}
-                    source={{
-                      uri: `https://images.igdb.com/igdb/image/upload/t_1080p/${item.cover.image_id}.jpg`,
-                    }}
-                  />
-                )}
-                scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)} */}
         <Carousel
-          // containerCustomStyle={styles.test}
-          // style={styles.gameCaseCover}
+          ref={carouselRef}
+          scrollEnabled={votedGames.length > 1 ? true : false}
+          style={styles.carousel}
           data={votedGames}
           renderItem={({ item }) => (
             <ImageBackground
@@ -76,19 +57,28 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : '',
+              pressed ? styles.gameSelectionBtnPressed : "",
             ]}
-            onPress={openGameSelection}
+            onPress={() => castVote(currentGameInfo)}
           >
-            <Text style={styles.gameSelectionBtnText}>SELECT</Text>
+            <Text style={styles.gameSelectionBtnText}>VOTE</Text>
           </Pressable>
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : '',
+              pressed ? styles.gameSelectionBtnPressed : "",
+            ]}
+            onPress={openGameSelection}
+          >
+            <Text style={styles.gameSelectionBtnText}>NEW GAME</Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.gameSelectionBtn,
+              pressed ? styles.gameSelectionBtnPressed : "",
             ]}
           >
-            <Text style={styles.gameSelectionBtnText}>RANDOMIZE</Text>
+            <Text style={styles.gameSelectionBtnText}>ADJUST TIME</Text>
           </Pressable>
         </View>
       </View>

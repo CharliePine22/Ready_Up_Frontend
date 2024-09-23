@@ -1,12 +1,20 @@
-import { View, Text, ImageBackground, Pressable } from 'react-native';
-import { useRef, useState } from 'react';
-import Carousel from 'react-native-reanimated-carousel';
-import styles from './gameVoting.style';
-import useVote from '../../../hooks/useVote';
+import { View, Text, ImageBackground, Pressable } from "react-native";
+import { useRef, useState, useEffect } from "react";
+import Carousel from "react-native-reanimated-carousel";
+import styles from "./gameVoting.style";
+import useVote from "../../../hooks/useVote";
 const GameVoting = ({ openGameSelection, votedGames }) => {
   const { castVote, currentGameInfo, changeCurrentGameInfo } = useVote();
   const carouselRef = useRef();
-  console.log(currentGameInfo);
+
+  useEffect(() => {
+    if (votedGames.length == 1) {
+      console.log("ONE ITEM IN VOTEDGAMES!");
+      console.log(votedGames[0]);
+      changeCurrentGameInfo(votedGames[0]);
+    }
+  }, []);
+  // console.log(currentGameInfo);
 
   return (
     <View style={styles.gameSelectionContainer}>
@@ -14,7 +22,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
         style={[
           {
             padding: 0,
-            borderStyle: 'solid',
+            borderStyle: "solid",
           },
           styles.gameCaseContainer,
         ]}
@@ -55,7 +63,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : '',
+              pressed ? styles.gameSelectionBtnPressed : "",
             ]}
             onPress={() => castVote(currentGameInfo)}
           >
@@ -64,7 +72,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : '',
+              pressed ? styles.gameSelectionBtnPressed : "",
             ]}
             onPress={openGameSelection}
           >
@@ -73,7 +81,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : '',
+              pressed ? styles.gameSelectionBtnPressed : "",
             ]}
           >
             <Text style={styles.gameSelectionBtnText}>ADJUST TIME</Text>

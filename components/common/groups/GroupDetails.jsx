@@ -24,8 +24,14 @@ const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
   // Vote States
-  const { castVote, addNewGame, adjustTime, finalizeVote, votedGames } =
-    useVote();
+  const {
+    castVote,
+    addNewGame,
+    adjustTime,
+    finalizeVote,
+    votedGames,
+    changeCurrentGameInfo,
+  } = useVote();
   // Date States
   const [date, setDate] = useState(new Date());
   const [dateTimeSettings, setDateTimeSettings] = useState({});
@@ -149,6 +155,15 @@ const GroupDetails = ({ group, closeGroup }) => {
     convertDateTime(date);
     setBeginVoting(true);
     addNewGame({
+      name: chosenGame.name,
+      date: date,
+      cover: chosenGame.cover.image_id
+        ? `https://images.igdb.com/igdb/image/upload/t_1080p/${chosenGame.cover.image_id}.jpg`
+        : chosenGame.cover,
+      votes: 1,
+      membersVoted: ['Cj'],
+    });
+    changeCurrentGameInfo({
       name: chosenGame.name,
       date: date,
       cover: chosenGame.cover.image_id

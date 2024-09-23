@@ -13,6 +13,7 @@ import styles from './gamePickerModal.style.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import useCheckToken from '../../../hooks/useCheckToken.js';
 import SearchResults from '../game/SearchResults.jsx';
+import useVote from '../../../hooks/useVote.js';
 
 // Rename to Game Picker Modal
 const GamePickerModal = ({
@@ -28,54 +29,19 @@ const GamePickerModal = ({
   const [groupGamesList, setGroupGamesList] = useState(
     Object.entries(previouslyPlayedGames)
   );
-  const [gameName, setGameName] = useState('');
-  const [previousGame, setPreviousGame] = useState(null);
   const [searchingGame, setSearchingGame] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
 
   // Custom Hooks
-  const { token, awaitToken, generateNewToken } = useCheckToken();
-  let backendUrl =
-    Platform.OS === 'web'
-      ? 'http://localhost:3001'
-      : 'https://ready-up-backend.onrender.com';
-
-  /**
-   * Search IGDB Api Database for game case cover
-   */
-  const searchGame = async () => {
-    if (gameName == previousGame || gameName == '') return;
-    setLoading(true);
-    try {
-      console.log('Sending request to IGDB API with game name:', gameName);
-      // Send a POST request to the IGDB API
-      const request = await axios.post(`${backendUrl}/igdb/get_game_cover`, {
-        // Pass the token and game name to the request
-        token: token,
-        gameName: gameName,
-      });
-      const response = await request.data;
-      console.log(response);
-      // IGDB API returns an error code as a string, if it returns "Tip 3"
-      // It means the token has expired
-      if (response['Tip 3']) {
-        throw new Error('Token expiration');
-      } else {
-        setPreviousGame(gameName);
-        setSearchResults(response);
-      }
-    } catch (error) {
-      // If there is an error, and the error is "Token expiration"
-      // Call the generateNewToken function to get a new token
-      if (error == 'Error: Token expiration') {
-        console.log('Error: Token expiration');
-        generateNewToken();
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { changeCurrentGameInfo } = useVote();
+  const {
+    awaitToken,
+    searchGame,
+    searchResults,
+    resetSearchResults,
+    gameName,
+    loading,
+    setGameName,
+  } = useCheckToken();
 
   // Get a token if it doesn't exist
   useEffect(() => {
@@ -86,11 +52,10 @@ const GamePickerModal = ({
   useEffect(() => {
     if (gameName !== '') setSearchingGame(true);
     else {
-      setSearchResults([]);
+      resetSearchResults();
       setSearchingGame(false);
       setGroupGamesList(Object.entries(previouslyPlayedGames));
     }
-    // searchGame(gameName);
   }, [gameName]);
 
   let gameListLength = Object.entries(previouslyPlayedGames).length;
@@ -103,28 +68,6 @@ const GamePickerModal = ({
       closeModal();
     }
     setDateModalOpen(true);
-  };
-
-  const renderPreviouslyPlayedGames = () => {
-    return (
-      <FlatList
-        data={groupGamesList}
-        renderItem={({ item }) => {
-          return (
-            <Pressable
-              style={styles.gameItem}
-              onPress={() => {
-                selectGame(item[1].id);
-                finalizeChoiceHandler();
-              }}
-            >
-              <Text style={styles.gameName}>{item[1].name}</Text>
-            </Pressable>
-          );
-        }}
-        keyExtractor={(item) => item[1].id}
-      />
-    );
   };
 
   return (
@@ -190,7 +133,10 @@ const GamePickerModal = ({
                                 game.name == currentlySelectedGame?.name &&
                                   styles.currentSelectedGame,
                               ]}
-                              onPress={() => selectGame(game)}
+                              onPress={() => {
+                                selectGame(game);
+                                changeCurrentGameInfo(game);
+                              }}
                             >
                               <Text style={[styles.previousGamesListGameName]}>
                                 <>{game.name}</>

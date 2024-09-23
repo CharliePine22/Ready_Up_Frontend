@@ -1,19 +1,20 @@
-import { View, Text, ImageBackground, Pressable } from "react-native";
-import { useRef, useState } from "react";
-import Carousel from "react-native-reanimated-carousel";
-import styles from "./gameVoting.style";
-import useVote from "../../../hooks/useVote";
+import { View, Text, ImageBackground, Pressable } from 'react-native';
+import { useRef, useState } from 'react';
+import Carousel from 'react-native-reanimated-carousel';
+import styles from './gameVoting.style';
+import useVote from '../../../hooks/useVote';
 const GameVoting = ({ openGameSelection, votedGames }) => {
-  const [currentGameInfo, setCurrentGameInfo] = useState("");
-  const { castVote } = useVote();
+  const { castVote, currentGameInfo, changeCurrentGameInfo } = useVote();
   const carouselRef = useRef();
+  console.log(currentGameInfo);
+
   return (
     <View style={styles.gameSelectionContainer}>
       <View
         style={[
           {
             padding: 0,
-            borderStyle: "solid",
+            borderStyle: 'solid',
           },
           styles.gameCaseContainer,
         ]}
@@ -22,6 +23,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           ref={carouselRef}
           scrollEnabled={votedGames.length > 1 ? true : false}
           style={styles.carousel}
+          onSnapToItem={(item) => changeCurrentGameInfo(votedGames[item])}
           data={votedGames}
           renderItem={({ item }) => (
             <ImageBackground
@@ -33,31 +35,27 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           )}
           sliderWidth={100}
           itemWidth={100}
-          width={170}
+          width={169}
         />
-        {/* {!chosenGame ? (
-          <FontAwesome name="question" size={60} color={"white"} />
-        ) : (
-          <ImageBackground
-            style={styles.gameCaseCover}
-            source={{
-              uri: !chosenGame.cover.id
-                ? chosenGame.cover
-                : `https://images.igdb.com/igdb/image/upload/t_1080p/${chosenGame.cover.image_id}.jpg`,
-            }}
-          />
-        )} */}
       </View>
       <View style={styles.gameSelectionDetails}>
         <Text style={styles.gameMessage}>
           Cast your vote, delay the session, or choose a superior game.
         </Text>
 
+        {currentGameInfo && (
+          <>
+            <Text>Title: {currentGameInfo.name}</Text>
+            <Text>Time and Day: {currentGameInfo.date}</Text>
+            <Text>Votes: {currentGameInfo.votes}</Text>
+          </>
+        )}
+
         <View style={styles.gameSelectionActions}>
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : "",
+              pressed ? styles.gameSelectionBtnPressed : '',
             ]}
             onPress={() => castVote(currentGameInfo)}
           >
@@ -66,7 +64,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : "",
+              pressed ? styles.gameSelectionBtnPressed : '',
             ]}
             onPress={openGameSelection}
           >
@@ -75,7 +73,7 @@ const GameVoting = ({ openGameSelection, votedGames }) => {
           <Pressable
             style={({ pressed }) => [
               styles.gameSelectionBtn,
-              pressed ? styles.gameSelectionBtnPressed : "",
+              pressed ? styles.gameSelectionBtnPressed : '',
             ]}
           >
             <Text style={styles.gameSelectionBtnText}>ADJUST TIME</Text>

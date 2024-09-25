@@ -93,6 +93,11 @@ const styles = StyleSheet.create({
     maxWidth: '53%',
     justifyContent: 'space-around',
   },
+  votedGameInfoContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

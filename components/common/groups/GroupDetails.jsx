@@ -7,16 +7,16 @@ import {
   TextInput,
   ImageBackground,
   Animated,
-} from "react-native";
-import { useState, useEffect, useRef } from "react";
-import styles from "./groupDetails.style.js";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import GamePickerModal from "../modal/GamePickerModal.jsx";
-import EditGroupModal from "../modal/EditGroupModal.jsx";
-import useVote from "../../../hooks/useVote.js";
-import GameSelection from "../game/GameSelection.jsx";
-import GameVoting from "../game/GameVoting.jsx";
+} from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import styles from './groupDetails.style.js';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import GamePickerModal from '../modal/GamePickerModal.jsx';
+import EditGroupModal from '../modal/EditGroupModal.jsx';
+import useVote from '../../../hooks/useVote.js';
+import GameSelection from '../game/GameSelection.jsx';
+import GameVoting from '../game/GameVoting.jsx';
 
 const GroupDetails = ({ group, closeGroup }) => {
   // Game States
@@ -24,17 +24,10 @@ const GroupDetails = ({ group, closeGroup }) => {
   const [chosenGame, setChosenGame] = useState(null);
   const [openGameSelectionScreen, setOpenGameSelectionScreen] = useState(false);
   // Vote States
-  const {
-    castVote,
-    addNewGame,
-    adjustTime,
-    finalizeVote,
-    votedGames,
-    changeCurrentGameInfo,
-  } = useVote();
+  const { addNewGame, finalizeVote, votedGames, changeCurrentGameInfo } =
+    useVote();
   // Date States
-  const [date, setDate] = useState(new Date());
-  const [dateTimeSettings, setDateTimeSettings] = useState({});
+  const [date, setDate] = useState(null);
   const [editingGroup, setEditingGroup] = useState(false);
   // Animations
   const slideAnim = useRef(new Animated.Value(1000)).current;
@@ -49,100 +42,103 @@ const GroupDetails = ({ group, closeGroup }) => {
   /**
    * Reconstructs date object to read more human/user friendly
    */
-  const convertDateTime = (date) => {
+  const convertDateTime = (selectedDate) => {
+    if (!selectedDate) return;
     // Get numbered day of the week and convert it to English day of the week
-    let weekday = date.getDay();
+    let weekday = selectedDate.getDay();
     let numDayAbbreviation;
     switch (weekday) {
       case 0:
-        weekday = "Sunday";
+        weekday = 'Sunday';
         break;
       case 1:
-        weekday = "Monday";
+        weekday = 'Monday';
         break;
       case 2:
-        weekday = "Tuesday";
+        weekday = 'Tuesday';
         break;
       case 3:
-        weekday = "Wednesday";
+        weekday = 'Wednesday';
         break;
       case 4:
-        weekday = "Thursday";
+        weekday = 'Thursday';
         break;
       case 5:
-        weekday = "Friday";
+        weekday = 'Friday';
         break;
       case 6:
-        weekday = "Saturday";
+        weekday = 'Saturday';
         break;
     }
 
     // Get numbered month and return the name of the month
-    let currentMonth = date.getMonth();
+    let currentMonth = selectedDate.getMonth() + 1;
     switch (currentMonth) {
       case 0:
-        currentMonth = "January";
+        currentMonth = 'January';
         break;
       case 1:
-        currentMonth = "February";
+        currentMonth = 'February';
         break;
       case 2:
-        currentMonth = "March";
+        currentMonth = 'March';
         break;
       case 3:
-        currentMonth = "April";
+        currentMonth = 'April';
         break;
       case 4:
-        currentMonth = "May";
+        currentMonth = 'May';
         break;
       case 5:
-        currentMonth = "June";
+        currentMonth = 'June';
         break;
       case 6:
-        currentMonth = "July";
+        currentMonth = 'July';
         break;
       case 7:
-        currentMonth = "August";
+        currentMonth = 'August';
         break;
       case 8:
-        currentMonth = "September";
+        currentMonth = 'September';
         break;
       case 9:
-        currentMonth = "October";
+        currentMonth = 'October';
         break;
       case 10:
-        currentMonth = "November";
+        currentMonth = 'November';
         break;
       case 11:
-        currentMonth = "December";
+        currentMonth = 'December';
         break;
     }
-    console.log(date.getDay());
+    console.log(selectedDate.getDay());
 
     // Determine the day abbreviation (st, nd, rd, th)
-    switch (date.getDay()) {
+    switch (selectedDate.getDay()) {
       case 1:
       case 21:
       case 31:
-        numDayAbbreviation = "st";
+        numDayAbbreviation = 'st';
         break;
       case 2:
       case 22:
-        numDayAbbreviation = "nd";
+        numDayAbbreviation = 'nd';
         break;
       case 3:
       case 23:
-        numDayAbbreviation = "rd";
+        numDayAbbreviation = 'rd';
         break;
       default:
-        numDayAbbreviation = "th";
+        numDayAbbreviation = 'th';
         break;
     }
 
     // Construct the final string
-    const dateString = `You'll be playing on ${weekday}, ${currentMonth} ${date.getDay()}${numDayAbbreviation} at ${
-      date.getHours() % 12 || 12
-    }:${date.getMinutes()} ${date.getHours() > 12 ? "PM" : "AM"}`;
+    const dateString = `You'll be playing on ${weekday}, ${currentMonth} ${selectedDate.getDay()}${numDayAbbreviation} at ${
+      selectedDate.getHours() % 12 || 12
+    }:${selectedDate.getMinutes()} ${
+      selectedDate.getHours() > 12 ? 'PM' : 'AM'
+    }`;
 
     // Log the date string to the console
     console.log(dateString);
@@ -161,7 +157,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         ? `https://images.igdb.com/igdb/image/upload/t_1080p/${chosenGame.cover.image_id}.jpg`
         : chosenGame.cover,
       votes: 1,
-      membersVoted: ["Cj"],
+      membersVoted: ['Cj'],
     });
     changeCurrentGameInfo({
       name: chosenGame.name,
@@ -170,7 +166,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         ? `https://images.igdb.com/igdb/image/upload/t_1080p/${chosenGame.cover.image_id}.jpg`
         : chosenGame.cover,
       votes: 1,
-      membersVoted: ["Cj"],
+      membersVoted: ['Cj'],
     });
   };
 
@@ -214,9 +210,9 @@ const GroupDetails = ({ group, closeGroup }) => {
       {/* CLOSE GROUP BUTTON */}
       <Pressable onPress={closeGroup} style={styles.closeGroupBtn}>
         <MaterialCommunityIcons
-          name="arrow-left-bold-outline"
+          name='arrow-left-bold-outline'
           size={40}
-          color={"white"}
+          color={'white'}
         />
       </Pressable>
 
@@ -225,7 +221,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         onPress={() => setEditingGroup(true)}
         style={styles.editGroupBtn}
       >
-        <MaterialCommunityIcons name="cog" size={40} color={"white"} />
+        <MaterialCommunityIcons name='cog' size={40} color={'white'} />
       </Pressable>
 
       {/* Group Details Wrapper */}
@@ -238,7 +234,7 @@ const GroupDetails = ({ group, closeGroup }) => {
               style={[
                 styles.headerFont,
                 {
-                  color: "white",
+                  color: 'white',
                   paddingHorizontal: 10,
                   lineHeight: 53,
                 },
@@ -259,7 +255,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                     styles.baseFont,
                     {
                       marginVertical: 0,
-                      color: "white",
+                      color: 'white',
                     },
                   ]}
                 >
@@ -278,7 +274,7 @@ const GroupDetails = ({ group, closeGroup }) => {
                 style={[
                   styles.headerFont,
                   {
-                    color: "white",
+                    color: 'white',
                     paddingHorizontal: 10,
                     lineHeight: 53,
                   },
@@ -301,6 +297,9 @@ const GroupDetails = ({ group, closeGroup }) => {
               <GameVoting
                 votedGames={votedGames}
                 openGameSelection={() => setOpenGameSelectionScreen(true)}
+                selectDate={(date) => {
+                  setDate(new Date(date));
+                }}
               />
             )}
           </View>
@@ -335,18 +334,18 @@ const GroupDetails = ({ group, closeGroup }) => {
                             {
                               color:
                                 idx == 0
-                                  ? "gold"
+                                  ? 'gold'
                                   : idx === 1
-                                  ? "silver"
+                                  ? 'silver'
                                   : idx === 2
-                                  ? "#905923"
-                                  : "white",
+                                  ? '#905923'
+                                  : 'white',
                               fontWeight: idx <= 2 && 900,
                             },
                           ]}
                         >
                           <>
-                            {game.name}: {game.playTime + " hours"}
+                            {game.name}: {game.playTime + ' hours'}
                           </>
                         </Text>
                       </View>

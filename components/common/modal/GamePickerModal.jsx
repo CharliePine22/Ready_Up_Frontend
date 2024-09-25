@@ -201,7 +201,9 @@ const GamePickerModal = ({
             <DateTimePickerModal
               isVisible={dateModalOpen}
               mode='datetime'
-              onConfirm={(date) => {
+              onConfirm={(date, value) => {
+                console.log('date: ', date);
+                console.log('value: ', value);
                 setDateModalOpen(false);
                 selectDate(date);
                 closeModal();

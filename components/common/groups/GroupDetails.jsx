@@ -147,8 +147,7 @@ const GroupDetails = ({ group, closeGroup }) => {
     return dateString;
   };
 
-  const beginVotingHandler = () => {
-    convertDateTime(date);
+  const beginVotingHandler = (date) => {
     setBeginVoting(true);
     addNewGame({
       name: chosenGame.name,
@@ -168,9 +167,8 @@ const GroupDetails = ({ group, closeGroup }) => {
       votes: 1,
       membersVoted: ['Cj'],
     });
+    convertDateTime(date);
   };
-
-  console.log(votedGames);
 
   return (
     <Animated.View
@@ -194,7 +192,7 @@ const GroupDetails = ({ group, closeGroup }) => {
         currentlySelectedGame={chosenGame}
         selectDate={(date) => {
           setDate(new Date(date));
-          beginVotingHandler();
+          beginVotingHandler(date);
         }}
       />
 

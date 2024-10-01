@@ -8,7 +8,6 @@ import {
   Platform,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import styles from './gamePickerModal.style.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import useCheckToken from '../../../hooks/useCheckToken.js';

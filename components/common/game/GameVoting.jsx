@@ -1,11 +1,12 @@
-import { View, Text, ImageBackground, Pressable } from "react-native";
-import { useRef, useCallback, useState, useEffect } from "react";
-import Carousel from "react-native-reanimated-carousel";
-import styles from "./gameVoting.style";
-import useVote from "../../../hooks/useVote";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { View, Text, ImageBackground, Pressable } from 'react-native';
+import { useRef, useCallback, useState, useEffect } from 'react';
+import Carousel from 'react-native-reanimated-carousel';
+import styles from './gameVoting.style';
+import useVote from '../../../hooks/useVote';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
   const { castVote, currentGameInfo, changeCurrentGameInfo } = useVote();
   const [dateModalOpen, setDateModalOpen] = useState(false);
@@ -13,14 +14,14 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
   const [votedGameInfo, setVotedGameInfo] = useState({});
   useEffect(() => {
     if (votedGames.length == 1) {
-      console.log("ONE ITEM IN VOTEDGAMES!");
+      console.log('ONE ITEM IN VOTEDGAMES!');
       console.log(votedGames[0]);
       setVotedGameInfo(votedGames[0]);
     }
   }, []);
 
   const snapToNextItem = useCallback(() => {
-    if (Platform.OS === "web") {
+    if (Platform.OS === 'web') {
       const gameIndex =
         votedGames.findIndex((game) => game.name == votedGameInfo.name) + 1;
       if (carouselRef.current) {
@@ -42,25 +43,25 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
     let numDayAbbreviation;
     switch (weekday) {
       case 0:
-        weekday = "Sunday";
+        weekday = 'Sunday';
         break;
       case 1:
-        weekday = "Monday";
+        weekday = 'Monday';
         break;
       case 2:
-        weekday = "Tuesday";
+        weekday = 'Tuesday';
         break;
       case 3:
-        weekday = "Wednesday";
+        weekday = 'Wednesday';
         break;
       case 4:
-        weekday = "Thursday";
+        weekday = 'Thursday';
         break;
       case 5:
-        weekday = "Friday";
+        weekday = 'Friday';
         break;
       case 6:
-        weekday = "Saturday";
+        weekday = 'Saturday';
         break;
     }
 
@@ -68,40 +69,40 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
     let currentMonth = date.getMonth();
     switch (currentMonth) {
       case 0:
-        currentMonth = "January";
+        currentMonth = 'January';
         break;
       case 1:
-        currentMonth = "February";
+        currentMonth = 'February';
         break;
       case 2:
-        currentMonth = "March";
+        currentMonth = 'March';
         break;
       case 3:
-        currentMonth = "April";
+        currentMonth = 'April';
         break;
       case 4:
-        currentMonth = "May";
+        currentMonth = 'May';
         break;
       case 5:
-        currentMonth = "June";
+        currentMonth = 'June';
         break;
       case 6:
-        currentMonth = "July";
+        currentMonth = 'July';
         break;
       case 7:
-        currentMonth = "August";
+        currentMonth = 'August';
         break;
       case 8:
-        currentMonth = "September";
+        currentMonth = 'September';
         break;
       case 9:
-        currentMonth = "October";
+        currentMonth = 'October';
         break;
       case 10:
-        currentMonth = "November";
+        currentMonth = 'November';
         break;
       case 11:
-        currentMonth = "December";
+        currentMonth = 'December';
         break;
     }
 
@@ -110,18 +111,18 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
       case 1:
       case 21:
       case 31:
-        numDayAbbreviation = "st";
+        numDayAbbreviation = 'st';
         break;
       case 2:
       case 22:
-        numDayAbbreviation = "nd";
+        numDayAbbreviation = 'nd';
         break;
       case 3:
       case 23:
-        numDayAbbreviation = "rd";
+        numDayAbbreviation = 'rd';
         break;
       default:
-        numDayAbbreviation = "th";
+        numDayAbbreviation = 'th';
         break;
     }
 
@@ -130,8 +131,8 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
       date.getHours() % 12 || 12
     }:${date
       .getMinutes()
-      .toLocaleString("en-US", { minimumIntegerDigits: 2 })} ${
-      date.getHours() > 12 ? "PM" : "AM"
+      .toLocaleString('en-US', { minimumIntegerDigits: 2 })} ${
+      date.getHours() > 12 ? 'PM' : 'AM'
     }`;
 
     // Return the date string
@@ -144,7 +145,7 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
         style={[
           {
             padding: 0,
-            borderStyle: "solid",
+            borderStyle: 'solid',
           },
           styles.gameCaseContainer,
         ]}
@@ -158,7 +159,7 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
           data={votedGames}
           renderItem={({ item }) => (
             <Pressable
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: '100%', width: '100%' }}
               onPress={snapToNextItem}
             >
               <ImageBackground
@@ -179,17 +180,21 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
           <View style={styles.votedGameInfoWrapper}>
             <View style={styles.votedGameInfoContainer}>
               <Text style={styles.gameInfoHeader}>Title</Text>
-              <Text>{votedGameInfo.name}</Text>
+              <Text style={styles.gameInfo}>
+                {votedGameInfo.name}
+                <MaterialCommunityIcons name='monitor-edit' size={16} />
+              </Text>
             </View>
             <View style={styles.votedGameInfoContainer}>
               <Text style={styles.gameInfoHeader}>Date</Text>
-              <Text style={{ textAlign: "center" }}>
+              <Text style={styles.gameInfo}>
                 {convertDateTime(votedGameInfo?.date)}
+                <MaterialCommunityIcons name='clock-edit-outline' size={16} />
               </Text>
             </View>
             <View style={styles.votedGameInfoContainer}>
               <Text style={styles.gameInfoHeader}>Votes</Text>
-              <Text>{votedGameInfo.votes}</Text>
+              <Text style={styles.gameInfo}>{votedGameInfo.votes}</Text>
             </View>
           </View>
         )}
@@ -225,9 +230,9 @@ const GameVoting = ({ openGameSelection, votedGames, selectDate }) => {
         </View> */}
         <DateTimePickerModal
           isVisible={dateModalOpen}
-          mode="datetime"
+          mode='datetime'
           onConfirm={(date) => {
-            console.log("DATE!!: ", date);
+            console.log('DATE!!: ', date);
             selectDate(date);
             setDateModalOpen(false);
             closeModal();

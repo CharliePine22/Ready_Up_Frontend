@@ -5,7 +5,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import styles from './signup.style';
 
-const Signup = ({ goToSignin, signInAuthentication }) => {
+const Signup = ({ goToSignin, error, createNewAccount }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,6 +13,7 @@ const Signup = ({ goToSignin, signInAuthentication }) => {
   return (
     <View style={styles.container}>
       {/* Name Input */}
+      {error && <Text style={styles.errorText}>{error}</Text>}
       <View style={styles.inputContainer}>
         <TextInput
           placeholder='NAME'
@@ -66,7 +67,7 @@ const Signup = ({ goToSignin, signInAuthentication }) => {
       </View>
 
       <Pressable
-        onPress={() => signInAuthentication({ email, name, password })}
+        onPress={() => createNewAccount(email, password, name)}
         style={styles.loginBtn}
       >
         <Text style={styles.loginText}>CREATE ACCOUNT</Text>

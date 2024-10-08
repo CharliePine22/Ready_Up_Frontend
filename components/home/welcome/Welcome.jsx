@@ -1,18 +1,39 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../firebaseConfig';
 import Signin from '../signin/Signin';
 import Signup from '../signup/Signup';
-
 import styles from './welcome.style';
-import { icons, SIZES } from '../../../constants';
 
 const Welcome = ({ signInAuthentication }) => {
   // Check to see if token is active from previous state
   // If signed in, display home page, otherwise display welcome page
   const [isLoading, setIsLoading] = useState(false);
   const [creatingAccount, setCreatingAccount] = useState(false);
-
+  const [error, setError] = useState(false);
+  const createAccount = async (email, password, name) => {
+    setIsLoading(true);
+    console.log('EMAIL: ', email);
+    try {
+      const newAccountCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(newAccountCredentials);
+      if (newAccountCredentials.user)
+        console.log('CREATED USER: ', newAccountCredentials.user);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      if (
+        error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).'
+      )
+        setError('EMAIL ALREADY IN USE');
+      setIsLoading(false);
+    }
+  };
   return (
     <View
       style={{ marginBottom: 10, height: '100%', justifyContent: 'center' }}
@@ -29,7 +50,7 @@ const Welcome = ({ signInAuthentication }) => {
           marginTop: 20,
           // height: '100%',
           height: 'auto',
-          height: 380,
+          height: 390,
           paddingHorizontal: 10,
           justifyContent: 'center',
         }}
@@ -41,8 +62,12 @@ const Welcome = ({ signInAuthentication }) => {
           />
         ) : (
           <Signup
-            goToSignin={() => setCreatingAccount(false)}
-            signInAuthentication={signInAuthentication}
+            goToSignin={() => {
+              setCreatingAccount(false);
+              setError(false);
+            }}
+            error={error}
+            createNewAccount={createAccount}
           />
         )}
       </View>

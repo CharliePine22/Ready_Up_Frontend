@@ -42,6 +42,7 @@ const useAuth = ({ children }) => {
         userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
+        console.log('ERROR: ' + e);
       }
 
       // After restoring token, we may need to validate it in production apps

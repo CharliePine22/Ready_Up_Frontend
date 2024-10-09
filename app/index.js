@@ -57,7 +57,9 @@ const WelcomePage = () => {
       console.log(verifyAuth);
       setIsSignedIn(true);
     } catch (error) {
-      console.log(error);
+      // console.log('ERROR: ', error);
+      if (error == 'FirebaseError: Firebase: Error (auth/invalid-credential).')
+        console.log('NO ACCOUNT EXISTS WITH THIS CREDENTIALS');
     }
   };
 

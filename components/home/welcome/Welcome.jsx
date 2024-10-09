@@ -14,7 +14,6 @@ const Welcome = ({ signInAuthentication }) => {
   const [error, setError] = useState(false);
   const createAccount = async (email, password, name) => {
     setIsLoading(true);
-    console.log('EMAIL: ', email);
     try {
       const newAccountCredentials = await createUserWithEmailAndPassword(
         auth,

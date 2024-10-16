@@ -1,20 +1,27 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { COLORS, SIZES } from '../constants';
 import { Dashboard, Welcome } from '../components';
 import welcomePageBackground from '../assets/images/ready-up-home-page-wallpaper.png';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
 // import Constants from "expo-constants";
+import useAuth from '../hooks/useAuth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {
+  const { currentUser } = useAuth();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const router = useRouter();
+  console.log('CURRENT USER: ', currentUser);
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((user) => {
+      if (!null) setIsSignedIn(true);
+    });
+    // console.log(foundUser);
+  }, []);
 
   // const { manifest } = Constants;
 
@@ -40,28 +47,6 @@ const WelcomePage = () => {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-
-  const signInAuthentication = async (credentals) => {
-    if (isSignedIn) setIsSignedIn(false);
-    const { email, password, name } = credentals;
-
-    console.log('SIGNING IN WITH: ', credentals);
-    console.log('SIGNING IN WITH EMAIL: ', email);
-    console.log('SIGNING IN WITH PASSWORD: ', password);
-    try {
-      const verifyAuth = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(verifyAuth);
-      setIsSignedIn(true);
-    } catch (error) {
-      // console.log('ERROR: ', error);
-      if (error == 'FirebaseError: Firebase: Error (auth/invalid-credential).')
-        console.log('NO ACCOUNT EXISTS WITH THIS CREDENTIALS');
-    }
-  };
 
   return isSignedIn ? (
     <SafeAreaView
@@ -105,7 +90,7 @@ const WelcomePage = () => {
               maxWidth: 480,
             }}
           >
-            <Welcome signInAuthentication={signInAuthentication} />
+            <Welcome />
           </View>
         </ScrollView>
       </SafeAreaView>

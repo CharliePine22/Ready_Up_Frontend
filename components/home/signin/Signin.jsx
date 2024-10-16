@@ -1,17 +1,29 @@
 import { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, Pressable, Image } from 'react-native';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  View,
+  Text,
+  TextInput,
+  Platform,
+  Pressable,
+  Image,
+} from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import googleIcon from '../../../assets/icons/google.png';
 import discordIcon from '../../../assets/icons/discord.png';
 import styles from './signin.style';
+import useAuth from '../../../hooks/useAuth';
 
-const Signin = ({ signInAuthentication, createNewAccount }) => {
+const Signin = ({ createNewAccount }) => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
+  const { signInAuthentication, error } = useAuth();
 
+  let backendUrl =
+    Platform.OS === 'web'
+      ? 'http://localhost:3001'
+      : 'https://ready-up-backend.onrender.com';
   const signInHandler = (email, password) => {
     let emailErrorFlag = false;
     let passwordErrorFlag = false;
@@ -46,7 +58,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
           : { ...styles.container, ...styles.containerError }
       }
     >
-      {emailError || passwordError ? (
+      {emailError || passwordError || error ? (
         <Text style={styles.errorMessage}>Incorrect username or password.</Text>
       ) : null}
 
@@ -136,6 +148,7 @@ const Signin = ({ signInAuthentication, createNewAccount }) => {
                 includeFontPadding: false,
                 verticalAlign: 'middle',
                 alignItems: 'center',
+                top: Platform.OS === 'web' ? 0 : 4,
               }}
             >
               Sign Up

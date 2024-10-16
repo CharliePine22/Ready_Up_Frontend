@@ -1,88 +1,161 @@
-import * as SecureStore from 'expo-secure-store';
-import { createContext, useReducer, useEffect, useMemo, Children } from 'react';
-const AuthContext = createContext();
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
+import { auth } from '../firebaseConfig';
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getFirestore,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
+import { app } from '../firebaseConfig';
 
-const useAuth = ({ children }) => {
-  const [state, dispatch] = useReducer(
-    (prevState, action) => {
-      switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          };
-        case 'SIGN_IN':
-          return {
-            ...prevState,
-            isSignout: false,
-            userToken: action.token,
-          };
-        case 'SIGN_OUT':
-          return {
-            ...prevState,
-            isSignout: true,
-            userToken: null,
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isSignout: false,
-      userToken: null,
+const useAuth = () => {
+  const db = getFirestore(app);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const setUpdateCurrentUser = (user) => {
+    setCurrentUser(user);
+  };
+
+  let backendUrl =
+    Platform.OS === 'web'
+      ? 'http://localhost:3001'
+      : 'https://ready-up-backend.onrender.com';
+
+  const addNewUserToDB = async (user) => {
+    /* 
+    USER INFO STRUCTURE 
+
+    UID: h5yqw5fFjAWJWNsadasdasda
+    EMAIL: test@test.com
+    NAME: testUser
+    PASSWORD: 123456
+    PROFILE PICTURE: JPG, JPEG, PNG
+    GROUP INVITES: ARRAY
+    GROUPS: ARRAY/REFRERENCE
+    */
+    try {
+      await setDoc(doc(db, 'Users', user.uid), user);
+    } catch (error) {
+      console.log(error);
     }
-  );
+  };
 
-  useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
-    const bootstrapAsync = async () => {
-      let userToken;
+  const findUser = async (id) => {
+    try {
+      const docRef = doc(db, 'Users', id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setCurrentUser(JSON.stringify(docSnap.data()));
+        await AsyncStorage.setItem('user', JSON.stringify(docSnap.data()));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      try {
-        userToken = await SecureStore.getItemAsync('userToken');
-      } catch (e) {
-        // Restoring token failed
-        console.log('ERROR: ' + e);
+  const createAccount = async (email, password, name) => {
+    setLoading(true);
+    try {
+      // Create a new user account in Firebase Authentication
+      const newAccountCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // If the user account is created successfully, add the user's info to the Firestore database
+      if (newAccountCredentials.user) {
+        addNewUserToDB({
+          uid: newAccountCredentials.user.uid,
+          email: newAccountCredentials.user.email,
+          name: name,
+          password: password,
+          profilePicture: null,
+          groupInvites: [],
+          groups: [],
+        });
+
+        // Store the user's UID in AsyncStorage
+        await AsyncStorage.setItem(
+          'user',
+          JSON.stringify(newAccountCredentials.user.uid)
+        );
       }
 
-      // After restoring token, we may need to validate it in production apps
+      // Set the app state to signed in
+      setIsSignedIn(true);
 
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-    };
+      // Set the loading state to false
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      if (
+        error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).'
+      )
+        // If the email is already in use, set the error state to 'EMAIL ALREADY IN USE'
+        setError('EMAIL ALREADY IN USE');
 
-    bootstrapAsync();
-  }, []);
+      // Set the loading state to false
+      setLoading(false);
+    }
+  };
 
-  const authContext = useMemo(
-    () => ({
-      signIn: async (data) => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+  const signInAuthentication = async (credentals) => {
+    // If already signed in, reset the signed-in state
+    if (isSignedIn) setIsSignedIn(false);
 
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-      },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
-      signUp: async (data) => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+    // Set loading state to true while attempting authentication
+    setLoading(true);
 
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-      },
-    }),
-    []
-  );
+    const { email, password, name } = credentals;
 
-  return (
-    <AuthContext.Provider value={authContext}>
-      <Stack.Navigator>{children}</Stack.Navigator>
-    </AuthContext.Provider>
-  );
+    try {
+      // Attempt to sign in with Firebase authentication
+      const verifyAuth = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (verifyAuth) {
+        findUser(verifyAuth.user.uid);
+      }
+
+      // Successful sign in, update the signed-in state
+      setIsSignedIn(true);
+    } catch (error) {
+      // Handle errors during sign-in process
+      if (error == 'FirebaseError: Firebase: Error (auth/invalid-credential).')
+        console.log('NO ACCOUNT EXISTS WITH THIS CREDENTIALS');
+
+      // Set error message for invalid credentials
+      setError('Invalid Credentials, please try again.');
+    } finally {
+      // Reset loading state after authentication attempt
+      setLoading(false);
+    }
+  };
+
+  return {
+    loading,
+    error,
+    signInAuthentication,
+    createAccount,
+    isSignedIn,
+    currentUser,
+  };
 };
 
 export default useAuth;

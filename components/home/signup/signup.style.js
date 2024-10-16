@@ -22,6 +22,23 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     top: -10,
   },
+  errorText2: {
+    color: 'red',
+    fontWeight: 700,
+    textAlign: 'center',
+    fontSize: SIZES.medium,
+    top: -17,
+    marginVertical: 0,
+    marginHorizontal: 'auto',
+    position: 'absolute',
+    textAlign: 'center',
+    width: '100%',
+  },
+  errorBorder: {
+    borderColor: 'red',
+    borderStyle: 'solid',
+    borderWidth: 1,
+  },
   inputContainer: {
     flex: 1,
     position: 'relative',

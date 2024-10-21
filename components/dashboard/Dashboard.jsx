@@ -1,6 +1,6 @@
 import { View, Text, Pressable, FlatList } from 'react-native';
 import styles from './dashboard.style';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Stack } from 'expo-router';
 import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
 import GroupBox from '../common/groups/GroupBox';
@@ -10,23 +10,33 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AddGroupModal from '../common/modal/AddGroupModal';
 import { getFirestore, getDocs, collection } from 'firebase/firestore';
 import { app } from '../../firebaseConfig';
+import useAuth from '../../hooks/useAuth';
 
-const Dashboard = ({ signInAuthentication }) => {
+const Dashboard = ({ removeActive }) => {
   const db = getFirestore(app);
   const [currentGroup, setCurrentGroup] = useState('');
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
+  const { signOut, currentUser } = useAuth();
+  0;
 
   useEffect(() => {
+    if (!currentUser) return;
     fetchUserGroups();
-  }, []);
+  }, [currentUser]);
+  // console.log(currentUser);
 
-  const fetchUserGroups = async () => {
-    const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
-    groupQuerySnapshot.forEach((doc) => {
-      setAllGroups((group) => [...group, doc.data()]);
-    });
-  };
+  const fetchUserGroups = useMemo(
+    () => async () => {
+      console.log('GETTING GROUPS FOR: ', currentUser);
+      const userGroups = [];
+      const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
+      groupQuerySnapshot.forEach((doc) => {
+        setAllGroups((group) => [...group, doc.data()]);
+      });
+    },
+    [currentUser]
+  );
 
   return (
     <View style={styles.dashWrapper}>
@@ -74,13 +84,15 @@ const Dashboard = ({ signInAuthentication }) => {
           headerTitleContainerStyle: { paddingHorizontal: 5 },
         }}
       />
+
       {/* Group Details */}
-      {currentGroup && (
+      {currentGroup !== '' && (
         <GroupDetails
           group={currentGroup}
-          closeGroup={() => setCurrentGroup(undefined)}
+          closeGroup={() => setCurrentGroup('')}
         />
       )}
+
       {/* Main Container */}
       <View style={styles.mainContainer}>
         {/* Group List Container */}
@@ -99,7 +111,13 @@ const Dashboard = ({ signInAuthentication }) => {
         </View>
       </View>
       {/* Logout Button */}
-      <Pressable onPress={signInAuthentication} style={styles.loginBtn}>
+      <Pressable
+        onPress={() => {
+          signOut();
+          removeActive();
+        }}
+        style={styles.loginBtn}
+      >
         <Text style={styles.loginText}>LOGOUT</Text>
       </Pressable>
     </View>

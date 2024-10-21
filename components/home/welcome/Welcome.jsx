@@ -6,10 +6,9 @@ import Signin from '../signin/Signin';
 import Signup from '../signup/Signup';
 import styles from './welcome.style';
 
-const Welcome = () => {
+const Welcome = ({ setActive }) => {
   // Check to see if token is active from previous state
   // If signed in, display home page, otherwise display welcome page
-  const [isLoading, setIsLoading] = useState(false);
   const [creatingAccount, setCreatingAccount] = useState(false);
   const [error, setError] = useState(false);
 
@@ -35,7 +34,10 @@ const Welcome = () => {
         }}
       >
         {!creatingAccount ? (
-          <Signin createNewAccount={() => setCreatingAccount(true)} />
+          <Signin
+            setActive={setActive}
+            createNewAccount={() => setCreatingAccount(true)}
+          />
         ) : (
           <Signup
             goToSignin={() => {

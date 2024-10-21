@@ -24,7 +24,27 @@ const useAuth = () => {
   const [error, setError] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const setUpdateCurrentUser = (user) => {
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((user) => {
+      if (user) {
+        setCurrentUser(JSON.parse(user));
+        setIsSignedIn(true);
+      }
+    });
+  }, []);
+
+  const signOut = async () => {
+    try {
+      await AsyncStorage.removeItem('user');
+      setCurrentUser(null);
+      setIsSignedIn(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateCurrentUser = (user) => {
+    console.log('UPDATING USER: ', user);
     setCurrentUser(user);
   };
 
@@ -62,6 +82,7 @@ const useAuth = () => {
       }
     } catch (error) {
       console.log(error);
+      setError(error);
     }
   };
 
@@ -119,7 +140,7 @@ const useAuth = () => {
     // Set loading state to true while attempting authentication
     setLoading(true);
 
-    const { email, password, name } = credentals;
+    const { email, password } = credentals;
 
     try {
       // Attempt to sign in with Firebase authentication
@@ -130,11 +151,11 @@ const useAuth = () => {
       );
 
       if (verifyAuth) {
+        console.log(verifyAuth);
         findUser(verifyAuth.user.uid);
+        // Successful sign in, update the signed-in state
+        setIsSignedIn(true);
       }
-
-      // Successful sign in, update the signed-in state
-      setIsSignedIn(true);
     } catch (error) {
       // Handle errors during sign-in process
       if (error == 'FirebaseError: Firebase: Error (auth/invalid-credential).')
@@ -155,6 +176,8 @@ const useAuth = () => {
     createAccount,
     isSignedIn,
     currentUser,
+    updateCurrentUser,
+    signOut: signOut,
   };
 };
 

@@ -13,7 +13,7 @@ import discordIcon from '../../../assets/icons/discord.png';
 import styles from './signin.style';
 import useAuth from '../../../hooks/useAuth';
 
-const Signin = ({ createNewAccount }) => {
+const Signin = ({ createNewAccount, setActive }) => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
@@ -47,7 +47,10 @@ const Signin = ({ createNewAccount }) => {
       if (!passwordErrorFlag) {
         setPasswordError(false);
       }
-    } else signInAuthentication({ email, password });
+    } else {
+      signInAuthentication({ email, password });
+      setActive();
+    }
   };
 
   return (

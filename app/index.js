@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+
 import { View, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
 import { Stack } from 'expo-router';
 import { COLORS, SIZES } from '../constants';
@@ -13,20 +14,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {
-  const { currentUser } = useAuth();
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  console.log('CURRENT USER: ', currentUser);
+  const [activeUser, setActiveUser] = useState(false);
+  const { currentUser, updateCurrentUser } = useAuth();
+
   useEffect(() => {
-    AsyncStorage.getItem('user').then((user) => {
-      if (!null) setIsSignedIn(true);
-    });
-    // console.log(foundUser);
+    const getUser = async () => {
+      const user = await AsyncStorage.getItem('user');
+      if (user) {
+        setActiveUser(true);
+        updateCurrentUser(JSON.parse(user));
+      } else {
+        setActiveUser(false);
+        updateCurrentUser(null);
+      }
+    };
+    getUser();
   }, []);
 
-  // const { manifest } = Constants;
-
-  // const uri = `http://${manifest.debuggerHost.split(":").shift()}:4000`;
-  // console.log(uri);
   // Font Handling
   const [fontsLoaded, fontError] = useFonts({
     GaliverSans: require('../assets/fonts/GaliverSans.ttf'),
@@ -48,15 +52,17 @@ const WelcomePage = () => {
     return null;
   }
 
-  return isSignedIn ? (
+  return activeUser ? (
     <SafeAreaView
+      key={currentUser}
       onLayout={onLayoutRootView}
       style={{ flex: 1, height: '100%', backgroundColor: '#203949' }}
     >
-      <Dashboard signInAuthentication={signInAuthentication} />
+      <Dashboard removeActive={() => setActiveUser(false)} />
     </SafeAreaView>
   ) : (
     <ImageBackground
+      key={currentUser}
       source={welcomePageBackground}
       resizeMode='cover'
       style={{ height: '100%', width: '100%' }}
@@ -90,7 +96,7 @@ const WelcomePage = () => {
               maxWidth: 480,
             }}
           >
-            <Welcome />
+            <Welcome setActive={() => setActiveUser(true)} />
           </View>
         </ScrollView>
       </SafeAreaView>

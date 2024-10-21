@@ -26,7 +26,7 @@ const GamePickerModal = ({
   // State Variables
   const [dateModalOpen, setDateModalOpen] = useState(false);
   const [groupGamesList, setGroupGamesList] = useState(
-    Object.entries(previouslyPlayedGames)
+    Object.entries(previouslyPlayedGames) || []
   );
   const [searchingGame, setSearchingGame] = useState(false);
 

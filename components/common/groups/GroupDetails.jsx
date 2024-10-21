@@ -4,14 +4,11 @@ import {
   Pressable,
   FlatList,
   ScrollView,
-  TextInput,
-  ImageBackground,
   Animated,
 } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 import styles from './groupDetails.style.js';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import GamePickerModal from '../modal/GamePickerModal.jsx';
 import EditGroupModal from '../modal/EditGroupModal.jsx';
 import useVote from '../../../hooks/useVote.js';
@@ -39,6 +36,11 @@ const GroupDetails = ({ group, closeGroup }) => {
     }).start();
   }, [slideAnim]);
 
+  useEffect(() => {
+    if (!group) return;
+    else console.log(group);
+  }, [group]);
+
   /**
    * Reconstructs date object to read more human/user friendly
    */
@@ -46,7 +48,7 @@ const GroupDetails = ({ group, closeGroup }) => {
     if (!selectedDate) return;
     // Get numbered day of the week and convert it to English day of the week
     let weekday = selectedDate.getDay();
-    let numDayAbbreviation;
+    let numDayAbbreviation = '';
     switch (weekday) {
       case 0:
         weekday = 'Sunday';
@@ -68,6 +70,9 @@ const GroupDetails = ({ group, closeGroup }) => {
         break;
       case 6:
         weekday = 'Saturday';
+        break;
+      default:
+        weekday = 'N/A';
         break;
     }
 
@@ -187,7 +192,7 @@ const GroupDetails = ({ group, closeGroup }) => {
           setOpenGameSelectionScreen(false);
           setChosenGame(null);
         }}
-        previouslyPlayedGames={group.gamesList}
+        previouslyPlayedGames={group?.gamesList}
         selectGame={(game) => setChosenGame(game)}
         currentlySelectedGame={chosenGame}
         selectDate={(date) => {
@@ -225,7 +230,7 @@ const GroupDetails = ({ group, closeGroup }) => {
       {/* Group Details Wrapper */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.groupHeader}>
-          <Text style={styles.groupName}>{group.groupName}</Text>
+          <Text style={styles.groupName}>{group?.groupName}</Text>
           {/* Members List Wrapper */}
           <View style={styles.headerFontContainer}>
             <Text
@@ -246,7 +251,7 @@ const GroupDetails = ({ group, closeGroup }) => {
             <FlatList
               horizontal={true}
               contentContainerStyle={styles.memberList}
-              data={group.members}
+              data={group?.members}
               renderItem={({ item: member }) => (
                 <Text
                   style={[
@@ -319,8 +324,8 @@ const GroupDetails = ({ group, closeGroup }) => {
           {/* GAMES PLAYED LIST */}
           <View style={styles.gamesPlayedListWrapper}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              {group.gamesList.length > 0 ? (
-                Object.entries(group.gamesList)
+              {group?.gamesList.length > 0 ? (
+                Object.entries(group?.gamesList)
                   .sort(([, a], [, b]) => b - a)
                   .reverse()
                   .map(([position, game], idx) => {

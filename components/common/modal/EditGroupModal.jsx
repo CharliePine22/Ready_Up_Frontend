@@ -6,15 +6,17 @@ import {
   ScrollView,
   FlatList,
   TextInput,
-} from "react-native";
-import { useState, useEffect, useRef } from "react";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import styles from "./editGroupModal.style";
+} from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import styles from './editGroupModal.style';
 
 const EditGroupModal = ({ modalStatus, closeModal, group }) => {
   const memberListRef = useRef();
-  const [invitedMemberList, setInvitedMemberList] = useState(group.sentInvites);
-  const [currentMembers, setCurrentMembers] = useState(group.members);
+  const [invitedMemberList, setInvitedMemberList] = useState(
+    group?.sentInvites
+  );
+  const [currentMembers, setCurrentMembers] = useState(group?.members);
 
   useEffect(() => {
     if (invitedMemberList.length === 0) return;
@@ -24,11 +26,11 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -37,9 +39,9 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
             {/* Close Modal Button */}
             <Pressable style={styles.closeModalBtn} onPress={closeModal}>
               <MaterialCommunityIcons
-                name="close-box-outline"
+                name='close-box-outline'
                 size={32}
-                color={"white"}
+                color={'white'}
               />
             </Pressable>
             {/* Start of Group Settings Details */}
@@ -74,18 +76,18 @@ const EditGroupModal = ({ modalStatus, closeModal, group }) => {
                       style={{
                         borderBottomWidth:
                           position !== currentMembers.length - 1 && 1,
-                        borderColor: "white",
-                        borderStyle: "solid",
+                        borderColor: 'white',
+                        borderStyle: 'solid',
                       }}
                     >
                       <Text style={styles.memberName}>
-                        {member + " "}
-                        {member.includes("@") && (
+                        {member + ' '}
+                        {member.includes('@') && (
                           <Text
                             style={{
-                              fontStyle: "italic",
+                              fontStyle: 'italic',
                               fontSize: 14,
-                              color: "lightgrey",
+                              color: 'lightgrey',
                             }}
                           >
                             (Pending)

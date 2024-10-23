@@ -8,8 +8,9 @@ const GroupBox = ({ group, openGroup }) => {
   // Grab the groups most played game
   const mostPlayedGame = (list) => {
     let games = Object.entries(list);
+    if (games.length === 0) return '';
     // Sort games by hours played and return highest value.
-    return games.sort(([, a], [, b]) => b - a)[0][1].name;
+    return games.sort(([, a], [, b]) => b - a)[0][1]?.name;
   };
 
   return (
@@ -28,6 +29,7 @@ const GroupBox = ({ group, openGroup }) => {
       }}
       onPress={openGroup}
     >
+      {/* Cover of Groups Favorite or Most Played game */}
       <ImageBackground
         source={{
           uri: group.previouslyPlayed.banner,
@@ -93,7 +95,7 @@ const GroupBox = ({ group, openGroup }) => {
               }}
             >
               <Text style={{ fontWeight: 700 }}>Most Played: </Text>
-              {mostPlayedGame(group.gamesList)}
+              {mostPlayedGame(group.gamesList) || 'N/A'}
             </Text>
           </View>
         </View>

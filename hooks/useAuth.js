@@ -44,7 +44,6 @@ const useAuth = () => {
   };
 
   const updateCurrentUser = (user) => {
-    console.log('UPDATING USER: ', user);
     setCurrentUser(user);
   };
 

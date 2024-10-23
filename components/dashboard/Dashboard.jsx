@@ -11,32 +11,70 @@ import AddGroupModal from '../common/modal/AddGroupModal';
 import { getFirestore, getDocs, collection } from 'firebase/firestore';
 import { app } from '../../firebaseConfig';
 import useAuth from '../../hooks/useAuth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dashboard = ({ removeActive }) => {
   const db = getFirestore(app);
   const [currentGroup, setCurrentGroup] = useState('');
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
-  const { signOut, currentUser } = useAuth();
-  0;
+  const { signOut, currentUser, updateCurrentUser } = useAuth();
 
   useEffect(() => {
-    if (!currentUser) return;
-    fetchUserGroups();
-  }, [currentUser]);
+    const grabUserData = async () => {
+      if (!currentUser) {
+        const user = await AsyncStorage.getItem('user');
+        updateCurrentUser(JSON.parse(user));
+      } else fetchUserGroups();
+    };
+    console.log('FIRST RENDER USER?: ', currentUser);
+    grabUserData();
+  }, [currentUser, null]);
   // console.log(currentUser);
 
-  const fetchUserGroups = useMemo(
-    () => async () => {
-      console.log('GETTING GROUPS FOR: ', currentUser);
-      const userGroups = [];
-      const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
-      groupQuerySnapshot.forEach((doc) => {
-        setAllGroups((group) => [...group, doc.data()]);
-      });
-    },
-    [currentUser]
-  );
+  const fetchUserGroups = async () => {
+    let userGroupIds = [];
+    // Grab ids of groups that user is a part of
+    currentUser.groups.map((group) => {
+      userGroupIds.push(group._key.path.segments[6]);
+    });
+
+    // Grab all groups from DB
+    const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
+    // Return those that the user is part of
+    // groupQuerySnapshot.forEach((doc) => {
+    //   if (userGroupIds.includes(doc.id))
+    //     setAllGroups((group) => [...group, doc.data()]);
+    // });
+    groupQuerySnapshot.forEach((doc) => {
+      setAllGroups((group) => [...group, doc.data()]);
+    });
+
+    console.log('DONE');
+  };
+  // const fetchUserGroups = useMemo(
+  //   () => async () => {
+  //     let userGroupIds = [];
+  //     // Grab ids of groups that user is a part of
+  //     currentUser.groups.map((group) => {
+  //       userGroupIds.push(group._key.path.segments[6]);
+  //     });
+
+  //     // Grab all groups from DB
+  //     const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
+  //     // Return those that the user is part of
+  //     // groupQuerySnapshot.forEach((doc) => {
+  //     //   if (userGroupIds.includes(doc.id))
+  //     //     setAllGroups((group) => [...group, doc.data()]);
+  //     // });
+  //     groupQuerySnapshot.forEach((doc) => {
+  //       setAllGroups((group) => [...group, doc.data()]);
+  //     });
+
+  //     console.log('DONE');
+  //   },
+  //   [currentUser]
+  // );
 
   return (
     <View style={styles.dashWrapper}>

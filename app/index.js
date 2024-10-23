@@ -58,7 +58,7 @@ const WelcomePage = () => {
       onLayout={onLayoutRootView}
       style={{ flex: 1, height: '100%', backgroundColor: '#203949' }}
     >
-      <Dashboard removeActive={() => setActiveUser(false)} />
+      <Dashboard removeActive={() => setActiveUser(false)} user={activeUser} />
     </SafeAreaView>
   ) : (
     <ImageBackground

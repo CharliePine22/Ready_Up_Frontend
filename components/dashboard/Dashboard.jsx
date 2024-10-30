@@ -1,36 +1,52 @@
 import { View, Text, Pressable, FlatList } from 'react-native';
 import styles from './dashboard.style';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Stack } from 'expo-router';
 import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
 import GroupBox from '../common/groups/GroupBox';
-import { icons, images } from '../../constants';
+import { images } from '../../constants';
 import GroupDetails from '../common/groups/GroupDetails';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AddGroupModal from '../common/modal/AddGroupModal';
-import { getFirestore, getDocs, collection } from 'firebase/firestore';
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  getDoc,
+  doc,
+} from 'firebase/firestore';
 import { app } from '../../firebaseConfig';
-import useAuth from '../../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAuthStore from '../../hooks/useStore';
 
 const Dashboard = ({ removeActive }) => {
   const db = getFirestore(app);
   const [currentGroup, setCurrentGroup] = useState('');
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
-  const { signOut, currentUser, updateCurrentUser } = useAuth();
+  // const { signOut, currentUser, updateCurrentUser } = useAuth();
+  const { signOut, currentUser, updateUser } = useAuthStore();
 
   useEffect(() => {
     const grabUserData = async () => {
-      if (!currentUser) {
+      if (!currentUser.name) {
         const user = await AsyncStorage.getItem('user');
-        updateCurrentUser(JSON.parse(user));
+        updateUser(JSON.parse(user));
       } else fetchUserGroups();
     };
-    console.log('FIRST RENDER USER?: ', currentUser);
     grabUserData();
-  }, [currentUser, null]);
-  // console.log(currentUser);
+  }, [currentUser]);
+
+  // useEffect(() => {
+  //   const getUpdatedData = async () => {
+  //     if (!currentUser) return;
+  //     const userDocRef = doc(db, 'Users', currentUser.uid);
+  //     const userDocSnap = await getDoc(userDocRef);
+  //     updateUser(userDocSnap.data());
+  //     await AsyncStorage.setItem('user', JSON.stringify(userDocSnap.data()));
+  //   };
+  //   getUpdatedData();
+  // }, [currentUser]);
 
   const fetchUserGroups = async () => {
     let userGroupIds = [];
@@ -49,32 +65,7 @@ const Dashboard = ({ removeActive }) => {
     groupQuerySnapshot.forEach((doc) => {
       setAllGroups((group) => [...group, doc.data()]);
     });
-
-    console.log('DONE');
   };
-  // const fetchUserGroups = useMemo(
-  //   () => async () => {
-  //     let userGroupIds = [];
-  //     // Grab ids of groups that user is a part of
-  //     currentUser.groups.map((group) => {
-  //       userGroupIds.push(group._key.path.segments[6]);
-  //     });
-
-  //     // Grab all groups from DB
-  //     const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
-  //     // Return those that the user is part of
-  //     // groupQuerySnapshot.forEach((doc) => {
-  //     //   if (userGroupIds.includes(doc.id))
-  //     //     setAllGroups((group) => [...group, doc.data()]);
-  //     // });
-  //     groupQuerySnapshot.forEach((doc) => {
-  //       setAllGroups((group) => [...group, doc.data()]);
-  //     });
-
-  //     console.log('DONE');
-  //   },
-  //   [currentUser]
-  // );
 
   return (
     <View style={styles.dashWrapper}>
@@ -122,7 +113,6 @@ const Dashboard = ({ removeActive }) => {
           headerTitleContainerStyle: { paddingHorizontal: 5 },
         }}
       />
-
       {/* Group Details */}
       {currentGroup !== '' && (
         <GroupDetails
@@ -130,7 +120,6 @@ const Dashboard = ({ removeActive }) => {
           closeGroup={() => setCurrentGroup('')}
         />
       )}
-
       {/* Main Container */}
       <View style={styles.mainContainer}>
         {/* Group List Container */}

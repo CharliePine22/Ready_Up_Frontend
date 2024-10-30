@@ -28,15 +28,19 @@ const GroupBox = ({ group, openGroup }) => {
         shadowColor: 'black',
       }}
       onPress={openGroup}
+      key={group.groupName}
     >
       {/* Cover of Groups Favorite or Most Played game */}
       <ImageBackground
         source={{
-          uri: group.previouslyPlayed.banner,
+          uri: group.previouslyPlayed?.banner,
         }}
         resizeMode='cover'
         style={styles.groupBannerImage}
-        imageStyle={{ opacity: 0.6 }}
+        imageStyle={{
+          opacity: 0.6,
+          display: !group.previouslyPlayed?.banner && 'none',
+        }}
       >
         <View style={styles.groupBoxWrapper} onClick={openGroup}>
           <View style={styles.innerGroupBox}>
@@ -79,7 +83,9 @@ const GroupBox = ({ group, openGroup }) => {
               }}
             >
               <Text style={{ fontWeight: 700 }}>Recently Played: </Text>
-              {group.previouslyPlayed.name}
+              {group?.previouslyPlayed?.name
+                ? group.previouslyPlayed.name
+                : 'N/A'}
             </Text>
             <Text
               style={{

@@ -10,22 +10,22 @@ import * as SplashScreen from 'expo-splash-screen';
 // import Constants from "expo-constants";
 import useAuth from '../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import useAuthStore from '../hooks/useStore';
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {
   const [activeUser, setActiveUser] = useState(false);
-  const { currentUser, updateCurrentUser } = useAuth();
+  const { currentUser, updateUser } = useAuthStore();
 
   useEffect(() => {
     const getUser = async () => {
       const user = await AsyncStorage.getItem('user');
       if (user) {
         setActiveUser(true);
-        updateCurrentUser(JSON.parse(user));
+        updateUser(user);
       } else {
         setActiveUser(false);
-        updateCurrentUser(null);
+        updateUser(null);
       }
     };
     getUser();
@@ -52,7 +52,7 @@ const WelcomePage = () => {
     return null;
   }
 
-  return activeUser ? (
+  return currentUser ? (
     <SafeAreaView
       key={currentUser}
       onLayout={onLayoutRootView}

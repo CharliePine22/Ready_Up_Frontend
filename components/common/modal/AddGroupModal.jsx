@@ -6,37 +6,25 @@ import {
   Pressable,
   FlatList,
   Alert,
-} from "react-native";
-import { useState, useRef, useEffect } from "react";
-import styles from "./addGroupModal.style";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { DUMMYDATA } from "../../dashboard/dummydata";
-import app from "../../../firebaseConfig";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+} from 'react-native';
+import { useState, useRef, useEffect } from 'react';
+import styles from './addGroupModal.style';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import app from '../../../firebaseConfig';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import useAuthStore from '../../../hooks/useStore';
 
 const AddGroupModal = ({ closeModal, modalStatus }) => {
-  const [groupName, setGroupName] = useState("");
-  const [memberName, setMemberName] = useState("");
+  const [groupName, setGroupName] = useState('');
+  const [memberName, setMemberName] = useState('');
   const [invitingMember, setInvitingMember] = useState(false);
   const [invitedMemberList, setInvitedMemberList] = useState([]);
   const [groupCreationError, setGroupCreationError] = useState(false);
   const memberListRef = useRef();
 
+  const { currentUser, refreshUserData } = useAuthStore();
+
   const db = getFirestore(app);
-  const addNewGroupHandler = async () => {
-    const docRef = await addDoc(collection(db, "Groups"), {
-      groupName: groupName,
-      members: ["Cj"],
-      groupCount: 1,
-      gamesList: {},
-      sentInvites: invitedMemberList,
-      readyCount: 0,
-      gameChosen: "N/A",
-      recentlyPlayed: "N/A",
-      lastPlayed: "N/A",
-      proposedDate: "",
-    });
-  };
 
   // Listen to see if user is addding a new member and jump to the bottom or top of the list.
   useEffect(() => {
@@ -53,14 +41,27 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
   const sendInvite = () => {
     setInvitedMemberList((previous) => [...previous, memberName]);
     setInvitingMember(false);
-    setMemberName("");
+    setMemberName('');
   };
 
   // Finalize the members and send invites to all emails and create group.
-  const createGroup = () => {
-    let currentGroups = DUMMYDATA.map((item) => item.groupName);
-    if (currentGroups.includes(groupName)) {
-      alert("Group name is already in use.");
+  const createGroup = async () => {
+    let userGroupIds = [];
+    // Grab ids of groups that user is a part of
+    currentUser.groups.map((group) => {
+      userGroupIds.push(group._key.path.segments[6]);
+    });
+
+    // Grab all groups from DB
+    let allGroupNames = [];
+    const groupQuerySnapshot = await getDocs(collection(db, 'Groups'));
+    groupQuerySnapshot.forEach((doc) => {
+      if (userGroupIds.includes(doc.id))
+        allGroupNames.push(doc.data().groupName);
+    });
+
+    if (allGroupNames.includes(groupName)) {
+      alert('Group name is already in use.');
       setGroupCreationError(true);
       return;
     } else if (!groupName) {
@@ -68,23 +69,25 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
       setGroupCreationError(true);
       return;
     } else if (invitedMemberList.length == 0) {
-      alert("A group involves more than one person...");
+      alert('A group involves more than one person...');
       setGroupCreationError(true);
       return;
-    } else
-      DUMMYDATA.push({
-        groupId: DUMMYDATA.length + 1,
+    } else {
+      const docRef = await addDoc(collection(db, 'Groups'), {
         groupName: groupName,
-        members: ["Cj"],
+        members: [currentUser.name],
         groupCount: 1,
         gamesList: {},
-        sendInvites: invitedMemberList,
+        sentInvites: invitedMemberList,
         readyCount: 0,
-        gameChosen: "N/A",
-        recentlyPlayed: "N/A",
-        lastPlayed: "N/A",
-        proposedDate: "",
+        gameChosen: 'N/A',
+        recentlyPlayed: 'N/A',
+        lastPlayed: 'N/A',
+        proposedDate: '',
       });
+
+      refreshUserData(currentUser.uid);
+    }
     closeModal();
   };
   // const beginAddingMember = () => {
@@ -96,19 +99,19 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalStatus}
         onRequestClose={() => {
-          Alert.alert("Alert Title", "My Alert Msg", [
+          Alert.alert('Alert Title', 'My Alert Msg', [
             {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel",
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
             },
-            { text: "OK", onPress: () => console.log("OK Pressed") },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
           ]);
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           closeModal;
         }}
       >
@@ -116,9 +119,9 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
           <View style={styles.modalView}>
             <Pressable onPress={closeModal} style={styles.closeBtn}>
               <MaterialCommunityIcons
-                name="close-box-outline"
+                name='close-box-outline'
                 size={32}
-                color={"white"}
+                color={'white'}
               />
             </Pressable>
             <Text style={styles.modalText}>Create Group</Text>
@@ -148,15 +151,15 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                     >
                       {invitingMember ? (
                         <MaterialCommunityIcons
-                          name="minus-box-outline"
+                          name='minus-box-outline'
                           size={24}
-                          color={"white"}
+                          color={'white'}
                         />
                       ) : (
                         <MaterialCommunityIcons
-                          name="plus-box-outline"
+                          name='plus-box-outline'
                           size={24}
-                          color={"white"}
+                          color={'white'}
                         />
                       )}
                     </Pressable>
@@ -181,8 +184,8 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                               style={styles.groupNameInput}
                               onChangeText={setMemberName}
                               value={memberName}
-                              placeholder="Enter user email"
-                              placeholderTextColor="#FFF"
+                              placeholder='Enter user email'
+                              placeholderTextColor='#FFF'
                             />
                             {/* <Text>X</Text> */}
                           </>
@@ -193,17 +196,17 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                         <View
                           style={{
                             borderBottomWidth: 1,
-                            borderColor: "white",
-                            borderStyle: "solid",
+                            borderColor: 'white',
+                            borderStyle: 'solid',
                           }}
                         >
                           <Text style={styles.memberInvited}>
-                            {member + " "}
+                            {member + ' '}
                             <Text
                               style={{
-                                fontStyle: "italic",
+                                fontStyle: 'italic',
                                 fontSize: 14,
-                                color: "lightgrey",
+                                color: 'lightgrey',
                               }}
                             >
                               (Pending)

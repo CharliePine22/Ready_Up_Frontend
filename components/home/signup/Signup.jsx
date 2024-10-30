@@ -3,10 +3,12 @@ import { View, Text, TextInput, Pressable, Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import useAuth from '../../../hooks/useAuth';
+import useAuthStore from '../../../hooks/useStore';
 import styles from './signup.style';
 
 const Signup = ({ goToSignin }) => {
-  const { createAccount, error } = useAuth();
+  const { createAccount } = useAuth();
+  const { createNewUser, error } = useAuthStore();
 
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState(false);
@@ -108,7 +110,7 @@ const Signup = ({ goToSignin }) => {
           setNameError(false);
           setEmailError(false);
           setPasswordError(false);
-          createAccount(email, password, name);
+          createNewUser({ email, password, name });
         }}
         style={styles.loginBtn}
       >

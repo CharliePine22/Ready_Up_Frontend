@@ -12,13 +12,15 @@ import googleIcon from '../../../assets/icons/google.png';
 import discordIcon from '../../../assets/icons/discord.png';
 import styles from './signin.style';
 import useAuth from '../../../hooks/useAuth';
+import useAuthStore from '../../../hooks/useStore';
 
 const Signin = ({ createNewAccount, setActive }) => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const { signInAuthentication, error } = useAuth();
+  // const { signInAuthentication, error } = useAuth();
+  const { signInAuth, error } = useAuthStore();
 
   let backendUrl =
     Platform.OS === 'web'
@@ -48,7 +50,7 @@ const Signin = ({ createNewAccount, setActive }) => {
         setPasswordError(false);
       }
     } else {
-      signInAuthentication({ email, password });
+      signInAuth({ email, password });
       setActive();
     }
   };

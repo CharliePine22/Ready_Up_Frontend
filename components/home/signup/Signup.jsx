@@ -3,7 +3,7 @@ import { View, Text, TextInput, Pressable, Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import useAuth from '../../../hooks/useAuth';
-import useAuthStore from '../../../hooks/useStore';
+import useAuthStore from '../../../store/useAuthStore';
 import styles from './signup.style';
 
 const Signup = ({ goToSignin }) => {

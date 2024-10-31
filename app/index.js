@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 // import Constants from "expo-constants";
 import useAuth from '../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useAuthStore from '../hooks/useStore';
+import useAuthStore from '../store/useAuthStore';
 SplashScreen.preventAutoHideAsync();
 
 const WelcomePage = () => {

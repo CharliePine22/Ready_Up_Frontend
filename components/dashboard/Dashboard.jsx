@@ -8,22 +8,17 @@ import { images } from '../../constants';
 import GroupDetails from '../common/groups/GroupDetails';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AddGroupModal from '../common/modal/AddGroupModal';
-import {
-  getFirestore,
-  getDocs,
-  collection,
-  getDoc,
-  doc,
-} from 'firebase/firestore';
+import { getFirestore, getDocs, collection } from 'firebase/firestore';
 import { app } from '../../firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useAuthStore from '../../hooks/useStore';
+import useAuthStore from '../../store/useAuthStore';
 
 const Dashboard = ({ removeActive }) => {
   const db = getFirestore(app);
   const [currentGroup, setCurrentGroup] = useState('');
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const [allGroups, setAllGroups] = useState([]);
+  const [userGroupIds, setUserGroupIds] = useState([]);
   // const { signOut, currentUser, updateCurrentUser } = useAuth();
   const { signOut, currentUser, updateUser } = useAuthStore();
 
@@ -37,22 +32,11 @@ const Dashboard = ({ removeActive }) => {
     grabUserData();
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   const getUpdatedData = async () => {
-  //     if (!currentUser) return;
-  //     const userDocRef = doc(db, 'Users', currentUser.uid);
-  //     const userDocSnap = await getDoc(userDocRef);
-  //     updateUser(userDocSnap.data());
-  //     await AsyncStorage.setItem('user', JSON.stringify(userDocSnap.data()));
-  //   };
-  //   getUpdatedData();
-  // }, [currentUser]);
-
   const fetchUserGroups = async () => {
-    let userGroupIds = [];
     // Grab ids of groups that user is a part of
+    setAllGroups([]);
     currentUser.groups.map((group) => {
-      userGroupIds.push(group._key.path.segments[6]);
+      setUserGroupIds(group._key.path.segments[6]);
     });
 
     // Grab all groups from DB
@@ -127,6 +111,7 @@ const Dashboard = ({ removeActive }) => {
           <FlatList
             data={allGroups}
             extraData={openAddGroup}
+            keyExtractor={(item) => item.groupName}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item: group }) => (
               <GroupBox

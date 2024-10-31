@@ -12,7 +12,7 @@ import styles from './addGroupModal.style';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import app from '../../../firebaseConfig';
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
-import useAuthStore from '../../../hooks/useStore';
+import useAuthStore from '../../../store/useAuthStore';
 
 const AddGroupModal = ({ closeModal, modalStatus }) => {
   const [groupName, setGroupName] = useState('');

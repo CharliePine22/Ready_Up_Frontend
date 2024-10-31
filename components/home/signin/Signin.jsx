@@ -12,7 +12,7 @@ import googleIcon from '../../../assets/icons/google.png';
 import discordIcon from '../../../assets/icons/discord.png';
 import styles from './signin.style';
 import useAuth from '../../../hooks/useAuth';
-import useAuthStore from '../../../hooks/useStore';
+import useAuthStore from '../../../store/useAuthStore';
 
 const Signin = ({ createNewAccount, setActive }) => {
   const [email, setEmail] = useState('');

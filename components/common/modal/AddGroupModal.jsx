@@ -6,6 +6,7 @@ import {
   Pressable,
   FlatList,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 import styles from './addGroupModal.style';
@@ -13,9 +14,11 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import app from '../../../firebaseConfig';
 import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 import useAuthStore from '../../../store/useAuthStore';
+import GameSearchDropdown from './GameSearchDropdown';
 
 const AddGroupModal = ({ closeModal, modalStatus }) => {
   const [groupName, setGroupName] = useState('');
+  const [gameName, setGameName] = useState('');
   const [memberName, setMemberName] = useState('');
   const [invitingMember, setInvitingMember] = useState(false);
   const [invitedMemberList, setInvitedMemberList] = useState([]);
@@ -77,7 +80,12 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
         groupName: groupName,
         members: [currentUser.name],
         groupCount: 1,
-        gamesList: {},
+        gamesList: [
+          {
+            name: gameName,
+            playCount: 0,
+          },
+        ],
         sentInvites: invitedMemberList,
         readyCount: 0,
         gameChosen: 'N/A',
@@ -90,11 +98,6 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
     }
     closeModal();
   };
-  // const beginAddingMember = () => {
-  //   setInvitingMember(!invitingMember);
-  //   if (invitingMember) memberListRef.scrollToEnd();
-  //   else memberListRef.scrollToTop(0);
-  // };
 
   return (
     <View style={styles.centeredView}>
@@ -117,6 +120,7 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            {/* Close Modal Button */}
             <Pressable onPress={closeModal} style={styles.closeBtn}>
               <MaterialCommunityIcons
                 name='close-box-outline'
@@ -138,7 +142,27 @@ const AddGroupModal = ({ closeModal, modalStatus }) => {
                     }
                     onChangeText={setGroupName}
                     value={groupName}
+                    placeholder='Justice League'
+                    placeholderTextColor={'lightgrey'}
                   />
+                </View>
+                {/* Favorite Game Input */}
+                <View style={styles.groupNameForm}>
+                  <Text style={styles.formTextHeader}>
+                    Favorite Game / Recently Played
+                  </Text>
+                  <TextInput
+                    style={
+                      !groupCreationError
+                        ? styles.groupNameInput
+                        : [styles.groupNameInput, styles.groupNameInputError]
+                    }
+                    onChangeText={setGameName}
+                    value={gameName}
+                    placeholder='Doki Doki Literature Club'
+                    placeholderTextColor={'lightgrey'}
+                  />
+                  <GameSearchDropdown game={gameName} />
                 </View>
                 {/* Member Invite Form */}
                 <View style={styles.memberNameForm}>

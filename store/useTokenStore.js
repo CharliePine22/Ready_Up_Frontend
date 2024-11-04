@@ -44,35 +44,46 @@ const tokenStore = (set, get) => ({
     set({ loading: false });
   },
   // SEARCH GAME
-  searchGame: async () => {
-    if (gameName == previousGame || gameName == '') return;
-    set({ loading: true });
-    try {
-      console.log('Sending request to IGDB API with game name:', gameName);
-      // Send a POST request to the IGDB API
-      const request = await axios.post(`${backendUrl}/igdb/get_game_cover`, {
-        // Pass the token and game name to the request
-        token: token,
-        gameName: gameName,
-      });
-      const response = await request.data;
-      console.log(response);
-      // IGDB API returns an error code as a string, if it returns "Tip 3"
-      // It means the token has expired
-      if (response['Tip 3']) {
-        throw new Error('Token expiration');
-      } else {
-        set({ gameName: '', searchResults: response });
-        // set({ searchResults: response });
+  searchGame: async (game) => {
+    const { previousGame, token } = get();
+    if (game == previousGame || game == '') return;
+    else {
+      set({ loading: true });
+      try {
+        console.log('Sending request to IGDB API with game name:', game);
+        // Send a POST request to the IGDB API
+        const request = await axios.post(`${backendUrl}/igdb/get_game_cover`, {
+          // Pass the token and game name to the request
+          token: token,
+          gameName: game,
+        });
+        const response = await request.data;
+        console.log(response);
+        // IGDB API returns an error code as a string, if it returns "Tip 3"
+        // It means the token has expired
+        if (response['Tip 3']) {
+          throw new Error('Token expiration');
+        } else {
+          set({
+            gameName: '',
+            searchResults: response,
+            previousGame: game,
+          });
+          // set({ searchResults: response });
+        }
+      } catch (error) {
+        console.log(error);
+        if (error == 'Error: Token expiration') {
+          await get().awaitToken();
+        }
+        set({ error: error });
       }
-    } catch (error) {
-      console.log(error);
-      set({ error: error });
     }
+
     set({ loading: false });
   },
   awaitToken: async () => {
-    const tokenStatus = await checkToken();
+    const tokenStatus = await get().checkToken();
     if (!tokenStatus) return null;
     set({ token: tokenStatus });
   },

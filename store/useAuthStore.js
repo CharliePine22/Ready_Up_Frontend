@@ -15,6 +15,7 @@ const authStore = (set, get) => ({
   loading: false,
   error: false,
   isSignedIn: false,
+  resetError: () => set({ error: false }),
   updateUser: async (user) => set({ currentUser: user }),
   refreshUserData: async (id) => {
     try {

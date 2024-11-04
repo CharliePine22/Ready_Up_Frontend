@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import Signin from '../signin/Signin';
 import Signup from '../signup/Signup';
 import styles from './welcome.style';
+import useAuthStore from '../../../store/useAuthStore';
 
 const Welcome = ({ setActive }) => {
   // Check to see if token is active from previous state
   // If signed in, display home page, otherwise display welcome page
   const [creatingAccount, setCreatingAccount] = useState(false);
   const [error, setError] = useState(false);
+  const { resetError } = useAuthStore();
 
   return (
     <View
@@ -36,13 +37,16 @@ const Welcome = ({ setActive }) => {
         {!creatingAccount ? (
           <Signin
             setActive={setActive}
-            createNewAccount={() => setCreatingAccount(true)}
+            createNewAccount={() => {
+              setCreatingAccount(true);
+              resetError();
+            }}
           />
         ) : (
           <Signup
             goToSignin={() => {
               setCreatingAccount(false);
-              setError(false);
+              resetError();
             }}
           />
         )}
